@@ -1,0 +1,8 @@
+accountName: Ymail Account
+username: johndoe
+password: secret
+mailbox: INBOX
+imapServerUrl: imap.mail.yahoo.com
+protocol: imaps
+minutesBetweenChecks: 1
+usersOfInterest: [barney, betty, wilma]

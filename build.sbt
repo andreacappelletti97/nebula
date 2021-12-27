@@ -20,6 +20,12 @@ lazy val root = project
 val logbackVersion = "1.3.0-alpha10"
 val typesafeConfigVersion = "1.4.1"
 val sfl4sVersion = "2.0.0-alpha5"
+val snakeYamlVersion = "1.29"
+val scalaCompilerVersion = "2.13.7"
+val scalaReflectVersion = "2.13.7"
+val scalaTestVersion = "3.1.0"
+val logBackVersion = "1.2.3"
+val akkaActorVersion = "2.6.17"
 
 // https://mvnrepository.com/artifact/com.typesafe.akka/akka-actor
 
@@ -33,14 +39,15 @@ libraryDependencies ++= Seq(
   Cinnamon.library.cinnamonJvmMetricsProducer,
   Cinnamon.library.cinnamonPrometheus,
   Cinnamon.library.cinnamonPrometheusHttpServer,
-  "com.typesafe.akka" %% "akka-actor" % "2.6.17",
-  "ch.qos.logback" % "logback-classic" % "1.2.3",
-  "org.scalatest" %% "scalatest" % "3.1.0" % Test,
-  "org.scala-lang" % "scala-reflect" % "2.13.7",
-  "org.scala-lang" % "scala-compiler" % "2.13.7",
+  "com.typesafe.akka" %% "akka-actor" % akkaActorVersion,
+  "ch.qos.logback" % "logback-classic" % logBackVersion,
+  "org.scalatest" %% "scalatest" % scalaTestVersion % Test,
+  "org.scala-lang" % "scala-reflect" % scalaReflectVersion,
+  "org.scala-lang" % "scala-compiler" % scalaCompilerVersion,
   "ch.qos.logback" % "logback-core" % logbackVersion,
   "ch.qos.logback" % "logback-classic" % logbackVersion,
   "com.typesafe" % "config" % typesafeConfigVersion,
   "org.slf4j" % "slf4j-api" % sfl4sVersion,
+  "org.yaml" % "snakeyaml" % snakeYamlVersion
 
 )

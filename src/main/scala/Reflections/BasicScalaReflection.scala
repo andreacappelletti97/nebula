@@ -28,7 +28,7 @@ object BasicScalaReflection extends App{
 
   // Class instance
   val code2 = q"""
-  case class A(name:String,age:Int){
+  class A(name:String,age:Int){
     def f = (name,age)
     def who = println("my name is " + name)
   }
