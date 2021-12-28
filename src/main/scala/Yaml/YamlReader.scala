@@ -1,28 +1,27 @@
 package Yaml
 
 import org.yaml.snakeyaml.Yaml
-import org.yaml.snakeyaml.constructor.Constructor
 
-import java.io.{File, FileInputStream, InputStream}
 import scala.beans.BeanProperty
 import scala.io.Source
 import scala.collection.JavaConverters._
+
+class YamlReader
 
 object YamlReader extends App{
   val file = Source.fromResource("config.yaml").getLines()
   val yaml = new Yaml()
   val data = yaml.load(
     """
-      |accountName: Ymail Account
-      |username: johndoe
-      |password: secret
-      |mailbox: INBOX
-      |imapServerUrl: imap.mail.yahoo.com
-      |protocol: imaps
-      |minutesBetweenChecks: 1
-      |usersOfInterest: [barney, betty, wilma]
+      |Actor:
+      | id: 0
+      | name: HelloActor0
+      |Actor:
+      | id: 1
+      | name: HelloActor1
       """.stripMargin).asInstanceOf[java.util.Map[String, Any]].asScala
   println(data)
+  println(data.get("Actor"))
 }
 
 class EmailAccount {
