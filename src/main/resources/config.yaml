@@ -1,8 +1,13 @@
-accountName: Ymail Account
-username: johndoe
-password: secret
-mailbox: INBOX
-imapServerUrl: imap.mail.yahoo.com
-protocol: imaps
-minutesBetweenChecks: 1
-usersOfInterest: [barney, betty, wilma]
+Actor 007:
+  State A:
+    Message Name X:
+      IF:
+        Condition: [Message Name X: fieldY, <=: 25]
+      THEN:
+        Scala: scala code block goes here
+        Goto: State B
+    Message Name Y:
+      Goto: State B
+  State B:
+    RegEx(*):
+      Fn_Send: TerminatorActor

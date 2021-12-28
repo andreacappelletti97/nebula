@@ -14,7 +14,7 @@ lazy val root = project
   .settings(
     name := "nebula",
     version := "0.1",
-    scalaVersion := "3.1.1-RC1-bin-20211007-c041327-NIGHTLY"
+    scalaVersion := "3.0.2"
   )
 
 val logbackVersion = "1.3.0-alpha10"
