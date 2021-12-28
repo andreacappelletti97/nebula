@@ -22,5 +22,4 @@ class HelloActor(myName: String) extends Actor {
 """
   val compiledCode = toolbox.compile(actorCode)()
 
-
 }
