@@ -1,6 +1,5 @@
 package Reflections
 
-import Reflections.BasicScalaReflection.config
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
