@@ -12,7 +12,6 @@ abstract class CompiledActor(myName: String) extends Actor{
 
 object ActorReflection extends App {
   val toolbox = currentMirror.mkToolBox()
-
   // Class instance
   val actorCode = q"""
   import akka.actor._
@@ -38,6 +37,5 @@ class HelloActor(myName: String) extends Actor {
 
  // val myActor = compiledCode.asInstanceOf[CompiledActor]
   //println(myActor)
-
 
 }
