@@ -1,6 +1,5 @@
 package Yaml
 
-import HelperUtils.CreateLogger
 import org.yaml.snakeyaml.Yaml
 
 import scala.io.Source
@@ -9,11 +8,8 @@ import scala.collection.mutable
 
 class YamlReader
 
-object YamlReader extends App{
-  //Init the logger
-  val logger = CreateLogger(classOf[YamlReader])
+object YamlReader {
 
-  readYamlFile("example1.yaml")
   def readYamlFile(fileName : String): mutable.Map[String, Any] = {
     //logger.info("[readYamlFile]: Function invoked...")
     //Get the file with the YAML config from the resources
