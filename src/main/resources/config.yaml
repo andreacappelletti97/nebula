@@ -1,10 +1,13 @@
-ActorSystem: HelloSystem
-Actor:
-  0:
-    Name: HelloActor
-    Case: ["hello", "_"]
-    Code: ["println", "println"]
-  1:
-    Name: HelloActor2
-    Case: [ "hello", "_" ]
-    Code: [ "println", "println" ]
+Actor 007:
+  State A:
+    Message Name X:
+      IF:
+        Condition: [Message Name X: fieldY, <=: 25]
+      THEN:
+        Scala: scala code block goes here
+        Goto: State B
+    Message Name Y:
+      Goto: State B
+  State B:
+    RegEx(*):
+      Fn_Send: TerminatorActor
