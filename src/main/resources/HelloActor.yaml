@@ -1,0 +1,10 @@
+ActorSystem: HelloSystem
+Actor:
+  0:
+    Name: HelloActor
+    Case: ["hello", "_"]
+    Code: ["println", "println"]
+  1:
+    Name: HelloActor2
+    Case: [ "hello", "_" ]
+    Code: [ "println", "println" ]
