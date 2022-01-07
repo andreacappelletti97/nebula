@@ -1,7 +1,6 @@
 package Week1
 
 import HelperUtils.{CreateLogger, ObtainConfigReference}
-import akka.actor.Props
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
@@ -23,31 +22,22 @@ object HelloActorCompiler {
   //Create toolbox
   val toolbox = currentMirror.mkToolBox()
 
+  case class MyActor(@JsonProperty("Name") myName: String, @JsonProperty("Case") myCases : Seq[String], @JsonProperty("Code") myCode : Seq[String])
 
-  case class MyActor(@JsonProperty("Name") myName: String, @JsonProperty("Case") myCases : Set[String], @JsonProperty("Code") myCode : Set[String])
-
-  def composeActors(configuration : Any) : Set[Props] = {
+  def composeActors(configuration : Any) : Seq[MyActor] = {
+    val mySeq : Seq[MyActor] = Seq.empty[MyActor]
     val myArray = configuration.asInstanceOf[util.ArrayList[Object]]
-    println(myArray)
-    myArray.forEach(c => println(c))
+    //Create Gson
+    val gson = new Gson
     val mapper = new ObjectMapper()
     mapper.registerModule(DefaultScalaModule)
-    val json: String =
-      """
-        |{
-        | "Name": "ciao",
-        | "Case": ["me"],
-        | "Code": ["awesome"]
-        |}
-      """.stripMargin
-
-    val gson = new Gson
-    val myjson = gson.toJson(myArray.get(0), classOf[util.LinkedHashMap[Any, Any]])
-    println(myjson)
-    val data = mapper.readValue(myjson.stripMargin, classOf[MyActor])
-    println(data)
-
-    Set()
+    myArray.forEach(c => {
+      val myjson = gson.toJson(c, classOf[util.LinkedHashMap[Any, Any]])
+      println(myjson)
+      val data = mapper.readValue(myjson.stripMargin, classOf[MyActor])
+      println(data)
+    })
+    mySeq
   }
 }
 
