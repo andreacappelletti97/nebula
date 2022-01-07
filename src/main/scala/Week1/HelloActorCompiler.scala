@@ -5,11 +5,10 @@ import akka.actor.Props
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
-
+import com.google.gson.Gson
 import java.util
 import scala.reflect.runtime.currentMirror
 import scala.tools.reflect.ToolBox
-import scala.collection.JavaConverters._
 
 class HelloActorCompiler
 object HelloActorCompiler {
@@ -24,24 +23,31 @@ object HelloActorCompiler {
   //Create toolbox
   val toolbox = currentMirror.mkToolBox()
 
+
+  case class MyActor(@JsonProperty("Name") myName: String, @JsonProperty("Case") myCases : Set[String], @JsonProperty("Code") myCode : Set[String])
+
   def composeActors(configuration : Any) : Set[Props] = {
     val myArray = configuration.asInstanceOf[util.ArrayList[Object]]
     println(myArray)
+    myArray.forEach(c => println(c))
     val mapper = new ObjectMapper()
     mapper.registerModule(DefaultScalaModule)
     val json: String =
       """
         |{
         | "Name": "ciao",
-        | "Case": "me",
-        | "Code": "awesome"
+        | "Case": ["me"],
+        | "Code": ["awesome"]
         |}
       """.stripMargin
-    val data = mapper.readValue(json, classOf[MyActor])
+
+    val gson = new Gson
+    val myjson = gson.toJson(myArray.get(0), classOf[util.LinkedHashMap[Any, Any]])
+    println(myjson)
+    val data = mapper.readValue(myjson.stripMargin, classOf[MyActor])
     println(data)
 
     Set()
   }
 }
 
-case class MyActor(@JsonProperty("Name") myName: String, @JsonProperty("Case") myCases : Array[String], @JsonProperty("Code") myCode : Array[String])
