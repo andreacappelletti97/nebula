@@ -19,7 +19,7 @@ object HelloActor extends App {
   val actorSystemName = configuration.get("ActorSystem").mkString
   // val actorSystem = ActorSystem(actorSystemName)
   //Get the Set of Actors to instantiate
-  val actorSet = HelloActorCompiler.composeActors(configuration.getOrElse("Actor", null))
+  val actorSeq = HelloActorCompiler.composeActors(configuration.getOrElse("Actor", null))
 
   //Retrieve the instances
   val numOfInstances = configuration.getOrElse("Instances", null)

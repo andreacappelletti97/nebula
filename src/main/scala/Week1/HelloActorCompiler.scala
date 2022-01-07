@@ -7,7 +7,6 @@ import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import com.google.gson.Gson
 
 import java.util
-import scala.collection.mutable
 import scala.reflect.runtime.currentMirror
 import scala.tools.reflect.ToolBox
 
@@ -31,7 +30,7 @@ object HelloActorCompiler {
 
   case class MyActor(@JsonProperty("Name") myName: String, @JsonProperty("Case") myCases : Seq[String], @JsonProperty("Code") myCode : Seq[String])
 
-  /* This recursive function dynamically creates the PEs based on the application config */
+  /* This recursive function dynamically creates the MyActor objects based on the application config */
   def populateActors(actorsList : Seq[MyActor],n : Integer, myArray : util.ArrayList[Object], x: Integer) : Seq[MyActor] = {
     if(n==0) actorsList
     else {
@@ -41,9 +40,7 @@ object HelloActorCompiler {
     }
     }
 
-
   def composeActors(configuration : Any) : Seq[MyActor] = {
-    var mySeq: Seq[MyActor] = Seq.empty[MyActor]
     val myArray = configuration.asInstanceOf[util.ArrayList[Object]]
     //Create Gson
     val newActorsList: Seq[MyActor] = Seq.empty[MyActor]
