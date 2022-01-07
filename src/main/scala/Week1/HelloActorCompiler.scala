@@ -29,7 +29,16 @@ object HelloActorCompiler {
     println(myArray)
     val mapper = new ObjectMapper()
     mapper.registerModule(DefaultScalaModule)
+    val json: String =
+      """
+        |{
+        | "Name": "ciao",
+        | "Case": "me",
+        | "Code": "awesome"
+        |}
+      """.stripMargin
     val data = mapper.readValue(json, classOf[MyActor])
+    println(data)
 
     Set()
   }
