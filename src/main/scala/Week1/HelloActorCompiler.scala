@@ -1,8 +1,9 @@
 package Week1
 
 import HelperUtils.{CreateLogger, ObtainConfigReference}
-import akka.actor.{Props}
+import akka.actor.Props
 
+import java.util
 import scala.collection.mutable
 import scala.reflect.runtime.currentMirror
 import scala.reflect.runtime.universe._
@@ -21,8 +22,12 @@ object HelloActorCompiler {
   //Create toolbox
   val toolbox = currentMirror.mkToolBox()
 
-  def composeActors(configuration : mutable.Map[String, Any]) : Set[Props] = {
-
+  def composeActors(configuration : Any) : Set[Props] = {
+    val myArray = configuration.asInstanceOf[util.ArrayList[Object]]
+    val firstObject = myArray.get(0)
+    println(firstObject.getClass)
     Set()
   }
 }
+
+case class ActorClass(Name: String, Case : Array[String], Code : Array[String])

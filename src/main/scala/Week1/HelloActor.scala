@@ -18,12 +18,11 @@ object HelloActor extends App {
   val configuration = Yaml.YamlReader.readYamlFile(yamlFile)
   //Create the actorSystem
   val actorSystemName = configuration.get("ActorSystem").mkString
-  val actorSystem = ActorSystem(actorSystemName)
+ // val actorSystem = ActorSystem(actorSystemName)
   //Get the Set of Actors to instantiate
-  val actorSet = HelloActorCompiler.composeActors(configuration)
+  val actorSet = HelloActorCompiler.composeActors(configuration.getOrElse("Actor", null))
 
   //Retrieve the instances
   val numOfInstances = configuration.getOrElse("Instances", null)
-  println(numOfInstances)
 
 }
