@@ -8,7 +8,7 @@ class CounterActorExample
 case class MyActor(Name: String, Case: List[String], Code: List[String])
 
 object CounterActorExample extends App{
-  val specification = YamlReader.readYamlFile("config.yaml")
+  val specification = YamlReader.readYamlFile("HelloActor.yaml")
   val actorSystemName = specification.get("ActorSystem").mkString
   val actorName = specification.get("Actor").mkString
   println(actorSystemName)

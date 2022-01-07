@@ -24,9 +24,7 @@ class HelloActor(myName: String) extends Actor {
     case _       => println("'huh?', said %s".format(myName))
   }
 }
-  //val system = ActorSystem("HelloSystem")
-  //val helloActor = system.actorOf(Props(new HelloActor("Fred")), name = "helloactor")
-  return HelloActor.props("Bobo")
+  return HelloActor.props("Jane")
 """
   val compiledCode = toolbox.compile(actorCode)()
   println(compiledCode)
