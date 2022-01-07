@@ -1,4 +1,5 @@
 ActorSystem: HelloSystem
+Instances: [1, 1]
 Actor:
   0:
     Name: HelloActor
