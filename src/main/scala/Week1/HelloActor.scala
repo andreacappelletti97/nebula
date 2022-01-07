@@ -1,7 +1,6 @@
 package Week1
 
 import HelperUtils.{CreateLogger, ObtainConfigReference}
-import akka.actor.ActorSystem
 
 class HelloActor
 object HelloActor extends App {

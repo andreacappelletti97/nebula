@@ -26,6 +26,7 @@ val scalaReflectVersion = "2.13.7"
 val scalaTestVersion = "3.1.0"
 val logBackVersion = "1.2.3"
 val akkaActorVersion = "2.6.17"
+val jacksonModuleVersion = "2.13.1"
 
 // https://mvnrepository.com/artifact/com.typesafe.akka/akka-actor
 
@@ -48,6 +49,6 @@ libraryDependencies ++= Seq(
   "ch.qos.logback" % "logback-classic" % logbackVersion,
   "com.typesafe" % "config" % typesafeConfigVersion,
   "org.slf4j" % "slf4j-api" % sfl4sVersion,
-  "org.yaml" % "snakeyaml" % snakeYamlVersion
-
+  "org.yaml" % "snakeyaml" % snakeYamlVersion,
+  "com.fasterxml.jackson.module" %% "jackson-module-scala" % jacksonModuleVersion
 )

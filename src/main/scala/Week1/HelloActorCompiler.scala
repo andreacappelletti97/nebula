@@ -2,12 +2,14 @@ package Week1
 
 import HelperUtils.{CreateLogger, ObtainConfigReference}
 import akka.actor.Props
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.scala.DefaultScalaModule
 
 import java.util
-import scala.collection.mutable
 import scala.reflect.runtime.currentMirror
-import scala.reflect.runtime.universe._
 import scala.tools.reflect.ToolBox
+import scala.collection.JavaConverters._
 
 class HelloActorCompiler
 object HelloActorCompiler {
@@ -24,10 +26,13 @@ object HelloActorCompiler {
 
   def composeActors(configuration : Any) : Set[Props] = {
     val myArray = configuration.asInstanceOf[util.ArrayList[Object]]
-    val firstObject = myArray.get(0)
-    println(firstObject.getClass)
+    println(myArray)
+    val mapper = new ObjectMapper()
+    mapper.registerModule(DefaultScalaModule)
+    val data = mapper.readValue(json, classOf[MyActor])
+
     Set()
   }
 }
 
-case class ActorClass(Name: String, Case : Array[String], Code : Array[String])
+case class MyActor(@JsonProperty("Name") myName: String, @JsonProperty("Case") myCases : Array[String], @JsonProperty("Code") myCode : Array[String])
