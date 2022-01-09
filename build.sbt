@@ -28,6 +28,8 @@ val logBackVersion = "1.2.3"
 val akkaActorVersion = "2.6.17"
 val jacksonModuleVersion = "2.13.1"
 val gsonVersion = "2.8.9"
+val scalaMetaVersion = "4.4.31"
+val treeHuggerVersion = "0.4.3"
 
 // https://mvnrepository.com/artifact/com.typesafe.akka/akka-actor
 
@@ -43,7 +45,7 @@ libraryDependencies ++= Seq(
   Cinnamon.library.cinnamonPrometheusHttpServer,
   "com.typesafe.akka" %% "akka-actor" % akkaActorVersion,
   "ch.qos.logback" % "logback-classic" % logBackVersion,
-  "org.scalatest" %% "scalatest" % scalaTestVersion % Test,
+  "org.scalatest" %% "scalatest" % scalaTestVersion,
   "org.scala-lang" % "scala-reflect" % scalaReflectVersion,
   "org.scala-lang" % "scala-compiler" % scalaCompilerVersion,
   "ch.qos.logback" % "logback-core" % logbackVersion,
@@ -52,5 +54,7 @@ libraryDependencies ++= Seq(
   "org.slf4j" % "slf4j-api" % sfl4sVersion,
   "org.yaml" % "snakeyaml" % snakeYamlVersion,
   "com.fasterxml.jackson.module" %% "jackson-module-scala" % jacksonModuleVersion,
-  "com.google.code.gson" % "gson" % gsonVersion
+  "com.google.code.gson" % "gson" % gsonVersion,
+  "org.scalameta" %% "scalameta" % scalaMetaVersion,
+  "com.eed3si9n" %% "treehugger" % treeHuggerVersion
 )
