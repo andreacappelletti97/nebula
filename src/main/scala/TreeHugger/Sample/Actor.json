@@ -1,0 +1,20 @@
+{
+  "name": {
+    "fullName": "com.nebula.MyTest"
+  },
+  "comment": "Test schema to play with TreeHugger generator",
+  "fields": [
+    {
+      "name": "myName",
+      "valueType": {
+        "fullName": "String"
+      }
+    },
+    {
+      "name": "myIntParam",
+      "valueType": {
+        "fullName": "Int"
+      }
+    }
+  ]
+}
