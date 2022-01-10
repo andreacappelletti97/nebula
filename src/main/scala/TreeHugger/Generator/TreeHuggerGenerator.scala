@@ -2,6 +2,7 @@ package TreeHugger.Generator
 
 import TreeHugger.Schema.TypeSchema
 import TreeHugger.Schema.TypeName
+import akka.actor.Actor.Receive
 import treehugger.forest._
 import treehuggerDSL._
 import definitions._
@@ -16,23 +17,26 @@ class TreehuggerGenerator {
   }
 
   def generate(schema: TypeSchema): String = {
-    // register new type
+    // Register new type
     val classSymbol = RootClass.newClass(schema.name.shortName)
 
-    // generate list of constructor parameters
+    // Generate list of constructor parameters
     val params = schema.fields.map { field =>
       val fieldName = field.name
       val fieldType = toType(field.valueType)
       PARAM(fieldName, fieldType): ValDef
     }
 
-    // generate class definition
-    val tree = BLOCK(
+    // Generate class definition
+    val tree = {
+      BLOCK(IMPORT("akka.actor.Actor"),
       CLASSDEF(classSymbol).withParams(params).withParents(sym.Actor).tree.withDoc(schema.comment):= BLOCK(
         DEF("printHello", StringClass) := LIT(TypeSchema.toJson(schema)),
         DEF("receive", StringClass) := Predef_println APPLY LIT("Hello, world!")
+
       )
     ).inPackage(schema.name.packageName)
+    }
 
     // pretty print the tree
     treeToString(tree)
