@@ -2,7 +2,7 @@
   "name": {
     "fullName": "com.nebula.MyTest"
   },
-  "comment": "Test schema to play with TreeHugger generator",
+  "comment": "Test schema to generate my first Actor with TreeHugger",
   "fields": [
     {
       "name": "myName",

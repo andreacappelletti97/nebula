@@ -14,4 +14,6 @@ object Main extends App{
   val schema = TypeSchema.fromJson(config.getString("treeHugger.jsonFile"))
   println((new TreehuggerGenerator).generate(schema))
 
+
+
 }
