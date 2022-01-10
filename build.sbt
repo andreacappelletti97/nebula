@@ -1,5 +1,3 @@
-
-
 // Enable the Lightbend Telemetry (Cinnamon) sbt plugin
 lazy val telemetry = project in file(".") enablePlugins(Cinnamon)
 
@@ -30,6 +28,7 @@ val jacksonModuleVersion = "2.13.1"
 val gsonVersion = "2.8.9"
 val scalaMetaVersion = "4.4.31"
 val treeHuggerVersion = "0.4.3"
+val apacheCommonLangVersion = "3.12.0"
 
 // https://mvnrepository.com/artifact/com.typesafe.akka/akka-actor
 
@@ -56,5 +55,6 @@ libraryDependencies ++= Seq(
   "com.fasterxml.jackson.module" %% "jackson-module-scala" % jacksonModuleVersion,
   "com.google.code.gson" % "gson" % gsonVersion,
   "org.scalameta" %% "scalameta" % scalaMetaVersion,
-  "com.eed3si9n" %% "treehugger" % treeHuggerVersion
+  "com.eed3si9n" %% "treehugger" % treeHuggerVersion,
+  "org.apache.commons" % "commons-lang3" % apacheCommonLangVersion
 )
