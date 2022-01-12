@@ -24,15 +24,16 @@ class TreehuggerGenerator {
       //Import Akka Actor library
       BLOCK(IMPORT("akka.actor._"),
         //Actor definition starts here
-      CLASSDEF(classSymbol).withParams(params).withParents(sym.Actor).tree.withDoc(schema.comment):= BLOCK(
+      CLASSDEF(classSymbol).withParams(params).withParents(sym.Actor) := BLOCK(
        // DEF("printHello", StringClass) := LIT(ActorSchema.toJson(schema)),
-        DEF("receive", "Receive") withFlags(Flags.OVERRIDE) := BLOCK(
-          CASE(SOME(ID("x"))) ==> REF("x"),
-          CASE(NONE) ==> LIT(0)
-        )
+        DEF("receive", "Receive") withFlags(Flags.OVERRIDE) :=
+          BLOCK(
+            CASE(SOME(ID("x"))) ==> REF("x"),
+            CASE(NONE) ==> LIT(0)
+          )
 
       )
-    ).inPackage(schema.actorName.packageName)
+    )
     }
 
     //Return the generated code as a String
