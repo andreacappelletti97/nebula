@@ -3,10 +3,9 @@ package TreeHugger.Sample
 import HelperUtils.{CreateLogger, ObtainConfigReference}
 import TreeHugger.Generator.TreehuggerGenerator
 import TreeHugger.Schema.ActorSchema
-import akka.actor.{Actor, Props}
+import akka.actor.{ActorSystem, Props}
 
 import scala.reflect.runtime.currentMirror
-import scala.reflect.runtime.universe._
 import scala.tools.reflect.ToolBox
 
 class Main
@@ -27,13 +26,16 @@ object Main extends App{
 
   val myCode : String = (new TreehuggerGenerator).generate(schemaArray(0))
 
-
   println(myCode)
-
   val toolbox = currentMirror.mkToolBox()
   val tree = toolbox.parse(myCode)
-  val binary = toolbox.compile(tree)
+  val binary = toolbox.compile(tree)()
+  println(binary)
+  val myProps = binary.asInstanceOf[Props]
 
+  val actorSystem = ActorSystem("firstActorSystem")
+  val helloActor = actorSystem.actorOf(myProps)
+  helloActor ! None
 
 }
 

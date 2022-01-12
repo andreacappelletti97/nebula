@@ -5,18 +5,7 @@
     },
     "comment": "Test schema to generate my first Actor with TreeHugger",
     "fields": [
-      {
-        "name": "myName",
-        "valueType": {
-          "fullName": "String"
-        }
-      },
-      {
-        "name": "myIntParam",
-        "valueType": {
-          "fullName": "Int"
-        }
-      }
+
     ]
   }
 ]
