@@ -21,10 +21,11 @@ class TreehuggerGenerator {
     }
     // Generate class definition
     val tree = {
-      BLOCK(IMPORT("akka.actor.Actor._"),
+      //Default import for Akka Actors library
+      BLOCK(IMPORT("akka.actor._"),
+        //Actor definition starts here
       CLASSDEF(classSymbol).withParams(params).withParents(sym.Actor).tree.withDoc(schema.comment):= BLOCK(
-        DEF("printHello", StringClass) := LIT(ActorSchema.toJson(schema)),
-        DEF("receive", StringClass) := Predef_println APPLY LIT("Hello, world!")
+        DEF("receive", "Receive") withFlags(Flags.OVERRIDE)
 
       )
     ).inPackage(schema.actorName.packageName)

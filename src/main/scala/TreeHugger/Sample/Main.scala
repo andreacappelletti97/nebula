@@ -14,9 +14,9 @@ object Main extends App{
 
   //Init the logger
   val logger = CreateLogger(classOf[Main])
-  logger.info("Init the JSON schema...")
-  val schema = ActorSchema.fromJson(config.getString("treeHugger.jsonFile"))
+  logger.info("Init the JSON array schema...")
+  val schemaArray = ActorSchema.fromJson(config.getString("treeHugger.jsonFile"))
   logger.info("Parsing the JSON schema via TreeHugger...")
-  schema.foreach(element => println((new TreehuggerGenerator).generate(element)))
+  schemaArray.foreach(element => println((new TreehuggerGenerator).generate(element)))
   logger.info("Parsing completed")
 }
