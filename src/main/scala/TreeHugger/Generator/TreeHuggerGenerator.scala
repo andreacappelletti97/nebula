@@ -29,11 +29,14 @@ class TreehuggerGenerator {
         DEF("receive", "Receive") withFlags(Flags.OVERRIDE) :=
           BLOCK(
             CASE(SOME(ID("x"))) ==> REF("x"),
-            CASE(NONE) ==> LIT(0)
+            CASE(NONE) ==> BLOCK(Predef_println APPLY LIT("None Received!"))
           )
+      ),
+        OBJECTDEF(classSymbol) := BLOCK(
+          DEF("props",  "Props") := REF("Props") APPLY NEW(REF(classSymbol))),
+        RETURN(REF(classSymbol) DOT("props"))
 
       )
-    )
     }
 
     //Return the generated code as a String

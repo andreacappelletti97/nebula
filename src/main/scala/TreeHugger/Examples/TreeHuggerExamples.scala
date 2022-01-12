@@ -29,7 +29,7 @@ object TreeHuggerExamples extends App {
       DEF("get", IntClass),
       PROC("put") withParams(PARAM("x", IntClass))
      )
-  printTree(tree1)
+  //printTree(tree1)
 
   //What's the difference between DEF and PROC ?
 
@@ -42,20 +42,26 @@ object TreeHuggerExamples extends App {
         REF(sym.buf) INFIX("+=") APPLY REF("x")
       )
     )
-  printTree(tree2)
+  //printTree(tree2)
 
   //Explore more about REF
 
   val tree3 : Tree = (VAL("foo", IntClass) : Tree)
-  printTree(tree3)
+  //printTree(tree3)
 
   val tree4 : Tree = (DEF("x", "Receive") : Tree)
-  printTree(tree4)
+  //printTree(tree4)
 
   //Case class init
   val tree5 : Tree = (CASECLASSDEF(RootClass.newClass("Var"))
     withParams(PARAM("name", StringClass)) withParents(RootClass.newClass("Expr")): Tree)
-  printTree(tree5)
+  //printTree(tree5)
+
+  val tree6 : Tree = OBJECTDEF("classSymbol") := BLOCK(
+    DEF("props",  "Props") := REF("Props") APPLY NEW(REF("classSymbol")))
+
+
+  printTree(tree6)
 
 
 }
