@@ -49,8 +49,13 @@ object TreeHuggerExamples extends App {
   val tree3 : Tree = (VAL("foo", IntClass) : Tree)
   printTree(tree3)
 
-  val tree4 : Tree = (VAL("x", "Receive") : Tree)
+  val tree4 : Tree = (DEF("x", "Receive") : Tree)
   printTree(tree4)
+
+  //Case class init
+  val tree5 : Tree = (CASECLASSDEF(RootClass.newClass("Var"))
+    withParams(PARAM("name", StringClass)) withParents(RootClass.newClass("Expr")): Tree)
+  printTree(tree5)
 
 
 }
