@@ -3,6 +3,11 @@ package TreeHugger.Sample
 import HelperUtils.{CreateLogger, ObtainConfigReference}
 import TreeHugger.Generator.TreehuggerGenerator
 import TreeHugger.Schema.ActorSchema
+import akka.actor.{Actor, Props}
+
+import scala.reflect.runtime.currentMirror
+import scala.reflect.runtime.universe._
+import scala.tools.reflect.ToolBox
 
 class Main
 object Main extends App{
@@ -17,6 +22,18 @@ object Main extends App{
   logger.info("Init the JSON array schema...")
   val schemaArray = ActorSchema.fromJson(config.getString("treeHugger.jsonFile"))
   logger.info("Parsing the JSON schema via TreeHugger...")
-  schemaArray.foreach(element => println((new TreehuggerGenerator).generate(element)))
+  //schemaArray.foreach(element => println((new TreehuggerGenerator).generate(element)))
   logger.info("Parsing completed")
+
+  val myCode : String = (new TreehuggerGenerator).generate(schemaArray(0))
+
+
+  println(myCode)
+
+  val toolbox = currentMirror.mkToolBox()
+  val tree = toolbox.parse(myCode)
+  val binary = toolbox.compile(tree)
+
+
 }
+
