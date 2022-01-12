@@ -31,11 +31,12 @@ object Main extends App{
   val tree = toolbox.parse(myCode)
   val binary = toolbox.compile(tree)()
   println(binary)
-  val myProps = binary.asInstanceOf[Props]
 
+  /*
+  val myProps = binary.asInstanceOf[Props]
   val actorSystem = ActorSystem("firstActorSystem")
   val helloActor = actorSystem.actorOf(myProps)
   helloActor ! None
-
+*/
 }
 
