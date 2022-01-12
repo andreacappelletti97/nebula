@@ -1,6 +1,27 @@
+[
+  {
+    "actorName": {
+      "fullName": "com.nebula.MyTest"
+    },
+    "comment": "Test schema to generate my first Actor with TreeHugger",
+    "fields": [
+      {
+        "name": "myName",
+        "valueType": {
+          "fullName": "String"
+        }
+      },
+      {
+        "name": "myIntParam",
+        "valueType": {
+          "fullName": "Int"
+        }
+      }
+    ]
+  },
 {
-  "name": {
-    "fullName": "com.nebula.MyTest"
+  "actorName": {
+    "fullName": "com.nebula.AnotherActor"
   },
   "comment": "Test schema to generate my first Actor with TreeHugger",
   "fields": [
@@ -18,3 +39,4 @@
     }
   ]
 }
+]

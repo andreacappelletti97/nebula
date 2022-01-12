@@ -2,7 +2,7 @@ package TreeHugger.Sample
 
 import HelperUtils.{CreateLogger, ObtainConfigReference}
 import TreeHugger.Generator.TreehuggerGenerator
-import TreeHugger.Schema.TypeSchema
+import TreeHugger.Schema.ActorSchema
 
 class Main
 object Main extends App{
@@ -15,8 +15,8 @@ object Main extends App{
   //Init the logger
   val logger = CreateLogger(classOf[Main])
   logger.info("Init the JSON schema...")
-  val schema = TypeSchema.fromJson(config.getString("treeHugger.jsonFile"))
+  val schema = ActorSchema.fromJson(config.getString("treeHugger.jsonFile"))
   logger.info("Parsing the JSON schema via TreeHugger...")
-  println((new TreehuggerGenerator).generate(schema))
+  schema.foreach(element => println((new TreehuggerGenerator).generate(element)))
   logger.info("Parsing completed")
 }
