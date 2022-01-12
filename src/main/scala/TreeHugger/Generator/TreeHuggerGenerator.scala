@@ -33,9 +33,8 @@ class TreehuggerGenerator {
           )
       ),
         OBJECTDEF(classSymbol) := BLOCK(
-          DEF("props",  "Props") := REF("Props") APPLY NEW(REF(classSymbol))),
-        RETURN(REF(classSymbol) DOT("props"))
-
+          DEF("props",  "Props").withParams(params) := REF("Props") APPLY NEW(REF(classSymbol).APPLY(REF("myName"), REF("myIntParam")))),
+        RETURN(REF(classSymbol) DOT("props") APPLY(LIT("hello"), LIT(0)))
       )
     }
 
