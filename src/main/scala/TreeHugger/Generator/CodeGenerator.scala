@@ -1,7 +1,7 @@
 package TreeHugger.Generator
 
 import TreeHugger.Generator.CodeGenerator.sym.ActorImport
-import TreeHugger.Schema.{ActorTemplate}
+import TreeHugger.Schema.{ActorTemplate, MethodTemplate}
 import treehugger.forest._
 import treehuggerDSL._
 import definitions._
@@ -22,23 +22,27 @@ object CodeGenerator {
       PARAM(argName, argType): ValDef
     }
 
-    def actorMethods() : DefDef = {
-      jsonSchema.methods.foreach(
-        method => {
-          if (method.methodName == "receive") {
-             DEF("receive", "Receive") withFlags (Flags.OVERRIDE) :=
-              BLOCK(
-                CASE(SOME(ID("x"))) ==> REF("x"),
-                CASE(NONE) ==> BLOCK(Predef_println APPLY LIT("None Received!"))
+    def actorMethods(jsonMethods: Seq[MethodTemplate], iterator: Int, methodsList : Seq[DefDef]) : Seq[DefDef] = {
+      if (iterator < 0) methodsList
+      else {
+        if (jsonMethods(iterator).methodName == "receive") {
+          actorMethods(
+            jsonMethods, iterator - 1,
+            methodsList :+ (
+              DEF("receive", "Receive") withFlags (Flags.OVERRIDE) :=
+                BLOCK(
+                  CASE(SOME(ID("x"))) ==> REF("x"),
+                  CASE(NONE) ==> BLOCK(Predef_println APPLY LIT("None Received!"))
+                )
               )
-          }
-        })
-       DEF("receive", "Receive") withFlags (Flags.OVERRIDE) :=
-        BLOCK(
-          CASE(SOME(ID("x"))) ==> REF("x"),
-          CASE(NONE) ==> BLOCK(Predef_println APPLY LIT("None Received!"))
-        )
+          )
+        } else {
+          actorMethods(jsonMethods, iterator - 1, methodsList)
+        }
+      }
     }
+
+    val methodDefinitionList = Seq.empty[DefDef]
 
     // Generate class definition
     val tree = {
@@ -46,7 +50,7 @@ object CodeGenerator {
       BLOCK(IMPORT(ActorImport),
         //Actor definition starts here
         CLASSDEF(actorName).withParams(actorArguments).withParents(sym.Actor) := BLOCK(
-          actorMethods()
+          actorMethods(jsonSchema.methods, jsonSchema.methods.length - 1, methodDefinitionList)
         ),
         OBJECTDEF(actorName) := BLOCK(
           DEF("props",  "Props").withParams(actorArguments) := REF("Props") APPLY NEW(REF(actorName).APPLY(REF("myName"), REF("myIntParam")))),
