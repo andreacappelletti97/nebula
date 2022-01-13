@@ -1,0 +1,22 @@
+[
+  {
+    "actorName": "HelloActor",
+    "actorArgs": [
+      {
+        "argName": "myStringArg",
+        "argType": "String"
+      },
+      {
+        "argName": "myIntArg",
+        "argType": "Int"
+      }
+    ],
+    "methods": [
+      {
+          "methodName": "receive",
+          "methodReturnType" : "Receive",
+          "methodArgs": []
+      }
+    ]
+  }
+]

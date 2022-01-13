@@ -18,25 +18,35 @@ object Main extends App{
 
   //Init the logger
   val logger = CreateLogger(classOf[Main])
+
   logger.info("Init the JSON array schema...")
-  val schemaArray = ActorSchema.fromJson(config.getString("treeHugger.jsonFile"))
-  logger.info("Parsing the JSON schema via TreeHugger...")
-  //schemaArray.foreach(element => println((new TreehuggerGenerator).generate(element)))
-  logger.info("Parsing completed")
+  val jsonSchema = ActorSchema.fromJson(config.getString("treeHugger.jsonFile"))
 
-  val myCode : String = (new TreehuggerGenerator).generate(schemaArray(0))
+  logger.info("[generateCode]: Parsing the JSON schema via TreeHugger...")
+  jsonSchema.foreach(actor => {
+    val generatedCode : String = (new TreehuggerGenerator).generate(actor)
+    logger.info("New Actor code generated")
+    println(generatedCode)
+  })
+  logger.info("[generateCode]: Parsing completed")
 
-  println(myCode)
-  val toolbox = currentMirror.mkToolBox()
-  val tree = toolbox.parse(myCode)
-  val binary = toolbox.compile(tree)()
-  println(binary)
+  //Function to compile the code at runtime through Scala Reflection
+  def compileCode(codeToCompile : String): Unit = {
+    logger.info("[compileCode]: init")
+    val toolbox = currentMirror.mkToolBox()
+    val tree = toolbox.parse(codeToCompile)
+    val binary = toolbox.compile(tree)()
+    println(binary)
+    logger.info("[compileCode]: exit")
+  }
 
-  /*
-  val myProps = binary.asInstanceOf[Props]
-  val actorSystem = ActorSystem("firstActorSystem")
-  val helloActor = actorSystem.actorOf(myProps)
-  helloActor ! None
-*/
+  //Function to instantiate the Actor into an ActorSystem and send a message to it
+  def runCode(compiledProps: Any): Unit = {
+    val myProps = compiledProps.asInstanceOf[Props]
+    val actorSystem = ActorSystem("system")
+    val helloActor = actorSystem.actorOf(myProps)
+    helloActor ! None
+  }
+
 }
 

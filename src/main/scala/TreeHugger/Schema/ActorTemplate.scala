@@ -6,19 +6,19 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import org.apache.commons.lang3.StringEscapeUtils
 
-case class ActorSchema(actorName: String, comment: String, fields: Seq[Field])
+case class ActorTemplate(actorName: String, actorArgs: Seq[ArgumentTemplate], methods: Seq[MethodTemplate])
 
-object ActorSchema {
+object ActorTemplate {
 
   private val mapper = new ObjectMapper().registerModule(DefaultScalaModule)
 
   /**
    * Loads a schema from a JSON file.
    */
-  def fromJson(fileName: String): Array[ActorSchema] = {
+  def fromJson(fileName: String): Array[ActorTemplate] = {
     val inputStream = new FileInputStream(fileName)
     try {
-      mapper.readValue(inputStream, classOf[Array[ActorSchema]])
+      mapper.readValue(inputStream, classOf[Array[ActorTemplate]])
     } finally {
       inputStream.close()
     }
@@ -27,14 +27,14 @@ object ActorSchema {
   /**
    * Converts a schema to JSON.
    */
-  def toJson(schema: ActorSchema): String = {
+  def toJson(schema: ActorTemplate): String = {
     mapper.writeValueAsString(schema)
   }
 
   /**
    * Converts a schema to JSON and escapes it according to Java/Scala rules.
    */
-  def toEscapedJson(schema: ActorSchema): String = {
+  def toEscapedJson(schema: ActorTemplate): String = {
     val json = toJson(schema)
     StringEscapeUtils.escapeJava(json)
   }

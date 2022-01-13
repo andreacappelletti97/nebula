@@ -1,20 +1,19 @@
 [
   {
-    "actorName": {
-      "fullName": "com.nebula.HelloActor"
-    },
+    "actorName":"HelloActor",
+
     "comment": "Test schema to generate my first Actor with TreeHugger",
     "fields": [
       {
         "name": "myName",
         "valueType": {
-          "fullName": "String"
+          "name": "String"
         }
       },
       {
         "name": "myIntParam",
         "valueType": {
-          "fullName": "Int"
+          "name": "Int"
         }
       }
     ]
