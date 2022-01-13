@@ -3,20 +3,22 @@
     "actorName": "HelloActor",
     "actorArgs": [
       {
-        "argName": "myStringArg",
+        "argName": "actorName",
         "argType": "String"
       },
       {
-        "argName": "myIntArg",
+        "argName": "actorAge",
         "argType": "Int"
       }
     ],
     "methods": [
       {
-          "methodName": "receive",
-          "methodReturnType" : "Receive",
-          "methodArgs": []
+        "methodName": "receive",
+        "methodReturnType" : "Receive",
+        "caseList" : []
       }
     ]
   }
 ]
+
+
