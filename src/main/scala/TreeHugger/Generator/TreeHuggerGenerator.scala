@@ -12,7 +12,7 @@ class TreehuggerGenerator {
   }
   def generate(schema: ActorSchema): String = {
     //Register new type
-    val classSymbol = RootClass.newClass(schema.actorName.shortName)
+    val classSymbol = RootClass.newClass(schema.actorName)
     //Generate list of constructor parameters
     val params = schema.fields.map { field =>
       val fieldName = field.name
@@ -37,14 +37,13 @@ class TreehuggerGenerator {
         RETURN(REF(classSymbol) DOT("props") APPLY(LIT("hello"), LIT(0)))
       )
     }
-
     //Return the generated code as a String
     treeToString(tree)
   }
 
   //Map Json defined types into TreeHugger modules
   private def toType(fieldType: TypeName): Type = {
-    fieldType.fullName match {
+    fieldType.name match {
       case "String" => StringClass
       case "Int" => IntClass
       case "Boolean" => BooleanClass
