@@ -53,7 +53,7 @@ object CodeGenerator {
           actorMethods(jsonSchema.methods, jsonSchema.methods.length - 1, methodDefinitionList)
         ),
         OBJECTDEF(actorName) := BLOCK(
-          DEF("props",  "Props").withParams(actorArguments) := REF("Props") APPLY NEW(REF(actorName).APPLY(REF("myName"), REF("myIntParam")))),
+          DEF("props",  "Props").withParams(actorArguments) := REF("Props") APPLY NEW(REF(actorName).APPLY(REF("actorName"), REF("actorAge")))),
         RETURN(REF(actorName) DOT("props") APPLY(LIT("hello"), LIT(0)))
       )
     }
