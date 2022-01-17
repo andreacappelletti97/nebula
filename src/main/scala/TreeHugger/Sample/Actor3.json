@@ -1,0 +1,18 @@
+[
+  {
+    "actorName": "HelloActor",
+    "actorArgs": [
+      {
+        "argName": "actorName",
+        "argType": "String"
+      },
+      {
+        "argName": "actorAge",
+        "argType": "Int"
+      }
+    ],
+    "methods": []
+  }
+]
+
+
