@@ -1,4 +1,6 @@
-{
+[
+  {
   "actorSystemName" : "system",
   "actorsInstances" : [1]
 }
+]

@@ -3,7 +3,7 @@ package Nebula
 import HelperUtils.{CreateLogger, ObtainConfigReference}
 import Nebula.Compiler.ActorCompiler
 import Nebula.Generator.ActorGenerator
-import Nebula.Schema.ActorSchema
+import Nebula.Schema.{ActorSchema, ActorSystemSchema, CaseClassSchema}
 
 class Main
 
@@ -17,13 +17,20 @@ object Main extends  App{
   //Init the logger
   val logger = CreateLogger(classOf[Main])
 
-  val jsonSchema = ActorSchema.fromJson(config.getString("nebula.actorsJsonFile"))
-  //val jsonSchema = YamlReader.yamlToJsonConverter(config.getString("treeHugger.yamlFile"))
-  jsonSchema.foreach(actor => {
+  val actorSystemJson = ActorSystemSchema.fromJson(config.getString("nebula.actorSystemJsonFile"))
+
+  val caseClassesJson = CaseClassSchema.fromJson(config.getString("nebula.caseClassesJsonFile"))
+
+  //Generate Actors from the JSON schema
+  val actorsJson = ActorSchema.fromJson(config.getString("nebula.actorsJsonFile"))
+  actorsJson.foreach(actor => {
     val generatedCode : String = ActorGenerator.generateActor(actor)
     println(generatedCode)
-    val compiledCode = ActorCompiler.compileCode(generatedCode)
-    ActorCompiler.runCode(compiledCode)
+    //Compile and run the code for each Actor
+    if(config.getBoolean("nebula.runCode")) {
+      val compiledCode = ActorCompiler.compileCode(generatedCode)
+      ActorCompiler.runCode(compiledCode)
+    }
   })
 
 }
