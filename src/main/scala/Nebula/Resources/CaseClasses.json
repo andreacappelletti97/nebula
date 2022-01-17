@@ -1,0 +1,15 @@
+[
+  {
+    "caseClassName" : "Receipt",
+    "caseClassArgs" : [
+      {
+        "argName" : "id",
+        "argType" : "Long"
+      },
+      {
+        "argName" : "totalPrice",
+        "argType" : "Double"
+      }
+    ]
+  }
+]

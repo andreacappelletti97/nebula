@@ -13,14 +13,14 @@ class NebulaMain
 
 object NebulaMain extends App {
   //Init the config file to get static params
-  val config = ObtainConfigReference("treeHugger") match {
+  val config = ObtainConfigReference("nebula") match {
     case Some(value) => value
     case None => throw new RuntimeException("Cannot obtain a reference to the config data.")
   }
 
   //Init the logger
   val logger = CreateLogger(classOf[NebulaMain])
-  val jsonSchema = ActorTemplate.fromJson(config.getString("treeHugger.jsonFile"))
+  val jsonSchema = ActorTemplate.fromJson(config.getString("nebula.jsonFile"))
   //val jsonSchema = YamlReader.yamlToJsonConverter(config.getString("treeHugger.yamlFile"))
   jsonSchema.foreach(actor => {
     val generatedCode : String = CodeGenerator.generate(actor)
