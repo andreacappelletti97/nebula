@@ -1,6 +1,7 @@
 package Nebula
 
 import HelperUtils.{CreateLogger, ObtainConfigReference}
+import Nebula.Compiler.ActorCompiler
 import Nebula.Generator.ActorGenerator
 import Nebula.Schema.ActorSchema
 
@@ -21,6 +22,8 @@ object Main extends  App{
   jsonSchema.foreach(actor => {
     val generatedCode : String = ActorGenerator.generateActor(actor)
     println(generatedCode)
+    val compiledCode = ActorCompiler.compileCode(generatedCode)
+    ActorCompiler.runCode(compiledCode)
   })
 
 }
