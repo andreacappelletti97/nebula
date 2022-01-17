@@ -15,7 +15,16 @@
       {
         "methodName": "receive",
         "methodReturnType" : "Receive",
-        "caseList" : []
+        "caseList" : [{
+          "className" : "x",
+          "predefinedStatement" : "RETURN"
+        },
+          {
+            "className" : "None",
+            "predefinedStatement" : "PRINTLN",
+            "executionCode" : "None received!"
+          }
+        ]
       }
     ]
   }
