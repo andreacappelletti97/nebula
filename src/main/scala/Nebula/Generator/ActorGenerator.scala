@@ -1,7 +1,7 @@
 package Nebula.Generator
 
+import Nebula.Schema.{ActorSchema, MethodSchema}
 import TreeHugger.Generator.CodeGenerator.sym.ActorImport
-import TreeHugger.Schema.{ActorTemplate, MethodTemplate}
 import treehugger.forest._
 import treehuggerDSL._
 import definitions._
@@ -18,7 +18,7 @@ object ActorGenerator {
    * @param jsonSchema
    * @return
    */
-  def generateActor(jsonSchema: ActorTemplate): String = {
+  def generateActor(jsonSchema: ActorSchema): String = {
     //Retrieve the Actor Name
     val actorName = RootClass.newClass(jsonSchema.actorName)
     //Generate list of Actor arguments
@@ -54,7 +54,7 @@ object ActorGenerator {
    * @param methodsList
    * @return
    */
-  def generateMethods(jsonMethods: Seq[MethodTemplate], iterator: Int, methodsList : Seq[DefDef]) : Seq[DefDef] = {
+  def generateMethods(jsonMethods: Seq[MethodSchema], iterator: Int, methodsList : Seq[DefDef]) : Seq[DefDef] = {
     if (iterator < 0) methodsList
     else {
       if (jsonMethods(iterator).methodName == "receive") {
