@@ -5,6 +5,9 @@ import Nebula.Compiler.ActorCompiler
 import Nebula.Generator.ActorGenerator
 import Nebula.Schema.{ActorSchema, ActorSystemSchema, CaseClassSchema}
 
+import scala.reflect.runtime.currentMirror
+import scala.tools.reflect.ToolBox
+
 class Main
 
 object Main extends  App{
@@ -17,8 +20,13 @@ object Main extends  App{
   //Init the logger
   val logger = CreateLogger(classOf[Main])
 
+  //Define the current Toolbox
+  val toolbox = currentMirror.mkToolBox()
+
+  //Generate the Actor System from JSON schema
   val actorSystemJson = ActorSystemSchema.fromJson(config.getString("nebula.actorSystemJsonFile"))
 
+  //Generate all the case classes definition from the JSON schema
   val caseClassesJson = CaseClassSchema.fromJson(config.getString("nebula.caseClassesJsonFile"))
 
   //Generate Actors from the JSON schema
