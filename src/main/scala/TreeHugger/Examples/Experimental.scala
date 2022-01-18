@@ -9,7 +9,15 @@ class Experimental
 object Experimental extends App {
   val toolbox = currentMirror.mkToolBox()
   // staticEnvironmentCompilation()
-  implDefUsage()
+  caseClassDefinition()
+
+  def caseClassDefinition(): Unit = {
+    val tb = universe.runtimeMirror(getClass.getClassLoader).mkToolBox()
+    val function: ClassDef = q"case class Authentication(myName: String)".asInstanceOf[ClassDef]
+    val functionWrapper  = tb.define(function)
+    println(functionWrapper)
+  }
+
 
   def implDefUsage() = {
     val tb = universe.runtimeMirror(getClass.getClassLoader).mkToolBox()

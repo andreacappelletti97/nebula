@@ -4,9 +4,7 @@ import Nebula.Schema.CaseClassSchema
 import treehugger.forest._
 import definitions._
 import treehuggerDSL._
-import treehugger.forest._
-import definitions._
-import treehuggerDSL._
+
 
 object CaseClassGenerator {
   object sym {
