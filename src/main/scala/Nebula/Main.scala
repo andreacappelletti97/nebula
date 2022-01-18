@@ -2,7 +2,7 @@ package Nebula
 
 import HelperUtils.{CreateLogger, ObtainConfigReference}
 import Nebula.Compiler.ActorCompiler
-import Nebula.Generator.ActorGenerator
+import Nebula.Generator.{ActorGenerator, CaseClassGenerator}
 import Nebula.Schema.{ActorSchema, ActorSystemSchema, CaseClassSchema}
 
 import scala.reflect.runtime.currentMirror
@@ -25,12 +25,21 @@ object Main extends  App{
 
   //Generate the Actor System from JSON schema
   val actorSystemJson = ActorSystemSchema.fromJson(config.getString("nebula.actorSystemJsonFile"))
-
   //Generate all the case classes definition from the JSON schema
   val caseClassesJson = CaseClassSchema.fromJson(config.getString("nebula.caseClassesJsonFile"))
-
   //Generate Actors from the JSON schema
   val actorsJson = ActorSchema.fromJson(config.getString("nebula.actorsJsonFile"))
+
+  generateCaseClasses()
+
+  def generateCaseClasses() {
+  caseClassesJson.foreach(caseClassDefinition => {
+    val generatedCode : String = CaseClassGenerator.generateCaseClass(caseClassDefinition)
+    println(generatedCode)
+  })
+  }
+
+  def generateActors() {
   actorsJson.foreach(actor => {
     val generatedCode : String = ActorGenerator.generateActor(actor)
     println(generatedCode)
@@ -40,5 +49,5 @@ object Main extends  App{
       ActorCompiler.runCode(compiledCode)
     }
   })
-
+  }
 }

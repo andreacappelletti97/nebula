@@ -60,8 +60,11 @@ object TreeHuggerExamples extends App {
   val tree6 : Tree = OBJECTDEF("classSymbol") := BLOCK(
     DEF("props",  "Props") := REF("Props") APPLY NEW(REF("classSymbol")))
 
+  val tree7 = (CASECLASSDEF("Var")
+    withParams(PARAM("name", StringClass)) withParents("Exp"): Tree)
 
-  printTree(tree6)
+
+  printTree(tree7)
 
 
 }

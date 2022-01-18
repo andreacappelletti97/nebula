@@ -10,7 +10,7 @@ import java.io.FileInputStream
  * A case class is defined by a name and some arguments
  * Arguments are defined as @ArgumentSchema, that contains argName and argType
  ***/
-case class CaseClassSchema(caseClassName: String, caseClassArgs: Option[Seq[ArgumentSchema]])
+case class CaseClassSchema(caseClassName: String, caseClassArgs: Seq[ArgumentSchema])
 
 object CaseClassSchema {
   private val mapper = new ObjectMapper().registerModule(DefaultScalaModule)
