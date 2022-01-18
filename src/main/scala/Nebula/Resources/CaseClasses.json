@@ -1,14 +1,14 @@
 [
   {
-    "caseClassName" : "Receipt",
+    "caseClassName" : "Authentication",
     "caseClassArgs" : [
       {
-        "argName" : "id",
-        "argType" : "Long"
+        "argName" : "email",
+        "argType" : "String"
       },
       {
-        "argName" : "totalPrice",
-        "argType" : "Double"
+        "argName" : "password",
+        "argType" : "String"
       }
     ]
   }
