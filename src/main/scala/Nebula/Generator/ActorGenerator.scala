@@ -60,7 +60,6 @@ object ActorGenerator {
         REF(jsonRefList(iterator).argName)
       )
     }
-
   }
 
   //Generate actor props values

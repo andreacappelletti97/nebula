@@ -37,11 +37,19 @@ val apacheCommonLangVersion = "3.12.0"
 libraryDependencies ++= Seq(
   // Use Coda Hale Metrics and Akka instrumentation
   Cinnamon.library.cinnamonCHMetrics,
-  Cinnamon.library.cinnamonAkka,
-  Cinnamon.library.cinnamonAkkaTyped,
   Cinnamon.library.cinnamonJvmMetricsProducer,
   Cinnamon.library.cinnamonPrometheus,
   Cinnamon.library.cinnamonPrometheusHttpServer,
+  // Use Akka instrumentation
+  Cinnamon.library.cinnamonAkka,
+  Cinnamon.library.cinnamonAkkaTyped,
+  Cinnamon.library.cinnamonAkkaPersistence,
+  Cinnamon.library.cinnamonAkkaStream,
+  Cinnamon.library.cinnamonAkkaProjection,
+  // Use Akka HTTP instrumentation
+  Cinnamon.library.cinnamonAkkaHttp,
+  // Use Akka gRPC instrumentation
+  Cinnamon.library.cinnamonAkkaGrpc,
   "com.typesafe.akka" %% "akka-actor" % akkaActorVersion,
   "ch.qos.logback" % "logback-classic" % logBackVersion,
   "org.scalatest" %% "scalatest" % scalaTestVersion,
