@@ -4,11 +4,13 @@
     "actorArgs": [
       {
         "argName": "actorName",
-        "argType": "String"
+        "argType": "String",
+        "propsValue" : "hello!"
       },
       {
         "argName": "actorAge",
-        "argType": "Int"
+        "argType": "Int",
+        "propsValue" : 15
       }
     ],
     "methods": [
