@@ -9,7 +9,7 @@
       },
       {
         "argName": "actorAge",
-        "argType": "Int",
+        "argType": "String",
         "propsValue" : 15
       }
     ],
