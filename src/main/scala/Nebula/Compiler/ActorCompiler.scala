@@ -1,10 +1,9 @@
 package Nebula.Compiler
 
 import HelperUtils.{CreateLogger, ObtainConfigReference}
+import Nebula.Main.toolbox
 import akka.actor.{ActorSystem, Props}
 
-import scala.reflect.runtime.currentMirror
-import scala.tools.reflect.ToolBox
 
 class ActorCompiler
 
@@ -17,10 +16,10 @@ object ActorCompiler {
   //Init the logger
   val logger = CreateLogger(classOf[ActorCompiler])
 
+
   //Function to compile the code at runtime through Scala Reflection
   def compileCode(codeToCompile : String): Props = {
     logger.info("[compileCode]: init")
-    val toolbox = currentMirror.mkToolBox()
     val tree = toolbox.parse(codeToCompile)
     val binary = toolbox.compile(tree)()
     logger.info("[compileCode]: exit")
@@ -29,9 +28,11 @@ object ActorCompiler {
 
   //Function to instantiate the Actor into an ActorSystem and send a message to it
   def runCode(compiledProps: Props): Unit = {
+    logger.info("[runCode]: init")
     val actorSystem = ActorSystem("system")
     val helloActor = actorSystem.actorOf(compiledProps)
     helloActor ! None
+    logger.info("[runCode]: exit")
   }
 
 }
