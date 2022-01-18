@@ -16,6 +16,8 @@ object Experimental extends App {
     val function: ClassDef = q"case class Authentication(myName: String)".asInstanceOf[ClassDef]
     val functionWrapper  = tb.define(function)
     println(functionWrapper)
+    val number = q"""new $functionWrapper("hey")"""
+    println(tb.eval(number))
   }
 
 

@@ -30,7 +30,14 @@ object Main extends  App{
   //Generate Actors from the JSON schema
   val actorsJson = ActorSchema.fromJson(config.getString("nebula.actorsJsonFile"))
 
-  generateCaseClasses()
+  generateActors()
+
+  def generateActorSystem(): Unit = {
+    actorSystemJson.foreach(actorSystem => {
+      //TODO: generate actor system and instantiate the right number of Actors
+      println(actorSystem.actorSystemName)
+    })
+  }
 
   def generateCaseClasses() {
   caseClassesJson.foreach(caseClassDefinition => {

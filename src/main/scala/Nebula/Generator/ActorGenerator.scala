@@ -1,6 +1,6 @@
 package Nebula.Generator
 
-import Nebula.Schema.{ActorSchema, MethodSchema}
+import Nebula.Schema.{ActorSchema, ArgumentSchema, CaseClassSchema, MethodSchema}
 import TreeHugger.Generator.CodeGenerator.sym.ActorImport
 import treehugger.forest._
 import treehuggerDSL._
@@ -29,6 +29,8 @@ object ActorGenerator {
     }
     //Init of the method for the recursive function population
     val methodDefinitionList = Seq.empty[DefDef]
+    val propsValuesList = Seq.empty[Literal]
+    val refList = Seq.empty[RefTree]
 
     // Generate class definition
     val tree = {
@@ -38,13 +40,37 @@ object ActorGenerator {
         CLASSDEF(actorName).withParams(actorArguments).withParents(sym.Actor) := BLOCK(
           generateMethods(jsonSchema.methods, jsonSchema.methods.length - 1, methodDefinitionList)
         ),
+        //Define the companion object for Actor initialisation
         OBJECTDEF(actorName) := BLOCK(
-          DEF("props",  "Props").withParams(actorArguments) := REF("Props") APPLY NEW(REF(actorName).APPLY(REF("actorName"), REF("actorAge")))),
-        RETURN(REF(actorName) DOT("props") APPLY(LIT("hello"), LIT(0)))
+          DEF("props",  "Props").withParams(actorArguments) := REF("Props") APPLY NEW(REF(actorName).APPLY(
+            generateActoref(jsonSchema.actorArgs, 0, refList)
+          ))),
+        RETURN(REF(actorName) DOT("props") APPLY(generateActorPropsValues(jsonSchema.actorArgs, 0, propsValuesList)))
       )
     }
     //Return the generated code as a String
     treeToString(tree)
+  }
+
+
+  def generateActoref(jsonRefList : Seq[ArgumentSchema], iterator: Int, refList : Seq[RefTree]): Seq[RefTree] = {
+    if(iterator >= jsonRefList.length) refList
+    else {
+      generateActoref(jsonRefList, iterator + 1, refList :+
+        REF(jsonRefList(iterator).argName)
+      )
+    }
+
+  }
+
+  //Generate actor props values
+  def generateActorPropsValues(jsonPropsValues: Seq[ArgumentSchema], iterator: Int, propsValuesList: Seq[Literal]): Seq[Literal] = {
+    if(iterator >= jsonPropsValues.length) propsValuesList
+    else {
+      generateActorPropsValues(jsonPropsValues, iterator + 1, propsValuesList :+
+        LIT(jsonPropsValues(iterator).propsValue)
+      )
+    }
   }
 
   /***
@@ -72,6 +98,14 @@ object ActorGenerator {
         generateMethods(jsonMethods, iterator - 1, methodsList)
       }
     }
+  }
+
+  //TODO: automatically populate caseList
+  def generateCases(jsonCaseList : Seq[CaseClassSchema], caseList: Seq[DefDef]): Seq[DefDef] = {
+    jsonCaseList.foreach(jsonCase => {
+
+    })
+    null
   }
 
 }
