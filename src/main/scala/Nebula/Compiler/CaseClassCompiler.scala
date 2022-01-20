@@ -34,6 +34,7 @@ object CaseClassCompiler{
 
   //Define the case class inside the current Toolbox and return it
   def compileCode(codeToCompile: String): Symbol = {
+    //TODO: implement case class and object switch
     val tree = toolbox.parse(codeToCompile)
     //val classDefinition : ClassDef = tree.asInstanceOf[ClassDef]
     val caseObjectDefinition: ModuleDef = tree.asInstanceOf[ModuleDef]

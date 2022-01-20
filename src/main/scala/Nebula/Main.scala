@@ -4,8 +4,9 @@ import HelperUtils.{CreateLogger, ObtainConfigReference}
 import Nebula.Compiler.{ActorCompiler, CaseClassCompiler}
 import Nebula.Generator.{ActorGenerator, CaseClassGenerator}
 import Nebula.Schema.{ActorSchema, ActorSystemSchema, CaseClassSchema}
+import akka.actor.{ActorSystem, Props}
 
-import scala.reflect.runtime.{currentMirror}
+import scala.reflect.runtime.currentMirror
 import scala.reflect.runtime.universe._
 import scala.tools.reflect.ToolBox
 import scala.language.implicitConversions
@@ -72,6 +73,10 @@ class HelloActor(myName: String) extends Actor {
 """
       val compiledCode = toolbox.compile(actorCode)()
       println(compiledCode)
+      val actorSystem = ActorSystem("firstActorSystem")
+      val myProps = compiledCode.asInstanceOf[Props]
+      val helloActor = actorSystem.actorOf(myProps)
+      helloActor ! myCaseClass
 
     }
 
