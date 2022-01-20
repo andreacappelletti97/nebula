@@ -13,17 +13,22 @@ object CaseClassGenerator {
   }
 
   def generateCaseClass(jsonSchema: CaseClassSchema): String = {
-    //Generate list of case class arguments
-    val caseClassArguments = jsonSchema.caseClassArgs.map { arg =>
-      val argName = arg.argName
-      val argType = arg.argType
-      PARAM(argName, argType): ValDef
+    if(jsonSchema.caseClassArgs.isEmpty){
+      //Generate case object definition
+      val tree = (CASEOBJECTDEF(jsonSchema.caseClassName): Tree)
+      treeToString(tree)
+    } else {
+      //Generate list of case class arguments
+      val caseClassArguments = jsonSchema.caseClassArgs.map { arg =>
+        val argName = arg.argName
+        val argType = arg.argType
+        PARAM(argName, argType): ValDef
+      }
+      //Generate case class definition
+      val tree = (CASECLASSDEF(jsonSchema.caseClassName)
+        withParams (caseClassArguments): Tree)
+      treeToString(tree)
     }
 
-    //Generate case class definition
-    val tree =  (CASECLASSDEF(jsonSchema.caseClassName)
-      withParams(caseClassArguments) : Tree)
-
-    treeToString(tree)
   }
 }
