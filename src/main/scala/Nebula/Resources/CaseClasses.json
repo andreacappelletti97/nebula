@@ -1,6 +1,8 @@
 [
   {
     "caseClassName" : "Authentication",
-    "caseClassArgs" : []
+    "caseClassArgs" : [
+    ]
   }
+
 ]
