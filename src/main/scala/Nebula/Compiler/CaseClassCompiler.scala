@@ -35,8 +35,9 @@ object CaseClassCompiler{
   //Define the case class inside the current Toolbox and return it
   def compileCode(codeToCompile: String): Symbol = {
     val tree = toolbox.parse(codeToCompile)
-    val classDefinition : ClassDef = tree.asInstanceOf[ClassDef]
-    val definedClass = toolbox.define(classDefinition)
+    //val classDefinition : ClassDef = tree.asInstanceOf[ClassDef]
+    val caseObjectDefinition: ModuleDef = tree.asInstanceOf[ModuleDef]
+    val definedClass = toolbox.define(caseObjectDefinition)
     println(s"Defined class is $definedClass")
     definedClass
   }
