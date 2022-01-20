@@ -1,9 +1,11 @@
 package Nebula.Compiler
 
 import HelperUtils.{CreateLogger, ObtainConfigReference}
+import Nebula.Generator.CaseClassGenerator
 import Nebula.Main.toolbox
+import Nebula.Schema.CaseClassSchema
 
-import scala.reflect.runtime.universe.ClassDef
+import scala.reflect.runtime.universe._
 
 class CaseClassCompiler
 
@@ -16,14 +18,29 @@ object CaseClassCompiler{
   //Init the logger
   val logger = CreateLogger(classOf[CaseClassCompiler])
 
-  //Function to compile the code at runtime through Scala Reflection
-  def defineCode(codeToCompile : String) = {
-    logger.info("[defineCode]: init")
+
+
+  //Recursively populate the case classes array with defined case classes
+  def defineCode(codeToCompile : Array[CaseClassSchema], iterator: Int, caseClassList : Seq[Symbol]): Seq[Symbol] = {
+  if(iterator >= codeToCompile.length) caseClassList
+  else {
+    defineCode(
+      codeToCompile, iterator + 1, caseClassList :+ compileCode(
+        CaseClassGenerator.generateCaseClass(codeToCompile(iterator))
+      )
+    )
+  }
+  }
+
+  //Define the case class inside the current Toolbox and return it
+  def compileCode(codeToCompile: String): Symbol = {
     val tree = toolbox.parse(codeToCompile)
     val classDefinition : ClassDef = tree.asInstanceOf[ClassDef]
-    toolbox.define(classDefinition)
-    logger.info("[defineCode]: exit")
+    val definedClass = toolbox.define(classDefinition)
+    println(s"Defined class is $definedClass")
+    definedClass
   }
+
 
 
 }

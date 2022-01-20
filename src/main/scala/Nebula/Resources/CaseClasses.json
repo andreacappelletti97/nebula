@@ -5,23 +5,6 @@
       {
         "argName" : "email",
         "argType" : "String"
-      },
-      {
-        "argName" : "password",
-        "argType" : "String"
-      }
-    ]
-  },
-  {
-    "caseClassName" : "Receipt",
-    "caseClassArgs" : [
-      {
-        "argName" : "restaurant",
-        "argType" : "String"
-      },
-      {
-        "argName" : "amount",
-        "argType" : "Double"
       }
     ]
   }
