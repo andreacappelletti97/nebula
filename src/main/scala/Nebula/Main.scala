@@ -5,9 +5,10 @@ import Nebula.Compiler.{ActorCompiler, CaseClassCompiler}
 import Nebula.Generator.{ActorGenerator, CaseClassGenerator}
 import Nebula.Schema.{ActorSchema, ActorSystemSchema, CaseClassSchema}
 
-import scala.reflect.runtime.{currentMirror, universe}
+import scala.reflect.runtime.{currentMirror}
 import scala.reflect.runtime.universe._
 import scala.tools.reflect.ToolBox
+import scala.language.implicitConversions
 
 class Main
 
@@ -24,6 +25,8 @@ object Main extends  App{
   //Define the current Toolbox
   val toolbox = currentMirror.mkToolBox()
   //val tb = universe.runtimeMirror(getClass.getClassLoader).mkToolBox()
+  //Init of the caseClassesList sequence
+  val caseClassesList = Seq.empty[Symbol]
 
   //Generate the Actor System from JSON schema
   val actorSystemJson = ActorSystemSchema.fromJson(config.getString("nebula.actorSystemJsonFile"))
@@ -33,11 +36,7 @@ object Main extends  App{
   val actorsJson = ActorSchema.fromJson(config.getString("nebula.actorsJsonFile"))
 
 
-  val caseClassesList = Seq.empty[Symbol]
-
   generateCaseClasses()
-
-
 
   def generateActorSystem(): Unit = {
     actorSystemJson.foreach(actorSystem => {
@@ -48,6 +47,7 @@ object Main extends  App{
 
   def generateCaseClasses() {
   caseClassesJson.foreach(caseClassDefinition => {
+    //TODO: generate a Map to keep track of the caseClasses indexes
     val generatedCode : String = CaseClassGenerator.generateCaseClass(caseClassDefinition)
     println(generatedCode)
   })
@@ -57,6 +57,7 @@ object Main extends  App{
       val myCaseClass = myClasses(0)
       val number = q"""new $myCaseClass("hey")"""
       println(toolbox.eval(number))
+
     }
 
 
