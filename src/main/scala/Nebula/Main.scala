@@ -55,8 +55,23 @@ object Main extends  App{
       val myClasses = CaseClassCompiler.defineCode(caseClassesJson, 0, caseClassesList)
       println(myClasses)
       val myCaseClass = myClasses(0)
-      val number = q"""new $myCaseClass("hey")"""
-      println(toolbox.eval(number))
+      val authenticationName = myCaseClass.name
+      // Class instance
+      val actorCode = q"""
+  import akka.actor._
+  object HelloActor {
+   def props(name : String) = Props(new HelloActor(name))
+  }
+class HelloActor(myName: String) extends Actor {
+  def receive = {
+    case $authenticationName => println("hello")
+    case _       => println("'huh?', said %s".format(myName))
+  }
+}
+  return HelloActor.props("Jane")
+"""
+      val compiledCode = toolbox.compile(actorCode)()
+      println(compiledCode)
 
     }
 

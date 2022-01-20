@@ -1,11 +1,6 @@
 [
   {
     "caseClassName" : "Authentication",
-    "caseClassArgs" : [
-      {
-        "argName" : "email",
-        "argType" : "String"
-      }
-    ]
+    "caseClassArgs" : []
   }
 ]
