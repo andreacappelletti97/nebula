@@ -2,7 +2,7 @@ package Nebula
 
 import HelperUtils.{CreateLogger, ObtainConfigReference}
 import Nebula.Compiler.{ActorCompiler, CaseClassCompiler}
-import Nebula.Generator.{ActorGenerator, CaseClassGenerator}
+import Nebula.Generator.{ActorGenerator, ActorSystemGenerator, CaseClassGenerator}
 import Nebula.Schema.{ActorSchema, ActorSystemSchema, CaseClassSchema}
 import akka.actor.{ActorSystem, Props}
 
@@ -28,6 +28,8 @@ object Main extends  App{
   //val tb = universe.runtimeMirror(getClass.getClassLoader).mkToolBox()
   //Init of the caseClassesList sequence
   val caseClassesList = Seq.empty[Symbol]
+  val actorSystemEmptyList = Seq.empty[ActorSystem]
+  val actorPropsEmptyList: Seq[Props] = Seq.empty[Props]
 
   //Generate the Actor System from JSON schema
   val actorSystemJson = ActorSystemSchema.fromJson(config.getString("nebula.actorSystemJsonFile"))
@@ -37,13 +39,19 @@ object Main extends  App{
   val actorsJson = ActorSchema.fromJson(config.getString("nebula.actorsJsonFile"))
 
 
-  generateCaseClasses()
+  generateActorSystem()
 
   def generateActorSystem(): Unit = {
-    actorSystemJson.foreach(actorSystem => {
-      //TODO: generate actor system and instantiate the right number of Actors
-      println(actorSystem.actorSystemName)
-    })
+    //Get all the Actor Props compilation units
+    val actorPropsList = ActorCompiler.getCompiledActors(actorsJson, 0, actorPropsEmptyList)
+    println(actorPropsList)
+    //Generate all the actorSystems of the configuration and store them into a sequence
+    val actorSystemList: Seq[ActorSystem] = ActorSystemGenerator.generateActorSystem(actorSystemJson, 0 , actorSystemEmptyList)
+    actorSystemList.zipWithIndex.foreach{ case (actorSystem, index) =>
+      val actorInstances = actorSystemJson(index).actorsInstances
+      println(actorInstances)
+    }
+
   }
 
   def generateCaseClasses() {
@@ -56,32 +64,6 @@ object Main extends  App{
       //Define the case classes into the current Toolbox
       val myClasses = CaseClassCompiler.defineCode(caseClassesJson, 0, caseClassesList)
       println(myClasses)
-      val myCaseClass = myClasses(0)
-      val authenticationName = myCaseClass.name
-      val myTest = myClasses(1)
-      println(myTest)
-      // Class instance
-      val actorCode = q"""
-       import akka.actor._
-       object HelloActor {
-          def props() = Props(new HelloActor())
-       }
-       class HelloActor() extends Actor {
-          def receive = {
-            case $authenticationName => println("hello")
-            case _       => println("Something received...")
-          }
-      }
-      return HelloActor.props()"""
-      //Compile the code
-      val compiledCode = toolbox.compile(actorCode)()
-      println(compiledCode)
-      //Instantiate a dummy actor system to test the compiled code
-      val actorSystem = ActorSystem("firstActorSystem")
-      val myProps = compiledCode.asInstanceOf[Props]
-      val helloActor = actorSystem.actorOf(myProps)
-      //Send the case object to the compiled actor
-      helloActor ! myCaseClass
     }
   }
 

@@ -1,7 +1,9 @@
 package Nebula.Compiler
 
 import HelperUtils.{CreateLogger, ObtainConfigReference}
+import Nebula.Generator.ActorGenerator
 import Nebula.Main.toolbox
+import Nebula.Schema.ActorSchema
 import akka.actor.{ActorSystem, Props}
 
 
@@ -24,6 +26,21 @@ object ActorCompiler {
     val binary = toolbox.compile(tree)()
     logger.info("[compileCode]: exit")
     binary.asInstanceOf[Props]
+  }
+
+
+  def getCompiledActors(actorJson : Array[ActorSchema], iterator: Int, propsList : Seq[Props] ): Seq[Props] = {
+    if(iterator >= actorJson.length) propsList
+    else {
+      //Generate the Scala code from an ActorSchema
+      val generatedCode : String = ActorGenerator.generateActor(actorJson(iterator))
+      //Compile the code and get the Props
+      val tree = toolbox.parse(generatedCode)
+      val binary = toolbox.compile(tree)()
+      getCompiledActors(actorJson, iterator + 1,
+        propsList :+ binary.asInstanceOf[Props]
+      )
+    }
   }
 
   //Function to instantiate the Actor into an ActorSystem and send a message to it
