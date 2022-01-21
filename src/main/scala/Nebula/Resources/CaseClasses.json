@@ -3,15 +3,5 @@
     "caseClassName" : "Authentication",
     "caseClassArgs" : [
     ]
-  },
-  {
-    "caseClassName" : "MyTest",
-    "caseClassArgs" : [
-      {
-        "argName" : "myTestString",
-        "argType" : "String"
-      }
-    ]
   }
-
 ]
