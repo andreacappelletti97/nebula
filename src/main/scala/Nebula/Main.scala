@@ -53,34 +53,36 @@ object Main extends  App{
     println(generatedCode)
   })
     if(config.getBoolean("nebula.generateCaseClasses")) {
+      //Define the case classes into the current Toolbox
       val myClasses = CaseClassCompiler.defineCode(caseClassesJson, 0, caseClassesList)
       println(myClasses)
       val myCaseClass = myClasses(0)
       val authenticationName = myCaseClass.name
+      val myTest = myClasses(1)
+      println(myTest)
       // Class instance
       val actorCode = q"""
-  import akka.actor._
-  object HelloActor {
-   def props(name : String) = Props(new HelloActor(name))
-  }
-class HelloActor(myName: String) extends Actor {
-  def receive = {
-    case $authenticationName => println("hello")
-    case _       => println("'huh?', said %s".format(myName))
-  }
-}
-  return HelloActor.props("Jane")
-"""
+       import akka.actor._
+       object HelloActor {
+          def props() = Props(new HelloActor())
+       }
+       class HelloActor() extends Actor {
+          def receive = {
+            case $authenticationName => println("hello")
+            case _       => println("Something received...")
+          }
+      }
+      return HelloActor.props()"""
+      //Compile the code
       val compiledCode = toolbox.compile(actorCode)()
       println(compiledCode)
+      //Instantiate a dummy actor system to test the compiled code
       val actorSystem = ActorSystem("firstActorSystem")
       val myProps = compiledCode.asInstanceOf[Props]
       val helloActor = actorSystem.actorOf(myProps)
+      //Send the case object to the compiled actor
       helloActor ! myCaseClass
-
     }
-
-
   }
 
   def generateActors() {
