@@ -62,8 +62,33 @@ object Main extends  App{
   })
     if(config.getBoolean("nebula.generateCaseClasses")) {
       //Define the case classes into the current Toolbox
-      val myClasses = CaseClassCompiler.defineCode(caseClassesJson, 0, caseClassesList)
-      println(myClasses)
+      val definedCaseClasses = CaseClassCompiler.defineCode(caseClassesJson, 0, caseClassesList)
+      logger.info(s"The defined case classes are $definedCaseClasses")
+      val definedCaseObject = definedCaseClasses(0).fullName
+
+      // Actor code that recognise the defined case object
+      val actorCode = q"""
+      import akka.actor._
+      object HelloActor {
+        def props() = Props(new HelloActor())
+      }
+      class HelloActor() extends Actor {
+        def receive = {
+          case $definedCaseObject  => println("case object instance has been received!")
+          case _       => println("None received!")
+        }
+      }
+      return HelloActor.props()
+      """
+      //Compile the Actor code
+      val compiledCode = toolbox.compile(actorCode)()
+      val actorProps = compiledCode.asInstanceOf[Props]
+      //Create a test for the current Actor with a dummy actorSystem
+      val actorSystem = ActorSystem("system")
+      val helloActor = actorSystem.actorOf(actorProps)
+      //Send the case object message to the Actor
+      helloActor ! definedCaseObject
+
     }
   }
 
