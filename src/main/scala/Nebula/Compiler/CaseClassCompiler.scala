@@ -42,6 +42,7 @@ object CaseClassCompiler{
       println(s"Defined class is $definedClass")
       definedClass
     } else {
+      //Define a case class with all the input arguments
       val classDefinition : ClassDef = tree.asInstanceOf[ClassDef]
       val definedClass = toolbox.define(classDefinition)
       println(s"Defined class is $definedClass")
