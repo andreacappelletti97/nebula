@@ -2,7 +2,7 @@ package Nebula
 
 import HelperUtils.{CreateLogger, ObtainConfigReference}
 import Nebula.Compiler.{ActorCompiler, CaseClassCompiler}
-import Nebula.Generator.{ActorGenerator, ActorSystemGenerator, CaseClassGenerator}
+import Nebula.Generator.{ActorCodeGenerator, ActorGenerator, ActorSystemGenerator, CaseClassGenerator}
 import Nebula.Parser.JSONParser
 import Nebula.Schema.{ActorSchema, ActorSystemSchema, CaseClassSchema}
 import akka.actor.{ActorSystem, Props}
@@ -42,7 +42,9 @@ object Main extends  App{
   //Generate Actors from the JSON schema
   val actorsJson = JSONParser.getActorSchemaFromJson(config.getString("nebula.actorsJsonFile"))
 
-  generateCaseClasses()
+  //generateCaseClasses()
+
+  println(ActorCodeGenerator.generateActorCode(actorsJson))
 
   def generateActorSystem(): Unit = {
     //Get all the Actor Props compilation units
@@ -91,7 +93,8 @@ object Main extends  App{
       val helloActor = actorSystem.actorOf(actorProps)
       //Send the case object message to the Actor
       helloActor ! Authentication("myEmail")
-
+      //Terminate the Actor System
+      actorSystem.terminate()
     }
   }
 
