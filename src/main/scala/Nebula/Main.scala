@@ -2,7 +2,7 @@ package Nebula
 
 import HelperUtils.{CreateLogger, ObtainConfigReference}
 import Nebula.Compiler.{ActorCompiler, CaseClassCompiler}
-import Nebula.Generator.{ActorCodeGenerator, ActorGenerator, ActorSystemGenerator, CaseClassCodeGenerator, CaseClassGenerator}
+import Nebula.Generator.{ActorCodeGenerator, ActorSystemGenerator, CaseClassCodeGenerator}
 import Nebula.Parser.JSONParser
 import akka.actor.{ActorSystem, Props}
 
@@ -21,7 +21,9 @@ object Main extends  App{
   }
 
   var xxx: Int = _
-  case class Authentication(email:String)
+  trait SomeTrait
+  var theKeeper: SomeTrait = _
+
 
   //Init the logger
   val logger = CreateLogger(classOf[Main])
@@ -40,9 +42,9 @@ object Main extends  App{
   val caseClassesJson = JSONParser.getCaseClassSchemaFromJson(config.getString("nebula.caseClassesJsonFile"))
   //Generate Actors from the JSON schema
   val actorsJson = JSONParser.getActorSchemaFromJson(config.getString("nebula.actorsJsonFile"))
-
-
-  //generateActors()
+  
+  
+  generateActors()
 
   def generateActorSystem(): Unit = {
     //Get all the Actor Props compilation units
@@ -60,7 +62,7 @@ object Main extends  App{
   def generateCaseClasses() = {
   caseClassesJson.foreach(caseClassDefinition => {
     //TODO: generate a Map to keep track of the caseClasses indexes
-    val generatedCode : String = CaseClassGenerator.generateCaseClass(caseClassDefinition)
+    val generatedCode : String = CaseClassCodeGenerator.generateCaseClass(caseClassDefinition)
     println(generatedCode)
   })
     if(config.getBoolean("nebula.generateCaseClasses")) {
@@ -68,7 +70,7 @@ object Main extends  App{
       val definedCaseClasses = CaseClassCompiler.defineCode(caseClassesJson, 0, caseClassesList)
       logger.info(s"The defined case classes are $definedCaseClasses")
       val definedCaseObject = definedCaseClasses(0).fullName
-
+/*
       // Actor code that recognise the defined case object
       val actorCode = q"""
       import akka.actor._
@@ -93,8 +95,10 @@ object Main extends  App{
       helloActor ! Authentication("myEmail")
       //Terminate the Actor System
       actorSystem.terminate()
+*/
     }
   }
+
 
 
   def generateActors() = {

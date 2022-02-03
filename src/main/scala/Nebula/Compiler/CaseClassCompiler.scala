@@ -1,7 +1,7 @@
 package Nebula.Compiler
 
 import HelperUtils.{CreateLogger, ObtainConfigReference}
-import Nebula.Generator.CaseClassGenerator
+import Nebula.Generator.CaseClassCodeGenerator
 import Nebula.Main.toolbox
 import Nebula.Schema.CaseClassSchema
 
@@ -18,15 +18,13 @@ object CaseClassCompiler{
   //Init the logger
   val logger = CreateLogger(classOf[CaseClassCompiler])
 
-
-
   //Recursively populate the case classes array with defined case classes
   def defineCode(codeToCompile : Array[CaseClassSchema], iterator: Int, caseClassList : Seq[Symbol]): Seq[Symbol] = {
   if(iterator >= codeToCompile.length) caseClassList
   else {
     defineCode(
       codeToCompile, iterator + 1, caseClassList :+ compileCode(
-        CaseClassGenerator.generateCaseClass(codeToCompile(iterator))
+        CaseClassCodeGenerator.generateCaseClass(codeToCompile(iterator))
       )
     )
   }

@@ -1,9 +1,9 @@
 // Enable the Lightbend Telemetry (Cinnamon) sbt plugin
-lazy val telemetry = project in file(".") enablePlugins(Cinnamon)
+//lazy val telemetry = project in file(".") enablePlugins(Cinnamon)
 
 // Add the Cinnamon Agent for run and test
-run / cinnamon := true
-test / cinnamon := true
+//run / cinnamon := true
+//test / cinnamon := true
 
 //mainClass := Some("com.example.AkkaQuickstart")
 
@@ -21,12 +21,11 @@ val sfl4sVersion = "2.0.0-alpha5"
 val snakeYamlVersion = "1.29"
 val scalaCompilerVersion = "2.13.8"
 val scalaReflectVersion = "2.13.8"
-val scalaTestVersion = "3.1.0"
+val scalaTestVersion = "3.2.11"
 val logBackVersion = "1.2.3"
-val akkaActorVersion = "2.6.17"
+val akkaActorVersion = "2.6.18"
 val jacksonModuleVersion = "2.13.1"
 val gsonVersion = "2.8.9"
-val scalaMetaVersion = "4.4.31"
 val treeHuggerVersion = "0.4.3"
 val apacheCommonLangVersion = "3.12.0"
 
@@ -35,6 +34,7 @@ val apacheCommonLangVersion = "3.12.0"
 // https://mvnrepository.com/artifact/org.scala-lang/scala-reflect
 
 libraryDependencies ++= Seq(
+  /*
   // Use Coda Hale Metrics and Akka instrumentation
   Cinnamon.library.cinnamonCHMetrics,
   Cinnamon.library.cinnamonJvmMetricsProducer,
@@ -50,9 +50,10 @@ libraryDependencies ++= Seq(
   Cinnamon.library.cinnamonAkkaHttp,
   // Use Akka gRPC instrumentation
   Cinnamon.library.cinnamonAkkaGrpc,
+   */
   "com.typesafe.akka" %% "akka-actor" % akkaActorVersion,
   "ch.qos.logback" % "logback-classic" % logBackVersion,
-  "org.scalatest" %% "scalatest" % scalaTestVersion,
+  "org.scalatest" %% "scalatest" %  scalaTestVersion % Test,
   "org.scala-lang" % "scala-reflect" % scalaReflectVersion,
   "org.scala-lang" % "scala-compiler" % scalaCompilerVersion,
   "ch.qos.logback" % "logback-core" % logbackVersion,
@@ -62,7 +63,5 @@ libraryDependencies ++= Seq(
   "org.yaml" % "snakeyaml" % snakeYamlVersion,
   "com.fasterxml.jackson.module" %% "jackson-module-scala" % jacksonModuleVersion,
   "com.google.code.gson" % "gson" % gsonVersion,
-  "org.scalameta" %% "scalameta" % scalaMetaVersion,
-  "com.eed3si9n" %% "treehugger" % treeHuggerVersion,
   "org.apache.commons" % "commons-lang3" % apacheCommonLangVersion
 )
