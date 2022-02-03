@@ -1,13 +1,25 @@
 package Nebula.Generator
 
+import HelperUtils.{CreateLogger, ObtainConfigReference}
 import Nebula.Schema.{ActorSchema, ArgumentSchema, CaseSchema, MethodSchema}
 
+class ActorCodeGenerator
 
 object ActorCodeGenerator {
 
-  def generateActorCode(actorSchema: Array[ActorSchema]): String = {
-    val actorCode = generateActor(actorSchema(0))
+  //Init the config file to get static params
+  val config = ObtainConfigReference("nebula") match {
+    case Some(value) => value
+    case None => throw new RuntimeException("Cannot obtain a reference to the config data.")
+  }
+  //Init the logger
+  val logger = CreateLogger(classOf[ActorCodeGenerator])
+
+  def generateActorCode(actorSchema: ActorSchema): String = {
+    logger.info("[actorCodeGenerator]: Generating the actor code ...")
+    val actorCode = generateActor(actorSchema)
     println(actorCode)
+    logger.info("[actorCodeGenerator]: Generating the actor code has ended ...")
     actorCode
   }
 
