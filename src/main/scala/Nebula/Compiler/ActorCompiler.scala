@@ -48,7 +48,7 @@ object ActorCompiler {
     logger.info("[runCode]: init")
     val actorSystem = ActorSystem("system")
     val helloActor = actorSystem.actorOf(compiledProps)
-    helloActor ! None
+    helloActor ! "ciao"
     logger.info("[runCode]: exit")
   }
 
