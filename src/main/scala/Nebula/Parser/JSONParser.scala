@@ -1,6 +1,7 @@
 package Nebula.Parser
 
-import Nebula.Schema.ActorSchema
+
+import Nebula.Schema.{ActorSchema, ActorSystemSchema, CaseClassSchema}
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import org.apache.commons.lang3.StringEscapeUtils
@@ -13,10 +14,34 @@ object JSONParser {
   /**
    * Loads a schema from a JSON file.
    */
-  def fromJson(fileName: String): Array[Any] = {
+  def getActorSchemaFromJson(fileName: String): Array[ActorSchema] = {
     val inputStream = new FileInputStream(fileName)
     try {
-      mapper.readValue(inputStream, classOf[Array[Any]])
+      mapper.readValue(inputStream, classOf[Array[ActorSchema]])
+    } finally {
+      inputStream.close()
+    }
+  }
+
+  /**
+   * Loads a schema from a JSON file.
+   */
+  def getActorSystemFromJson(fileName: String): Array[ActorSystemSchema] = {
+    val inputStream = new FileInputStream(fileName)
+    try {
+      mapper.readValue(inputStream, classOf[Array[ActorSystemSchema]])
+    } finally {
+      inputStream.close()
+    }
+  }
+
+  /**
+   * Loads a schema from a JSON file.
+   */
+  def getCaseClassSchemaFromJson(fileName: String): Array[CaseClassSchema] = {
+    val inputStream = new FileInputStream(fileName)
+    try {
+      mapper.readValue(inputStream, classOf[Array[CaseClassSchema]])
     } finally {
       inputStream.close()
     }
