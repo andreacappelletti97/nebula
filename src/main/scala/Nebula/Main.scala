@@ -3,6 +3,7 @@ package Nebula
 import HelperUtils.{CreateLogger, ObtainConfigReference}
 import Nebula.Compiler.{ActorCompiler, CaseClassCompiler}
 import Nebula.Generator.{ActorGenerator, ActorSystemGenerator, CaseClassGenerator}
+import Nebula.Parser.JSONParser
 import Nebula.Schema.{ActorSchema, ActorSystemSchema, CaseClassSchema}
 import akka.actor.{ActorSystem, Props}
 
@@ -35,12 +36,11 @@ object Main extends  App{
   val actorPropsEmptyList: Seq[Props] = Seq.empty[Props]
 
   //Generate the Actor System from JSON schema
-  val actorSystemJson = ActorSystemSchema.fromJson(config.getString("nebula.actorSystemJsonFile"))
+  val actorSystemJson = JSONParser.getActorSystemFromJson(config.getString("nebula.actorSystemJsonFile"))
   //Generate all the case classes definition from the JSON schema
-  val caseClassesJson = CaseClassSchema.fromJson(config.getString("nebula.caseClassesJsonFile"))
+  val caseClassesJson = JSONParser.getCaseClassSchemaFromJson(config.getString("nebula.caseClassesJsonFile"))
   //Generate Actors from the JSON schema
-  val actorsJson = ActorSchema.fromJson(config.getString("nebula.actorsJsonFile"))
-
+  val actorsJson = JSONParser.getActorSchemaFromJson(config.getString("nebula.actorsJsonFile"))
 
   generateCaseClasses()
 
@@ -95,6 +95,7 @@ object Main extends  App{
     }
   }
 
+
   def generateActors() = {
   actorsJson.foreach(actor => {
     val generatedCode : String = ActorGenerator.generateActor(actor)
@@ -108,4 +109,6 @@ object Main extends  App{
   }
   Thread.sleep(3000)
   println(s"xxx = ${Nebula.Main.xxx}")
+
 }
+
