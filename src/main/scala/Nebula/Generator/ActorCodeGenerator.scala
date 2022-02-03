@@ -34,19 +34,22 @@ object ActorCodeGenerator {
   def recursivelyGenerateMethods(jsonList: Seq[MethodSchema], iterator: Int, methods: String): String =
     if (iterator >= jsonList.size) methods
     else if (jsonList(iterator).methodName == "receive")
-      recursivelyGenerateMethods(jsonList, iterator + 1, methods ++ s"def receive = { ${generateCaseSchema(jsonList(iterator).caseList, 0, "")} \n}")
+      recursivelyGenerateMethods(jsonList, iterator + 1, methods ++ s"override def receive: Receive = { ${generateCaseSchema(jsonList(iterator).caseList, 0, "")} \n}")
     else recursivelyGenerateMethods(jsonList, iterator + 1, methods)
 
+  //This function recursively generates the case inside the method receive of the Actor
   def generateCaseSchema(caseList: Seq[CaseSchema], iterator: Int, schema: String): String =
     if (iterator >= caseList.size) schema
     else generateCaseSchema(caseList, iterator + 1,
       schema ++ s"\ncase ${caseList(iterator).className} => ${caseList(iterator).executionCode}"
     )
 
+  //This function recursively generates the Actor Props and companion object
   def generateProps(actorName: String): String =
     s"\nobject $actorName {" +
-      s"\ndef props() = Props(new $actorName())" +
+      s"\ndef props() : Props = Props(new $actorName())" +
       s"\n }"
 
+  //This function  generates the Actor return statement for the compilation unit
   def generateReturnStatement(actorName: String) = s"\nreturn $actorName.props()"
 }

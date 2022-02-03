@@ -1,30 +1,18 @@
 [
   {
     "actorName": "HelloActor",
-    "actorArgs": [
-      {
-        "argName": "actorName",
-        "argType": "String",
-        "propsValue" : "hello!"
-      },
-      {
-        "argName": "actorAge",
-        "argType": "String",
-        "propsValue" : 15
-      }
-    ],
+    "actorArgs": [],
     "methods": [
       {
         "methodName": "receive",
         "methodReturnType" : "Receive",
         "caseList" : [{
           "className" : "x",
-          "predefinedStatement" : "RETURN"
+          "executionCode" : "None"
         },
           {
             "className" : "None",
-            "predefinedStatement" : "PRINTLN",
-            "executionCode" : "None received!"
+            "executionCode" : "println(\"None received!!!\")"
           }
         ]
       }
