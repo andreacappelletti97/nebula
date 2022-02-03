@@ -12,7 +12,7 @@ lazy val root = project
   .settings(
     name := "nebula",
     version := "0.1",
-    scalaVersion := "3.1.1"
+    scalaVersion := "3.1.1-RC1"
   )
 
 val logbackVersion = "1.3.0-alpha10"
@@ -26,7 +26,6 @@ val logBackVersion = "1.2.3"
 val akkaActorVersion = "2.6.18"
 val jacksonModuleVersion = "2.13.1"
 val gsonVersion = "2.8.9"
-val treeHuggerVersion = "0.4.3"
 val apacheCommonLangVersion = "3.12.0"
 
 // https://mvnrepository.com/artifact/com.typesafe.akka/akka-actor

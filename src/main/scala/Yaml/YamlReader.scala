@@ -1,6 +1,5 @@
 package Yaml
 
-import TreeHugger.Schema.ActorTemplate
 import org.yaml.snakeyaml.Yaml
 
 import scala.io.Source
