@@ -5,8 +5,6 @@ import Nebula.Schema.{ArgumentSchema, CaseClassSchema}
 
 class CaseClassCodeGenerator
 object CaseClassCodeGenerator{
-
-
   //Init the config file to get static params
   val config = ObtainConfigReference("nebula") match {
     case Some(value) => value
