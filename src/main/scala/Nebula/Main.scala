@@ -6,7 +6,7 @@ import Nebula.Generator.{ActorGenerator, ActorSystemGenerator, CaseClassGenerato
 import Nebula.Schema.{ActorSchema, ActorSystemSchema, CaseClassSchema}
 import akka.actor.{ActorSystem, Props}
 
-import scala.reflect.runtime.currentMirror
+import scala.reflect.runtime.universe
 import scala.reflect.runtime.universe._
 import scala.tools.reflect.ToolBox
 import scala.language.implicitConversions
@@ -20,12 +20,14 @@ object Main extends  App{
     case None => throw new RuntimeException("Cannot obtain a reference to the config data.")
   }
 
+  var xxx: Int = _
+
   //Init the logger
   val logger = CreateLogger(classOf[Main])
 
   //Define the current Toolbox
-  val toolbox = currentMirror.mkToolBox()
-  //val tb = universe.runtimeMirror(getClass.getClassLoader).mkToolBox()
+  //val toolbox = currentMirror.mkToolBox()
+  val toolbox = universe.runtimeMirror(getClass.getClassLoader).mkToolBox()
   //Init of the caseClassesList sequence
   val caseClassesList = Seq.empty[Symbol]
   val actorSystemEmptyList = Seq.empty[ActorSystem]
@@ -54,7 +56,7 @@ object Main extends  App{
 
   }
 
-  def generateCaseClasses() {
+  def generateCaseClasses() = {
   caseClassesJson.foreach(caseClassDefinition => {
     //TODO: generate a Map to keep track of the caseClasses indexes
     val generatedCode : String = CaseClassGenerator.generateCaseClass(caseClassDefinition)
@@ -74,7 +76,7 @@ object Main extends  App{
       }
       class HelloActor() extends Actor {
         def receive = {
-          case $definedCaseObject  => println("case object instance has been received!")
+          case $definedCaseObject  => Nebula.Main.xxx = 10; println("case object instance has been received!")
           case _       => println("None received!")
         }
       }
@@ -92,7 +94,7 @@ object Main extends  App{
     }
   }
 
-  def generateActors() {
+  def generateActors() = {
   actorsJson.foreach(actor => {
     val generatedCode : String = ActorGenerator.generateActor(actor)
     println(generatedCode)
@@ -103,4 +105,6 @@ object Main extends  App{
     }
   })
   }
+  Thread.sleep(3000)
+  println(s"xxx = ${Nebula.Main.xxx}")
 }
