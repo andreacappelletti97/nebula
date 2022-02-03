@@ -7,8 +7,8 @@
         "methodName": "receive",
         "methodReturnType" : "Receive",
         "caseList" : [{
-          "className" : "x",
-          "executionCode" : "None"
+          "className" : "\"ciao\"",
+          "executionCode" : "println(1212)"
         },
           {
             "className" : "None",
