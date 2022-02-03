@@ -12,15 +12,15 @@ lazy val root = project
   .settings(
     name := "nebula",
     version := "0.1",
-    scalaVersion := "3.0.2"
+    scalaVersion := "3.1.1"
   )
 
 val logbackVersion = "1.3.0-alpha10"
 val typesafeConfigVersion = "1.4.1"
 val sfl4sVersion = "2.0.0-alpha5"
 val snakeYamlVersion = "1.29"
-val scalaCompilerVersion = "2.13.7"
-val scalaReflectVersion = "2.13.7"
+val scalaCompilerVersion = "2.13.8"
+val scalaReflectVersion = "2.13.8"
 val scalaTestVersion = "3.1.0"
 val logBackVersion = "1.2.3"
 val akkaActorVersion = "2.6.17"
