@@ -21,6 +21,7 @@ object Main extends  App{
   }
 
   var xxx: Int = _
+  case class Authentication(email:String)
 
   //Init the logger
   val logger = CreateLogger(classOf[Main])
@@ -76,7 +77,7 @@ object Main extends  App{
       }
       class HelloActor() extends Actor {
         def receive = {
-          case $definedCaseObject  => Nebula.Main.xxx = 10; println("case object instance has been received!")
+          case  Nebula.Main.Authentication(param) => Nebula.Main.xxx = 10; println("case object instance has been received! " + param)
           case _       => println("None received!")
         }
       }
@@ -89,7 +90,7 @@ object Main extends  App{
       val actorSystem = ActorSystem("system")
       val helloActor = actorSystem.actorOf(actorProps)
       //Send the case object message to the Actor
-      helloActor ! definedCaseObject
+      helloActor ! Authentication("myEmail")
 
     }
   }
