@@ -42,9 +42,11 @@ object Main extends  App{
   //Generate Actors from the JSON schema
   val actorsJson = JSONParser.getActorSchemaFromJson(config.getString("nebula.actorsJsonFile"))
 
-  //generateCaseClasses()
+  generateActors()
 
-  println(ActorCodeGenerator.generateActorCode(actorsJson))
+  val codeGeneration = ActorCodeGenerator.generateActorCode(actorsJson)
+  val compiledCode = ActorCompiler.compileCode(codeGeneration)
+  ActorCompiler.runCode(compiledCode)
 
   def generateActorSystem(): Unit = {
     //Get all the Actor Props compilation units
