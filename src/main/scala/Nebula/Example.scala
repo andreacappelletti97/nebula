@@ -7,7 +7,7 @@ import scala.tools.reflect.ToolBox
 object Example extends App {
   val toolbox = universe.runtimeMirror(getClass.getClassLoader).mkToolBox()
   val myCode = toolbox.eval(toolbox.parse("case class Film(title: String) \n scala.reflect.classTag[Film].runtimeClass"))
-  
+
   val actorCode =
     "import akka.actor._;" +
     "\n class myActor extends Actor {" +
@@ -18,9 +18,7 @@ object Example extends App {
     "\n def akka$actor$Actor$_setter_$self_=(x$0: akka.actor.ActorRef): Unit = ???" +
     "\n}"
 
-  val myActor = toolbox.eval(toolbox.parse(
-    actorCode
-  ))
+  val code = "import akka.actor._; " + "\n class myActor extends Actor {" +  "\n}"
 
-
+  val myActor = toolbox.eval(toolbox.parse(actorCode))
 }
