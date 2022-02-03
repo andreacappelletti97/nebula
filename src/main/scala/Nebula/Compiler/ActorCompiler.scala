@@ -6,7 +6,6 @@ import Nebula.Main.toolbox
 import Nebula.Schema.ActorSchema
 import akka.actor.{ActorSystem, Props}
 
-
 class ActorCompiler
 
 object ActorCompiler {
@@ -23,9 +22,10 @@ object ActorCompiler {
   def compileCode(codeToCompile : String): Props = {
     logger.info("[compileCode]: init")
     val tree = toolbox.parse(codeToCompile)
-    val binary = toolbox.compile(tree)()
+    val actorProps =  toolbox.compile(tree)().asInstanceOf[Props]
+    println(actorProps)
     logger.info("[compileCode]: exit")
-    binary.asInstanceOf[Props]
+    actorProps
   }
 
 
@@ -44,11 +44,12 @@ object ActorCompiler {
   }
 
   //Function to instantiate the Actor into an ActorSystem and send a message to it
-  def runCode(compiledProps: Props): Unit = {
+  def runCode(compiledProps: Props, message : Any): Unit = {
     logger.info("[runCode]: init")
     val actorSystem = ActorSystem("system")
     val helloActor = actorSystem.actorOf(compiledProps)
-    helloActor ! "ciao"
+    helloActor ! message
+    actorSystem.terminate()
     logger.info("[runCode]: exit")
   }
 

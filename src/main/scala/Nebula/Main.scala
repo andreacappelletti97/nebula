@@ -4,7 +4,6 @@ import HelperUtils.{CreateLogger, ObtainConfigReference}
 import Nebula.Compiler.{ActorCompiler, CaseClassCompiler}
 import Nebula.Generator.{ActorCodeGenerator, ActorGenerator, ActorSystemGenerator, CaseClassGenerator}
 import Nebula.Parser.JSONParser
-import Nebula.Schema.{ActorSchema, ActorSystemSchema, CaseClassSchema}
 import akka.actor.{ActorSystem, Props}
 
 import scala.reflect.runtime.universe
@@ -42,12 +41,7 @@ object Main extends  App{
   //Generate Actors from the JSON schema
   val actorsJson = JSONParser.getActorSchemaFromJson(config.getString("nebula.actorsJsonFile"))
 
-  //generateActors()
-
-  val codeGeneration = ActorCodeGenerator.generateActorCode(actorsJson)
-  val compiledCode = ActorCompiler.compileCode(codeGeneration)
-  println(compiledCode)
-  ActorCompiler.runCode(compiledCode)
+  generateActors()
 
   def generateActorSystem(): Unit = {
     //Get all the Actor Props compilation units
@@ -104,12 +98,11 @@ object Main extends  App{
 
   def generateActors() = {
   actorsJson.foreach(actor => {
-    val generatedCode : String = ActorGenerator.generateActor(actor)
-    println(generatedCode)
+    val generatedCode : String = ActorCodeGenerator.generateActorCode(actor)
     //Compile and run the code for each Actor
     if(config.getBoolean("nebula.runCode")) {
       val compiledCode = ActorCompiler.compileCode(generatedCode)
-      ActorCompiler.runCode(compiledCode)
+      ActorCompiler.runCode(compiledCode, None)
     }
   })
   }

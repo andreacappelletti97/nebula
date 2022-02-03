@@ -24,11 +24,11 @@ object CaseClassDefinition extends App{
   println(sourceClass)
 
   val tb = universe.runtimeMirror(getClass.getClassLoader).mkToolBox()
-  val function: ClassDef = q"case class Authentication(myName: String)".asInstanceOf[ClassDef]
+  val function: ClassDef = q"case class Film(title: String)".asInstanceOf[ClassDef]
   val functionWrapper  = tb.define(function)
   println(functionWrapper)
-  val number = q"""new $functionWrapper("hey")"""
-  println(tb.eval(number))
+  val newFilm = q"""new $functionWrapper("Kingdom")"""
+  println(tb.eval(newFilm))
 
 
 }
