@@ -15,7 +15,7 @@ lazy val root = project
     scalaVersion := scala3Version,
     //Scala 3 dependencies
     libraryDependencies ++= Seq(
-      "com.typesafe.akka" %% "akka-actor" % akkaActorVersion,
+      //"com.typesafe.akka" %%"akka-actor" % akkaActorVersion,
       "com.fasterxml.jackson.module" %% "jackson-module-scala" % jacksonModuleVersion,
       "org.apache.commons" % "commons-lang3" % apacheCommonLangVersion,
       "org.slf4j" % "slf4j-api" % sfl4sVersion,
@@ -31,8 +31,11 @@ lazy val nebula_scala2 = project
     scalaVersion := "2.13.3",
     //Scala 2 dependencies
     libraryDependencies ++= Seq(
+      "com.typesafe.akka" %% "akka-actor" % akkaActorVersion,
       "org.scala-lang" % "scala-reflect" % scalaReflectVersion,
       "org.scala-lang" % "scala-compiler" % scalaCompilerVersion,
+      "org.slf4j" % "slf4j-api" % sfl4sVersion,
+      "com.typesafe" % "config" % typesafeConfigVersion,
     )
   )
 
