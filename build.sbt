@@ -12,7 +12,6 @@ lazy val root = project
   .settings(
     name := "nebula",
     version := "0.1.0-SNAPSHOT",
-
     scalaVersion := scala3Version,
     //Scala 3 dependencies
     libraryDependencies ++= Seq(
@@ -21,17 +20,20 @@ lazy val root = project
       "org.apache.commons" % "commons-lang3" % apacheCommonLangVersion,
       "org.slf4j" % "slf4j-api" % sfl4sVersion,
       "com.typesafe" % "config" % typesafeConfigVersion,
-      "org.scala-lang" % "scala-reflect" % scalaReflectVersion,
-      "org.scala-lang" % "scala-compiler" % scalaCompilerVersion,
     )
   ) dependsOn(nebula_scala2)
 
-lazy val nebula_scala2 = (project in file("nebula_scala2")).
- settings(
-    inThisBuild(List(
-     scalaVersion := "2.13.3"
-   )),
-    name := "nebula_scala2"
+
+lazy val nebula_scala2 = project
+  .in(file("nebula_scala2"))
+  .settings(
+    name := "nebula_scala2",
+    scalaVersion := "2.13.3",
+    //Scala 2 dependencies
+    libraryDependencies ++= Seq(
+      "org.scala-lang" % "scala-reflect" % scalaReflectVersion,
+      "org.scala-lang" % "scala-compiler" % scalaCompilerVersion,
+    )
   )
 
 
