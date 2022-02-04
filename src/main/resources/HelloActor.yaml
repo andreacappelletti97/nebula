@@ -1,9 +1,0 @@
-ActorSystem: "HelloSystem"
-Instances: [1, 1]
-Actor:
-  - Name: "HelloActor"
-    Case: ["hello", "_"]
-    Code: ["println", "println"]
-  - Name: "HelloActor2"
-    Case: [ "hello", "_" ]
-    Code: [ "println", "println" ]
