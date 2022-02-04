@@ -8,11 +8,11 @@
         "methodReturnType" : "Receive",
         "caseList" : [{
           "className" : "\"ciao\"",
-          "executionCode" : "println(1212)"
+          "executionCode" : "println(\"Ciao!\")"
         },
           {
             "className" : "None",
-            "executionCode" : "println(\"None received!!!\")"
+            "executionCode" : "println(\"None received!\")"
           }
         ]
       }

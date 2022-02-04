@@ -1,4 +1,3 @@
-
 import HelperUtils.{CreateLogger, ObtainConfigReference}
 import Nebula.Generator.ActorCodeGenerator
 import Nebula.Parser.JSONParser
@@ -9,7 +8,7 @@ class Main
 
 object Main:
   @main def nebulaMain: Unit =
-    //Define the current Toolbox
+    //Get the current Toolbox from the Scala2 APIs
     val toolbox = ToolboxGenerator.generateToolbox()
     //Generate the Actor System from JSON schema
     val actorSystemJson = JSONParser.getActorSystemFromJson("src/main/scala/Nebula/Resources/ActorSystem.json")
@@ -18,9 +17,10 @@ object Main:
     //Generate Actors from the JSON schema
     val actorsJson = JSONParser.getActorSchemaFromJson("src/main/scala/Nebula/Resources/Actors.json")
 
+    //Compile and run the code for each Actor
     actorsJson.foreach(actor => {
       val generatedCode : String = ActorCodeGenerator.generateActorCode(actor)
-      //Compile and run the code for each Actor
+      //Use the Scala2 APIs to compile and run the code in the current Toolbox
       val compiledCode = ActorCodeCompiler.runCode(generatedCode, toolbox)
     })
 

@@ -14,11 +14,8 @@ object ActorCodeCompiler {
     val actorSystem = ActorSystem("system")
     val helloActor = actorSystem.actorOf(actorProps)
     helloActor ! "ciao"
+    helloActor ! None
     actorSystem.terminate()
-  }
-
-  def compileCode(codeToCompile : String): Unit = {
-
   }
 
 }
