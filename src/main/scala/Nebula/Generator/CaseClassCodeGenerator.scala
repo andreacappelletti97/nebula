@@ -4,7 +4,8 @@ import HelperUtils.{CreateLogger, ObtainConfigReference}
 import Nebula.Schema.{ArgumentSchema, CaseClassSchema}
 
 class CaseClassCodeGenerator
-object CaseClassCodeGenerator{
+object CaseClassCodeGenerator:
+
   //Init the config file to get static params
   val config = ObtainConfigReference("nebula") match {
     case Some(value) => value
@@ -28,5 +29,5 @@ object CaseClassCodeGenerator{
       recursivelyGenerateArgs(jsonList, iterator + 1, arguments ++ s"(${jsonList(iterator).argName} : ${jsonList(iterator).argType},")
     else
       recursivelyGenerateArgs(jsonList, iterator + 1, arguments ++ s" ${jsonList(iterator).argName} : ${jsonList(iterator).argType},")
-}
+
 

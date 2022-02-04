@@ -1,6 +1,5 @@
 package Nebula.Schema
 
-
 /***
  * A case object is defined by a name without any argument
  * A case class is defined by a name and some arguments

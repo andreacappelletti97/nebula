@@ -1,10 +1,11 @@
 package HelperUtils
 
-import com.typesafe.config.{Config, ConfigFactory}
-
+import com.typesafe.config.Config
+import com.typesafe.config.ConfigFactory
 import scala.util.{Failure, Success, Try}
 
 class ObtainConfigReference
+
 object ObtainConfigReference {
   private val config = ConfigFactory.load()
   private val logger = CreateLogger(classOf[ObtainConfigReference])

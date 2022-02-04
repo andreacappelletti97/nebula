@@ -5,7 +5,7 @@ import Nebula.Schema.{ActorSchema, ArgumentSchema, CaseSchema, MethodSchema}
 
 class ActorCodeGenerator
 
-object ActorCodeGenerator {
+object ActorCodeGenerator:
 
   //Init the config file to get static params
   val config = ObtainConfigReference("nebula") match {
@@ -15,13 +15,12 @@ object ActorCodeGenerator {
   //Init the logger
   val logger = CreateLogger(classOf[ActorCodeGenerator])
 
-  def generateActorCode(actorSchema: ActorSchema): String = {
+  def generateActorCode(actorSchema: ActorSchema): String =
     logger.info("[actorCodeGenerator]: Generating the actor code ...")
     val actorCode = generateActor(actorSchema)
     println(actorCode)
     logger.info("[actorCodeGenerator]: Generating the actor code has ended ...")
     actorCode
-  }
 
   //This function generates the Actor class signature
   def generateActor(actor: ActorSchema): String =
@@ -64,4 +63,4 @@ object ActorCodeGenerator {
 
   //This function  generates the Actor return statement for the compilation unit
   def generateReturnStatement(actorName: String) = s"\nreturn $actorName.props()"
-}
+
