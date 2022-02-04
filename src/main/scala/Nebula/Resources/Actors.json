@@ -12,7 +12,7 @@
         },
           {
             "className" : "None",
-            "executionCode" : "Nebula.Main.xxx = 10; println(\"None received!!!\")"
+            "executionCode" : "println(\"None received!!!\")"
           }
         ]
       }
