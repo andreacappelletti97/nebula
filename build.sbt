@@ -24,4 +24,15 @@ lazy val root = project
       "org.scala-lang" % "scala-reflect" % scalaReflectVersion,
       "org.scala-lang" % "scala-compiler" % scalaCompilerVersion,
     )
+  ) dependsOn(nebula_scala2)
+
+lazy val nebula_scala2 = project
+  .in(file("nebula_scala2"))
+  .settings(
+    name := "nebula_scala2",
+    version := "0.1.0-SNAPSHOT",
+
+    scalaVersion := scala3Version,
+
+    libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
   )
