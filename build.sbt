@@ -26,13 +26,14 @@ lazy val root = project
     )
   ) dependsOn(nebula_scala2)
 
-lazy val nebula_scala2 = project
-  .in(file("nebula_scala2"))
-  .settings(
-    name := "nebula_scala2",
-    version := "0.1.0-SNAPSHOT",
-
-    scalaVersion := scala3Version,
-
-    libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
+lazy val nebula_scala2 = (project in file("nebula_scala2")).
+ settings(
+    inThisBuild(List(
+     scalaVersion := "2.13.3"
+   )),
+    name := "nebula_scala2"
   )
+
+
+
+
