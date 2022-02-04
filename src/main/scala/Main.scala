@@ -3,7 +3,7 @@ import HelperUtils.{CreateLogger, ObtainConfigReference}
 import Nebula.Generator.ActorCodeGenerator
 import Nebula.Parser.JSONParser
 import Nebula.Schema.ActorSchema
-import NebulaScala2.Compiler.{ActorCompiler, ToolboxGenerator}
+import NebulaScala2.Compiler.{ActorCodeCompiler, ToolboxGenerator}
 
 class Main
 
@@ -21,7 +21,7 @@ object Main:
     actorsJson.foreach(actor => {
       val generatedCode : String = ActorCodeGenerator.generateActorCode(actor)
       //Compile and run the code for each Actor
-      val compiledCode = ActorCompiler.runCode(generatedCode, toolbox)
+      val compiledCode = ActorCodeCompiler.runCode(generatedCode, toolbox)
     })
 
 

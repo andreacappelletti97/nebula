@@ -3,12 +3,10 @@ package NebulaScala2.Compiler
 import akka.actor.{ActorSystem, Props}
 
 import scala.tools.reflect.ToolBox
-import scala.reflect.runtime.universe.runtimeMirror
 
+class ActorCodeCompiler
 
-class ActorCompiler
-
-object ActorCompiler {
+object ActorCodeCompiler {
 
   def runCode(codeToRun : String, toolbox:  ToolBox[scala.reflect.runtime.universe.type]): Unit ={
     val tree = toolbox.parse(codeToRun)
