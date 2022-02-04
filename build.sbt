@@ -24,6 +24,10 @@ lazy val root = project
   ) dependsOn(nebula_scala2)
 
 
+// Add the Cinnamon Agent for run and test
+//run / cinnamon := true
+//test / cinnamon := true
+
 lazy val nebula_scala2 = project
   .in(file("nebula_scala2"))
   .settings(
@@ -31,14 +35,28 @@ lazy val nebula_scala2 = project
     scalaVersion := "2.13.3",
     //Scala 2 dependencies
     libraryDependencies ++= Seq(
+      // Use Coda Hale Metrics and Akka instrumentation
+      Cinnamon.library.cinnamonCHMetrics,
+      Cinnamon.library.cinnamonJvmMetricsProducer,
+      Cinnamon.library.cinnamonPrometheus,
+      Cinnamon.library.cinnamonPrometheusHttpServer,
+      // Use Akka instrumentation
+      Cinnamon.library.cinnamonAkka,
+      Cinnamon.library.cinnamonAkkaTyped,
+      Cinnamon.library.cinnamonAkkaPersistence,
+      Cinnamon.library.cinnamonAkkaStream,
+      Cinnamon.library.cinnamonAkkaProjection,
+      // Use Akka HTTP instrumentation
+      Cinnamon.library.cinnamonAkkaHttp,
+      // Use Akka gRPC instrumentation
+      Cinnamon.library.cinnamonAkkaGrpc,
       "com.typesafe.akka" %% "akka-actor" % akkaActorVersion,
       "org.scala-lang" % "scala-reflect" % scalaReflectVersion,
       "org.scala-lang" % "scala-compiler" % scalaCompilerVersion,
       "org.slf4j" % "slf4j-api" % sfl4sVersion,
       "com.typesafe" % "config" % typesafeConfigVersion,
     )
-  )
-
+  ).enablePlugins(Cinnamon)
 
 
 
