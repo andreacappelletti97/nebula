@@ -1,4 +1,4 @@
-package NebulaScala2
+package Compiler
 
 object Main {
   val test = "MyTest"

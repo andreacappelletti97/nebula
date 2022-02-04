@@ -1,5 +1,5 @@
 
-import NebulaScala2.Main.test
+import Compiler.Main.test
 @main def hello: Unit =
   println("Hello world!")
   println(test)
