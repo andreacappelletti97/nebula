@@ -3,6 +3,9 @@ val jacksonModuleVersion = "2.13.1"
 val apacheCommonLangVersion = "3.12.0"
 val sfl4sVersion = "2.0.0-alpha5"
 val typesafeConfigVersion = "1.4.1"
+val scalaReflectVersion = "2.13.8"
+val scalaCompilerVersion = "2.13.8"
+val akkaActorVersion = "2.6.18"
 
 lazy val root = project
   .in(file("."))
@@ -11,14 +14,14 @@ lazy val root = project
     version := "0.1.0-SNAPSHOT",
 
     scalaVersion := scala3Version,
-
     //Scala 3 dependencies
     libraryDependencies ++= Seq(
-      "com.novocode" % "junit-interface" % "0.11" % "test",
+      "com.typesafe.akka" %% "akka-actor" % akkaActorVersion,
       "com.fasterxml.jackson.module" %% "jackson-module-scala" % jacksonModuleVersion,
       "org.apache.commons" % "commons-lang3" % apacheCommonLangVersion,
       "org.slf4j" % "slf4j-api" % sfl4sVersion,
       "com.typesafe" % "config" % typesafeConfigVersion,
-
+      "org.scala-lang" % "scala-reflect" % scalaReflectVersion,
+      "org.scala-lang" % "scala-compiler" % scalaCompilerVersion,
     )
   )
