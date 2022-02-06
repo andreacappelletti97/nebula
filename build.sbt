@@ -1,3 +1,5 @@
+import sbt.Keys.test
+
 val scala3Version = "3.1.1"
 val jacksonModuleVersion = "2.13.1"
 val apacheCommonLangVersion = "3.12.0"
@@ -23,16 +25,14 @@ lazy val root = project
     )
   ) dependsOn(nebula_scala2)
 
-
-// Add the Cinnamon Agent for run and test
-//run / cinnamon := true
-//test / cinnamon := true
-
 lazy val nebula_scala2 = project
   .in(file("nebula_scala2"))
   .settings(
     name := "nebula_scala2",
     scalaVersion := "2.13.3",
+    // Add the Cinnamon Agent for run and test
+    run / cinnamon := true,
+    test / cinnamon := true,
     //Scala 2 dependencies
     libraryDependencies ++= Seq(
       // Use Coda Hale Metrics and Akka instrumentation
@@ -57,6 +57,7 @@ lazy val nebula_scala2 = project
       "com.typesafe" % "config" % typesafeConfigVersion,
     )
   ).enablePlugins(Cinnamon)
+
 
 
 
