@@ -1,3 +1,28 @@
+# Nebula
+Dynamic Generation and Management of Actor-Based Applications
+
+## Author
+Andrea Cappelletti  
+andreacappelletti97@gmail.com
+
+Dr. Mark Grechanik  
+drmark@uic.edu
+
+## cinnamon telemetry
+Prerequisites
+- Docker
+```bash
+cd docker
+```
+
+Run the dashboard
+
+```bash
+docker compose-up
+```
+Go to localhost:3000/
+
+
 ## sbt project compiled with Scala 3
 
 ### Usage
