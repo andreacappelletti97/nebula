@@ -20,8 +20,11 @@ Run the dashboard
 ```bash
 docker compose-up
 ```
-Go to localhost:3000/
+Open a browser and go to the address
 
+```bash
+ localhost:3000/
+```
 
 ## sbt project compiled with Scala 3
 
