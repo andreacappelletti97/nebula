@@ -11,6 +11,12 @@ drmark@uic.edu
 ## cinnamon telemetry
 Prerequisites
 - Docker
+
+Before running our Cinnamon Instrumentation we have to install Docker
+https://docs.docker.com/get-docker/
+
+Once installed, from the root of the project type
+
 ```bash
 cd docker
 ```
@@ -31,9 +37,6 @@ Open a browser and go to the address
 ### Usage
 
 This is a normal sbt project. You can compile code with `sbt compile`, run it with `sbt run`, and `sbt console` will start a Scala 3 REPL.
-
-For more information on the sbt-dotty plugin, see the
-[scala3-example-project](https://github.com/scala/scala3-example-project/blob/main/README.md).
 
 ## sbt assembly
 In order to assembly the fat jar, run this command in the root of the project
