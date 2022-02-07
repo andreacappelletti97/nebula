@@ -6,7 +6,6 @@ import NebulaScala3.Parser.JSONParser
 import NebulaScala3.Generator.ActorCodeGenerator
 import NebulaScala2.Compiler.ToolboxGenerator
 import org.slf4j.LoggerFactory
-import NebulaScala2.ActorTest
 
 class Main
 
@@ -23,10 +22,10 @@ object Main:
     val toolbox = ToolboxGenerator.generateToolbox()
     //Generate Actors from the JSON schema
     val actorsJson = JSONParser.getActorSchemaFromJson(config.getString("nebula.actorsJsonFile"))
-    //val actorCode = ActorCodeGenerator.generateActorCode(actorsJson(0))
+    val actorCode = ActorCodeGenerator.generateActorCode(actorsJson(0))
+    //Run the code
+    ActorCodeCompiler.runCode(actorCode, toolbox)
 
-    //ActorCodeCompiler.runCode(actorCode, toolbox)
-    ActorTest.runActor()
 
 
 
