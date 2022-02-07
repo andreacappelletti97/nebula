@@ -34,3 +34,17 @@ This is a normal sbt project. You can compile code with `sbt compile`, run it wi
 
 For more information on the sbt-dotty plugin, see the
 [scala3-example-project](https://github.com/scala/scala3-example-project/blob/main/README.md).
+
+## sbt assembly
+In order to assembly the fat jar, run this command in the root of the project
+```bash
+sbt clean assembly
+```
+
+You will find the generated jar under `target/scala-3.1.1/` with the name of  `nebula.jar`
+
+To run it type
+
+```bash
+java -jar nebula.jar
+```
