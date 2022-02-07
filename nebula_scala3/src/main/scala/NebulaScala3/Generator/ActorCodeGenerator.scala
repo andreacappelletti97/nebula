@@ -1,25 +1,16 @@
-package Nebula.Generator
+package NebulaScala3.Generator
 
-import HelperUtils.{CreateLogger, ObtainConfigReference}
-import Nebula.Schema.{ActorSchema, ArgumentSchema, CaseSchema, MethodSchema}
+import NebulaScala3.Schema.{ActorSchema, ArgumentSchema, CaseSchema, MethodSchema}
 
 class ActorCodeGenerator
 
 object ActorCodeGenerator:
-
-  //Init the config file to get static params
-  val config = ObtainConfigReference("nebula") match {
-    case Some(value) => value
-    case None => throw new RuntimeException("Cannot obtain a reference to the config data.")
-  }
-  //Init the logger
-  val logger = CreateLogger(classOf[ActorCodeGenerator])
-
+  
   def generateActorCode(actorSchema: ActorSchema): String =
-    logger.info("[actorCodeGenerator]: Generating the actor code ...")
+    println("[actorCodeGenerator]: Generating the actor code ...")
     val actorCode = generateActor(actorSchema)
     println(actorCode)
-    logger.info("[actorCodeGenerator]: Generating the actor code has ended ...")
+    println("[actorCodeGenerator]: Generating the actor code has ended ...")
     actorCode
 
   //This function generates the Actor class signature
@@ -63,4 +54,5 @@ object ActorCodeGenerator:
 
   //This function  generates the Actor return statement for the compilation unit
   def generateReturnStatement(actorName: String) = s"\nreturn $actorName.props()"
+
 

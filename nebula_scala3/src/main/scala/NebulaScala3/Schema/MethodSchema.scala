@@ -1,4 +1,4 @@
-package Nebula.Schema
+package NebulaScala3.Schema
 
 case class MethodSchema(methodName: String,
                         methodReturnType: String,

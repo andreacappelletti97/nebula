@@ -1,18 +1,10 @@
-package Nebula.Generator
+package NebulaScala3.Generator
 
-import HelperUtils.{CreateLogger, ObtainConfigReference}
-import Nebula.Schema.{ArgumentSchema, CaseClassSchema}
+import NebulaScala3.Schema.{ArgumentSchema, CaseClassSchema}
 
 class CaseClassCodeGenerator
-object CaseClassCodeGenerator:
 
-  //Init the config file to get static params
-  val config = ObtainConfigReference("nebula") match {
-    case Some(value) => value
-    case None => throw new RuntimeException("Cannot obtain a reference to the config data.")
-  }
-  //Init the logger
-  val logger = CreateLogger(classOf[CaseClassCodeGenerator])
+object CaseClassCodeGenerator:
 
   def generateCaseClass(caseClass : CaseClassSchema): String = {
     if(caseClass.caseClassArgs.isEmpty) s"case object ${caseClass.caseClassName}"
@@ -29,5 +21,6 @@ object CaseClassCodeGenerator:
       recursivelyGenerateArgs(jsonList, iterator + 1, arguments ++ s"(${jsonList(iterator).argName} : ${jsonList(iterator).argType},")
     else
       recursivelyGenerateArgs(jsonList, iterator + 1, arguments ++ s" ${jsonList(iterator).argName} : ${jsonList(iterator).argType},")
+
 
 

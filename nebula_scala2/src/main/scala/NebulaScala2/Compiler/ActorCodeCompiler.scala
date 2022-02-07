@@ -1,9 +1,7 @@
 package NebulaScala2.Compiler
 
 import akka.actor.{ActorSystem, Props}
-
 import scala.tools.reflect.ToolBox
-
 
 class ActorCodeCompiler
 
@@ -16,7 +14,7 @@ object ActorCodeCompiler {
     val helloActor = actorSystem.actorOf(actorProps)
     helloActor ! "ciao"
     helloActor ! None
-    actorSystem.terminate()
+    //actorSystem.terminate()
   }
 
 }

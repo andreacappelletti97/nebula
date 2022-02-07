@@ -1,6 +1,6 @@
-package Nebula.Parser
+package NebulaScala3.Parser
 
-import Nebula.Schema.{ActorSchema, ActorSystemSchema, CaseClassSchema}
+import NebulaScala3.Schema.{ActorSchema, ActorSystemSchema, CaseClassSchema}
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import org.apache.commons.lang3.StringEscapeUtils
