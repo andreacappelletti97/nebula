@@ -24,7 +24,7 @@ cd docker
 Run the dashboard
 
 ```bash
-docker compose-up
+docker-compose up
 ```
 Open a browser and go to the address
 
