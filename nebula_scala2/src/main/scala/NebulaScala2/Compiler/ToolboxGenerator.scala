@@ -3,6 +3,8 @@ package NebulaScala2.Compiler
 import scala.reflect.runtime.universe
 import scala.tools.reflect.ToolBox
 
+class ToolboxGenerator
+
 object ToolboxGenerator {
   //This functions generate the Scala Toolbox and return it to Scala3 APIs
   def generateToolbox(): ToolBox[scala.reflect.runtime.universe.type] ={

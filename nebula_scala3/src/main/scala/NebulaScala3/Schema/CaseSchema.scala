@@ -1,3 +1,3 @@
-package Nebula.Schema
+package NebulaScala3.Schema
 
 case class CaseSchema(className: String, predefinedStatement:String, executionCode: String)

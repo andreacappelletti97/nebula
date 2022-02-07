@@ -1,4 +1,4 @@
-package Nebula.Schema
+package NebulaScala3.Schema
 
 /***
  * A case object is defined by a name without any argument
