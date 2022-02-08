@@ -7,8 +7,8 @@
         "methodName": "receive",
         "methodReturnType" : "Receive",
         "caseList" : [{
-          "className" : "\"ciao\"",
-          "executionCode" : "println(\"Ciao!\")"
+          "className" : "\"changeX\"",
+          "executionCode" : "NebulaScala3.Scala3Main.xxx = 10;  println(\"Changing X...\")"
         },
           {
             "className" : "None",

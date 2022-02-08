@@ -12,8 +12,7 @@ object ActorCodeCompiler {
     val actorProps =  toolbox.compile(tree)().asInstanceOf[Props]
     val actorSystem = ActorSystem("system")
     val helloActor = actorSystem.actorOf(actorProps)
-    helloActor ! "ciao"
-    helloActor ! None
+    helloActor ! "changeX"
     //actorSystem.terminate()
   }
 
