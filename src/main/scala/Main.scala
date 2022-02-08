@@ -15,7 +15,7 @@ object Main:
     case Some(value) => value
     case None => throw new RuntimeException("Cannot obtain a reference to the config data.")
   }
-  @main def hello: Unit =
+  @main def nebulaMain: Unit =
     println(Scala2Main.scala2Message)
     println(Scala3Main.scala3Message)
     //Get the current Toolbox from the Scala2 APIs
@@ -23,9 +23,12 @@ object Main:
     //Generate Actors from the JSON schema
     val actorsJson = JSONParser.getActorSchemaFromJson(config.getString("nebula.actorsJsonFile"))
     val actorCode = ActorCodeGenerator.generateActorCode(actorsJson(0))
+
+    println(s"xxx = ${Scala3Main.xxx}")
     //Run the code
     ActorCodeCompiler.runCode(actorCode, toolbox)
-
+    Thread.sleep(3000)
+    println(s"xxx = ${Scala3Main.xxx}")
 
 
 

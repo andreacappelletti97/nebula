@@ -68,7 +68,7 @@ lazy val nebula_scala2 = project
       "org.scala-lang" % "scala-reflect" % scalaReflectVersion,
       "org.scala-lang" % "scala-compiler" % scalaCompilerVersion,
     )
-  )
+  ) dependsOn(nebula_scala3)
 
 val jarName = "nebula.jar"
 assembly/assemblyJarName := jarName
