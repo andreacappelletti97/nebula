@@ -2,9 +2,9 @@ package NebulaScala3.Generator
 
 import NebulaScala3.Schema.{ArgumentSchema, CaseClassSchema}
 
-class CaseClassCodeGenerator
+class MessageCodeGenerator
 
-object CaseClassCodeGenerator:
+object MessageCodeGenerator:
 
   def generateCaseClass(caseClass : CaseClassSchema): String = {
     if(caseClass.caseClassArgs.isEmpty) s"case object ${caseClass.caseClassName}"
@@ -12,7 +12,7 @@ object CaseClassCodeGenerator:
   }
 
   //This function recursively generates the Case Class arguments
-  def recursivelyGenerateArgs(jsonList: Seq[ArgumentSchema], iterator: Int, arguments: String): String =
+  private def recursivelyGenerateArgs(jsonList: Seq[ArgumentSchema], iterator: Int, arguments: String): String =
     if (iterator >= jsonList.size) arguments
     else if(jsonList.size == 1)   recursivelyGenerateArgs(jsonList, iterator + 1, arguments ++ s"(${jsonList(iterator).argName} : ${jsonList(iterator).argType})")
     else if (iterator == jsonList.size - 1)
@@ -21,6 +21,8 @@ object CaseClassCodeGenerator:
       recursivelyGenerateArgs(jsonList, iterator + 1, arguments ++ s"(${jsonList(iterator).argName} : ${jsonList(iterator).argType},")
     else
       recursivelyGenerateArgs(jsonList, iterator + 1, arguments ++ s" ${jsonList(iterator).argName} : ${jsonList(iterator).argType},")
+
+  //private def generateReturnStatement() : String =
 
 
 
