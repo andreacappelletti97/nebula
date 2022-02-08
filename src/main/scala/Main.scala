@@ -22,14 +22,17 @@ object Main:
     val toolbox = ToolboxGenerator.generateToolbox()
     //Generate Actors from the JSON schema
     val actorsJson = JSONParser.getActorSchemaFromJson(config.getString("nebula.actorsJsonFile"))
-    val actorCode = ActorCodeGenerator.generateActorCode(actorsJson(0))
+    val messagesJson = JSONParser.getCaseClassSchemaFromJson(config.getString("nebula.messagesJsonFile"))
+    messagesJson.foreach(message => println(message))
 
+    /*
+    val actorCode = ActorCodeGenerator.generateActorCode(actorsJson(0))
     println(s"xxx = ${Scala3Main.xxx}")
     //Run the code
     ActorCodeCompiler.runCode(actorCode, toolbox)
     Thread.sleep(3000)
     println(s"xxx = ${Scala3Main.xxx}")
-
+    */
 
 
 
