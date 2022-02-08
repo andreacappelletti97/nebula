@@ -4,3 +4,7 @@ package NebulaScala3
 object Scala3Main:
   val scala3Message = "Hello from Nebula Scala 3! :)"
   var xxx: Int = _
+
+  //Message definition
+  trait SomeTrait
+  var theKeeper: SomeTrait = _
