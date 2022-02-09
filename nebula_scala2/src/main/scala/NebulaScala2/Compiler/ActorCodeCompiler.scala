@@ -14,6 +14,7 @@ object ActorCodeCompiler {
     val actorSystem = ActorSystem("system")
     val helloActor = actorSystem.actorOf(actorProps)
     helloActor ! "changeX"
+    println(theKeeper)
     //actorSystem.terminate()
   }
 
