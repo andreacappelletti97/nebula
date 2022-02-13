@@ -1,0 +1,13 @@
+---
+- caseClassName: Auth
+  caseClassArgs: []
+- caseClassName: Film
+  caseClassArgs:
+    - argName: title
+      argType: String
+- caseClassName: OldFilm
+  caseClassArgs:
+    - argName: title
+      argType: String
+    - argName: age
+      argType: Int

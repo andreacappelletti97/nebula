@@ -37,7 +37,7 @@ object JSONParser {
   /**
    * Loads a schema from a JSON file.
    */
-  def getCaseClassSchemaFromJson(fileName: String): Array[CaseClassSchema] = {
+  def getMessagesSchemaFromJson(fileName: String): Array[CaseClassSchema] = {
     val inputStream = new FileInputStream(fileName)
     try {
       mapper.readValue(inputStream, classOf[Array[CaseClassSchema]])

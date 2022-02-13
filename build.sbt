@@ -5,7 +5,8 @@ ThisBuild / assemblyMergeStrategy := {
   case x => MergeStrategy.first
 }
 
-val sfl4sVersion = "2.0.0-alpha5"
+val scalaLoggingVersion = "3.9.4"
+val logBackVersion = "1.2.10"
 
 lazy val root = project
   .in(file("."))
@@ -17,13 +18,15 @@ lazy val root = project
     test / cinnamon := true,
     libraryDependencies ++= Seq(
       "com.novocode" % "junit-interface" % "0.11" % "test",
-      "org.slf4j" % "slf4j-api" % sfl4sVersion,
+      "ch.qos.logback" % "logback-classic" % logBackVersion,
+      "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion
     )
   ).enablePlugins(Cinnamon) aggregate(nebula_scala2, nebula_scala3) dependsOn(nebula_scala2, nebula_scala3)
 
 
 val jacksonModuleVersion = "2.13.1"
 val apacheCommonLangVersion = "3.12.0"
+val snakeYamlVersion = "1.30"
 
 lazy val nebula_scala3 = project
   .in(file("nebula_scala3"))
@@ -33,7 +36,8 @@ lazy val nebula_scala3 = project
     scalaVersion := scala3Version,
     libraryDependencies ++= Seq(
       "com.fasterxml.jackson.module" %% "jackson-module-scala" % jacksonModuleVersion,
-      "org.apache.commons" % "commons-lang3" % apacheCommonLangVersion
+      "org.apache.commons" % "commons-lang3" % apacheCommonLangVersion,
+      "org.yaml" % "snakeyaml" % snakeYamlVersion
     )
   )
 
