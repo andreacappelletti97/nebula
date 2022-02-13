@@ -1,0 +1,7 @@
+---
+- actorSystemName: system
+  actorsInstances:
+    - 1
+    - 3
+    - 5
+    - 1
