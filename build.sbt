@@ -8,14 +8,15 @@ ThisBuild / assemblyMergeStrategy := {
 val scalaLoggingVersion = "3.9.4"
 val logBackVersion = "1.2.10"
 
+run / cinnamon := true
+test / cinnamon := true
+
 lazy val root = project
   .in(file("."))
   .settings(
     name := "nebula",
     version := "0.1.0-SNAPSHOT",
     scalaVersion := scala3Version,
-    run / cinnamon := true,
-    test / cinnamon := true,
     libraryDependencies ++= Seq(
       "com.novocode" % "junit-interface" % "0.11" % "test",
       "ch.qos.logback" % "logback-classic" % logBackVersion,
