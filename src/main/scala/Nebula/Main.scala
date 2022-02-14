@@ -22,7 +22,7 @@ object Main:
     logger.info(Scala2Main.scala2Message)
     logger.info(Scala3Main.scala3Message)
     //Init Kamon monitoring instrumentation
-    Scala2Main.initKamon()
+    if(config.getBoolean("nebula.enableKamon")) Scala2Main.initKamon()
     //Get the current Toolbox from the Scala2 APIs
     val toolbox = ToolboxGenerator.generateToolbox()
     //Generate Actors from the JSON schema
