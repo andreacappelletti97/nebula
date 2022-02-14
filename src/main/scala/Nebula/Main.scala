@@ -21,14 +21,13 @@ object Main:
   @main def nebulaMain: Unit =
     logger.info(Scala2Main.scala2Message)
     logger.info(Scala3Main.scala3Message)
+    //Init Kamon monitoring instrumentation
+    Scala2Main.initKamon()
     //Get the current Toolbox from the Scala2 APIs
     val toolbox = ToolboxGenerator.generateToolbox()
     //Generate Actors from the JSON schema
     val actorsJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getActorSchemaFromJson(config.getString("nebula.actorsBuildJsonFile"))  else  JSONParser.getActorSchemaFromJson(config.getString("nebula.actorsJsonFile"))
     val messagesJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getMessagesSchemaFromJson(config.getString("nebula.messagesBuildJsonFile")) else JSONParser.getMessagesSchemaFromJson(config.getString("nebula.messagesJsonFile"))
-
-    //val actorsJson = JSONParser.getActorSchemaFromJson("./Actors.json")
-    //val messagesJson = JSONParser.getMessagesSchemaFromJson("./Messages.json")
 
     toolbox.eval(
       toolbox.parse(

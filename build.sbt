@@ -21,7 +21,7 @@ lazy val root = project
     libraryDependencies ++= Seq(
       "com.novocode" % "junit-interface" % "0.11" % "test",
       "ch.qos.logback" % "logback-classic" % logBackVersion,
-      "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion
+      "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion,
     )
   ).enablePlugins(Cinnamon) aggregate(nebula_scala2, nebula_scala3) dependsOn(nebula_scala2, nebula_scala3)
 
@@ -47,6 +47,9 @@ lazy val nebula_scala3 = project
 val scalaReflectVersion = "2.13.8"
 val scalaCompilerVersion = "2.13.8"
 val akkaActorVersion = "2.6.18"
+//Kamon monitoring
+val kamonBundleVersion = "2.4.7"
+val kamonApmReporterVersion = "2.4.7"
 
 lazy val nebula_scala2 = project
   .in(file("nebula_scala2"))
@@ -73,6 +76,8 @@ lazy val nebula_scala2 = project
       "com.typesafe.akka" %% "akka-actor" % akkaActorVersion,
       "org.scala-lang" % "scala-reflect" % scalaReflectVersion,
       "org.scala-lang" % "scala-compiler" % scalaCompilerVersion,
+      "io.kamon" %% "kamon-bundle" % kamonBundleVersion,
+      "io.kamon" %% "kamon-apm-reporter" % kamonApmReporterVersion
     )
   ) dependsOn(nebula_scala3)
 
