@@ -2,6 +2,7 @@ val scala3Version = "3.1.1"
 
 ThisBuild / assemblyMergeStrategy := {
   case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case "reference.conf" => MergeStrategy.concat
   case x => MergeStrategy.first
 }
 

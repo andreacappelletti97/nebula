@@ -51,3 +51,16 @@ To run it type
 ```bash
 java -jar nebula.jar
 ```
+
+In order to trigger the Cinnamon monitoring instrumentation run this command specifying the -javaagent.
+```bash
+java -javaagent:/path/to/cinnamon-agent.jar -jar nebula.jar
+```
+Where `/path/to/cinnamon-agent.jar` is the path to the jar in your machine.
+
+In my case
+```bash
+/Users/andreacappelletti/Library/Caches/Coursier/v1/https/repo.lightbend.com/pass/O-2gx6jQ1VsfDWAktw1f-3ED1auXmKvxAnA24gnpUnTZpu2g/commercial-releases/com/lightbend/cinnamon/cinnamon-agent/2.16.2/cinnamon-agent-2.16.2.jar
+```
+
+Cinnamon instrumentation gets triggered automatically when using `sbt run` because the -javaagent is implicit into the command.
