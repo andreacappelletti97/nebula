@@ -50,6 +50,7 @@ val akkaActorVersion = "2.6.18"
 //Kamon monitoring
 val kamonBundleVersion = "2.4.7"
 val kamonApmReporterVersion = "2.4.7"
+val kamonPrometheusVersion = "2.4.7"
 
 lazy val nebula_scala2 = project
   .in(file("nebula_scala2"))
@@ -77,7 +78,8 @@ lazy val nebula_scala2 = project
       "org.scala-lang" % "scala-reflect" % scalaReflectVersion,
       "org.scala-lang" % "scala-compiler" % scalaCompilerVersion,
       "io.kamon" %% "kamon-bundle" % kamonBundleVersion,
-      "io.kamon" %% "kamon-apm-reporter" % kamonApmReporterVersion
+      "io.kamon" %% "kamon-apm-reporter" % kamonApmReporterVersion,
+      "io.kamon" %% "kamon-prometheus" % kamonPrometheusVersion
     )
   ) dependsOn(nebula_scala3)
 
