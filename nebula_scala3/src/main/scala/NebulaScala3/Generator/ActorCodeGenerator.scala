@@ -25,6 +25,7 @@ object ActorCodeGenerator:
   //This function recursively generates the Actor arguments
   private def recursivelyGenerateArgs(jsonList: Seq[ArgumentSchema], iterator: Int, arguments: String): String =
     if (iterator >= jsonList.size) arguments
+    else if(jsonList.size == 1) recursivelyGenerateArgs(jsonList, iterator + 1, arguments ++ s"(${jsonList(iterator).argName} : ${jsonList(iterator).argType})")
     else if (iterator == jsonList.size - 1)
       recursivelyGenerateArgs(jsonList, iterator + 1, arguments ++ s" ${jsonList(iterator).argName} : ${jsonList(iterator).argType})")
     else if (iterator == 0)
