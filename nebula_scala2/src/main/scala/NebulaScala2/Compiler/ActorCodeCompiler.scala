@@ -14,16 +14,24 @@ import com.lightbend.cinnamon.metric.Rate
 class ActorCodeCompiler
 
 object ActorCodeCompiler {
+  
+  //This funciton compile the Scala string code and returns the Actors props as a Seq
+  def compileActors(actorCodeList : Seq[String] ,toolbox:  ToolBox[scala.reflect.runtime.universe.type], iterator: Int, compiledActorsList : Seq[Props]) : Seq[Props] = {
+    if(iterator >= actorCodeList.size) compiledActorsList
+    else {
+      val tree = toolbox.parse(actorCodeList(iterator))
+      val actorProps = toolbox.compile(tree)().asInstanceOf[Props]
+      compileActors(actorCodeList, toolbox, iterator + 1, compiledActorsList :+ actorProps)
+    }
+  }
+
+
   var reference : ActorRef = _
 
-  def runCode(codeToRun : String, toolbox:  ToolBox[scala.reflect.runtime.universe.type]): Unit ={
-    //Compile Actor code and get the Props object
-    val tree = toolbox.parse(codeToRun)
-    val actorProps =  toolbox.compile(tree)().asInstanceOf[Props]
+  def runExample(actorProps : Props, toolbox:  ToolBox[scala.reflect.runtime.universe.type]): Unit ={
     //Define ActorSystem
     val actorSystem = ActorSystem("system")
     createActorSystemMetrics(actorSystem)
-
     val simpleActor = actorSystem.actorOf(Props[SimpleActor], "SimpleActor")
     reference = simpleActor
     val helloActor = actorSystem.actorOf(actorProps, "HelloActor")
@@ -32,7 +40,8 @@ object ActorCodeCompiler {
     //actorSystem.terminate()
   }
 
-  def createActorSystemMetrics(actorSystem: ActorSystem) : Unit = {
+  
+  private def createActorSystemMetrics(actorSystem: ActorSystem) : Unit = {
     val sysCounter: Counter = CinnamonMetrics(actorSystem).createCounter("sysCounter")
     val sysGaugeDouble: GaugeDouble = CinnamonMetrics(actorSystem).createGaugeDouble("sysGaugeDouble")
     val sysGaugeLong: GaugeLong = CinnamonMetrics(actorSystem).createGaugeLong("sysGaugeLong")
@@ -42,7 +51,7 @@ object ActorCodeCompiler {
     val sysRecorder: Recorder = CinnamonMetrics(actorSystem).createRecorder("sysRecorder")
   }
 
-  def createActorMetrics(actor : Actor) : Unit = {
+  private def createActorMetrics(actor : Actor) : Unit = {
     val counter: Counter = CinnamonMetrics(actor.context).createCounter("counter")
     val gaugeDouble: GaugeDouble = CinnamonMetrics(actor.context).createGaugeDouble("gaugeDouble")
     val gaugeLong: GaugeLong = CinnamonMetrics(actor.context).createGaugeLong("gaugeLong")
