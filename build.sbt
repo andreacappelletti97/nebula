@@ -5,6 +5,10 @@ test / cinnamon := true
 //Here we define all the common dependencies among all the different projects and modules
 val scalaTestVersion = "3.2.11"
 
+Compile / PB.targets := Seq(
+  scalapb.gen() -> (Compile / sourceManaged).value / "scalapb"
+)
+
 lazy val commonDependencies = Seq(
   "org.scalatest" %% "scalatest" % scalaTestVersion % Test
 )
@@ -23,7 +27,8 @@ lazy val root = project
     libraryDependencies ++= commonDependencies ++ Seq(
       "com.novocode" % "junit-interface" % "0.11" % "test",
       "ch.qos.logback" % "logback-classic" % logBackVersion,
-      "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion
+      "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion,
+      "com.thesamet.scalapb" %% "scalapb-runtime" % "0.11.8"
 
     )
   ).enablePlugins(Cinnamon) aggregate(nebula_scala2, nebula_scala3) dependsOn(nebula_scala2, nebula_scala3)
