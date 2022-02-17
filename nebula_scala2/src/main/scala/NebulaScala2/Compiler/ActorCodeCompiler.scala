@@ -14,7 +14,7 @@ import com.lightbend.cinnamon.metric.Rate
 class ActorCodeCompiler
 
 object ActorCodeCompiler {
-  
+
   //This funciton compile the Scala string code and returns the Actors props as a Seq
   def compileActors(actorCodeList : Seq[String] ,toolbox:  ToolBox[scala.reflect.runtime.universe.type], iterator: Int, compiledActorsList : Seq[Props]) : Seq[Props] = {
     if(iterator >= actorCodeList.size) compiledActorsList
@@ -40,7 +40,7 @@ object ActorCodeCompiler {
     //actorSystem.terminate()
   }
 
-  
+
   private def createActorSystemMetrics(actorSystem: ActorSystem) : Unit = {
     val sysCounter: Counter = CinnamonMetrics(actorSystem).createCounter("sysCounter")
     val sysGaugeDouble: GaugeDouble = CinnamonMetrics(actorSystem).createGaugeDouble("sysGaugeDouble")
