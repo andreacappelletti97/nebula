@@ -4,14 +4,15 @@ test / cinnamon := true
 
 //Here we define all the common dependencies among all the different projects and modules
 val scalaTestVersion = "3.2.11"
+
 lazy val commonDependencies = Seq(
   "org.scalatest" %% "scalatest" % scalaTestVersion % Test
 )
 
 //Scala 3 Orchestrator Project
 val scala3Version = "3.1.1"
-val scalaLoggingVersion = "3.9.4"
 val logBackVersion = "1.2.10"
+val scalaLoggingVersion = "3.9.4"
 
 lazy val root = project
   .in(file("."))
@@ -23,6 +24,7 @@ lazy val root = project
       "com.novocode" % "junit-interface" % "0.11" % "test",
       "ch.qos.logback" % "logback-classic" % logBackVersion,
       "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion
+
     )
   ).enablePlugins(Cinnamon) aggregate(nebula_scala2, nebula_scala3) dependsOn(nebula_scala2, nebula_scala3)
 
@@ -37,7 +39,7 @@ lazy val nebula_scala3 = project
     name := "nebula_scala3",
     version := "0.1.0-SNAPSHOT",
     scalaVersion := scala3Version,
-    libraryDependencies ++= Seq(
+    libraryDependencies ++= commonDependencies ++ Seq(
       "com.fasterxml.jackson.module" %% "jackson-module-scala" % jacksonModuleVersion,
       "org.apache.commons" % "commons-lang3" % apacheCommonLangVersion,
       "org.yaml" % "snakeyaml" % snakeYamlVersion,
@@ -60,7 +62,7 @@ lazy val nebula_scala2 = project
     name := "nebula_scala2",
     scalaVersion := "2.13.3",
     //Scala 2 dependencies
-    libraryDependencies ++= Seq(
+    libraryDependencies ++= commonDependencies ++ Seq(
       // Use Coda Hale Metrics and Akka instrumentation
       //Cinnamon.library.cinnamonCHMetrics,
       Cinnamon.library.cinnamonJvmMetricsProducer,
@@ -83,7 +85,7 @@ lazy val nebula_scala2 = project
       "io.kamon" %% "kamon-apm-reporter" % kamonApmReporterVersion,
       "io.kamon" %% "kamon-prometheus" % kamonPrometheusVersion
     )
-  ) dependsOn(nebula_scala3)
+  ) dependsOn nebula_scala3
 
 //SBT assembly properties
 val jarName = "nebula.jar"
@@ -91,7 +93,7 @@ assembly/assemblyJarName := jarName
 
 //Merging strategies
 ThisBuild / assemblyMergeStrategy := {
-  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case PathList("META-INF", _*) => MergeStrategy.discard
   case "reference.conf" => MergeStrategy.concat
-  case x => MergeStrategy.first
+  case _ => MergeStrategy.first
 }
