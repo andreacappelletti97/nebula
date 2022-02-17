@@ -35,13 +35,20 @@ object Main:
           |NebulaScala3.Scala3Main.theKeeper = Film("Kingdom")""".stripMargin)
     )
     println(NebulaScala3.Scala3Main.theKeeper)
-    
-    val actorCode = ActorCodeGenerator.generateActorCode(actorsJson(0))
-    println(s"xxx = ${Scala3Main.xxx}")
+
+    val actorCode = ActorCodeGenerator.generateActorCode(actorsJson, 0, Seq.empty)
+    println(actorCode)
+
+    val actorProps = ActorCodeCompiler.compileActors(actorCode, toolbox, 0, Seq.empty)
+    println(actorProps)
+
+
+    ActorCodeCompiler.runExample(actorProps(0), toolbox)
+
+    //println(s"xxx = ${Scala3Main.xxx}")
     //Run the code
-    ActorCodeCompiler.runCode(actorCode, toolbox)
-    Thread.sleep(3000)
-    println(s"xxx = ${Scala3Main.xxx}")
+    //Thread.sleep(3000)
+    //println(s"xxx = ${Scala3Main.xxx}")
 
 
 

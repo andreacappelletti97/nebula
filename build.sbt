@@ -1,16 +1,17 @@
-val scala3Version = "3.1.1"
-
-ThisBuild / assemblyMergeStrategy := {
-  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
-  case "reference.conf" => MergeStrategy.concat
-  case x => MergeStrategy.first
-}
-
-val scalaLoggingVersion = "3.9.4"
-val logBackVersion = "1.2.10"
-
+//Enable Cinnamon Telemetry Agent
 run / cinnamon := true
 test / cinnamon := true
+
+//Here we define all the common dependencies among all the different projects and modules
+val scalaTestVersion = "3.2.11"
+lazy val commonDependencies = Seq(
+  "org.scalatest" %% "scalatest" % scalaTestVersion % Test
+)
+
+//Scala 3 Orchestrator Project
+val scala3Version = "3.1.1"
+val scalaLoggingVersion = "3.9.4"
+val logBackVersion = "1.2.10"
 
 lazy val root = project
   .in(file("."))
@@ -18,14 +19,14 @@ lazy val root = project
     name := "nebula",
     version := "0.1.0-SNAPSHOT",
     scalaVersion := scala3Version,
-    libraryDependencies ++= Seq(
+    libraryDependencies ++= commonDependencies ++ Seq(
       "com.novocode" % "junit-interface" % "0.11" % "test",
       "ch.qos.logback" % "logback-classic" % logBackVersion,
-      "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion,
+      "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion
     )
   ).enablePlugins(Cinnamon) aggregate(nebula_scala2, nebula_scala3) dependsOn(nebula_scala2, nebula_scala3)
 
-
+//Scala 3 Submodule
 val jacksonModuleVersion = "2.13.1"
 val apacheCommonLangVersion = "3.12.0"
 val snakeYamlVersion = "1.30"
@@ -39,15 +40,16 @@ lazy val nebula_scala3 = project
     libraryDependencies ++= Seq(
       "com.fasterxml.jackson.module" %% "jackson-module-scala" % jacksonModuleVersion,
       "org.apache.commons" % "commons-lang3" % apacheCommonLangVersion,
-      "org.yaml" % "snakeyaml" % snakeYamlVersion
+      "org.yaml" % "snakeyaml" % snakeYamlVersion,
+      "ch.qos.logback" % "logback-classic" % logBackVersion,
+      "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion
     )
   )
 
-
+//Scala 2 Submodule
 val scalaReflectVersion = "2.13.8"
 val scalaCompilerVersion = "2.13.8"
 val akkaActorVersion = "2.6.18"
-//Kamon monitoring
 val kamonBundleVersion = "2.4.7"
 val kamonApmReporterVersion = "2.4.7"
 val kamonPrometheusVersion = "2.4.7"
@@ -83,5 +85,13 @@ lazy val nebula_scala2 = project
     )
   ) dependsOn(nebula_scala3)
 
+//SBT assembly properties
 val jarName = "nebula.jar"
 assembly/assemblyJarName := jarName
+
+//Merging strategies
+ThisBuild / assemblyMergeStrategy := {
+  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case "reference.conf" => MergeStrategy.concat
+  case x => MergeStrategy.first
+}
