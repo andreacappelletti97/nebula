@@ -7,6 +7,7 @@ import NebulaScala3.Generator.{ActorCodeGenerator, MessageCodeGenerator}
 import NebulaScala3.Parser.{JSONParser, YAMLParser}
 import NebulaScala3.Scala3Main
 import com.typesafe.scalalogging.Logger
+import tutorial.addressbook.Person
 class Main
 
 object Main:
@@ -41,7 +42,6 @@ object Main:
 
     val actorProps = ActorCodeCompiler.compileActors(actorCode, toolbox, 0, Seq.empty)
     println(actorProps)
-
 
     ActorCodeCompiler.runExample(actorProps(0), toolbox)
 
