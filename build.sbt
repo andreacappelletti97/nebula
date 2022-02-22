@@ -70,7 +70,7 @@ lazy val nebula_scala2 = project
     //Scala 2 dependencies
     libraryDependencies ++= commonDependencies ++ Seq(
       // Use Coda Hale Metrics and Akka instrumentation
-      //Cinnamon.library.cinnamonCHMetrics,
+      Cinnamon.library.cinnamonCHMetrics,
       Cinnamon.library.cinnamonJvmMetricsProducer,
       Cinnamon.library.cinnamonPrometheus,
       Cinnamon.library.cinnamonPrometheusHttpServer,
