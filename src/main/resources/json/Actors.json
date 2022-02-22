@@ -21,7 +21,10 @@
           }
         ]
       }
-    ]
+    ],
+    "monitoringOptions" : {
+      "active" : true
+    }
   }
 ]
 
