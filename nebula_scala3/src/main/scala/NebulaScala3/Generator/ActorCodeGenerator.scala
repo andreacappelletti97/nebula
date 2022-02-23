@@ -8,14 +8,13 @@ object ActorCodeGenerator:
   //Logger init
   val logger = Logger("ActorCodeGenerator")
 
-  def generateActorCode(actorSchemaList : Array[ActorSchema],iterator : Int, actorCodeList : Seq[String]) : Seq[String] = {
+  def generateActorCode(actorSchemaList : Array[ActorSchema],iterator : Int, actorCodeList : Seq[String]) : Seq[String] = 
     if(iterator >= actorSchemaList.length) actorCodeList
     else {
       generateActorCode(
         actorSchemaList, iterator + 1, actorCodeList :+ generateSingleActorCode(actorSchemaList(iterator))
       )
     }
-  }
 
   private def generateSingleActorCode(actorSchema: ActorSchema): String =
     logger.info("[actorCodeGenerator]: Generating the actor code ...")

@@ -1,5 +1,9 @@
 [{
   "actorSystemName" : "system",
-  "actorsInstances" : [1,3,5,1]
+  "actorsInstances" : [1,3,5,1],
+  "cinnamonMonitoringOptions" : {
+    "consoleReporter" : true,
+    "prometheusHttpServer" : true
+  }
 }
 ]

@@ -9,15 +9,18 @@ object ConfigInjection  {
     val actorSystem = ActorSystem("system")
 
     // make a Config with just your special setting// make a Config with just your special setting
-    /*
+    
     val myConfig = ConfigFactory.parseString(
       """cinnamon {
         |  chmetrics = {
         |    reporters += "console-reporter"
         |  }
-        |  }""".stripMargin)
-    */
-    val myConfig = ConfigFactory.parseString("""""".stripMargin)
+        |  }
+        |  cinnamon.prometheus {
+        |  exporters += http-server
+        |}""".stripMargin)
+    
+    //val myConfig = ConfigFactory.parseString("""""".stripMargin)
     // load the normal config stack (system props, then application.conf, then reference.conf)
     val regularConfig = ConfigFactory.load
 

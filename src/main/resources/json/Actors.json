@@ -21,10 +21,7 @@
           }
         ]
       }
-    ],
-    "monitoringOptions" : {
-      "active" : true
-    }
+    ]
   }
 ]
 
