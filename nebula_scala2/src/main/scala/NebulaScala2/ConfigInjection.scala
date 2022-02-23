@@ -6,20 +6,38 @@ import com.typesafe.config.ConfigFactory
 
 object ConfigInjection  {
   def runConfigInject() = {
-    val actorSystem = ActorSystem("system")
-
     // make a Config with just your special setting// make a Config with just your special setting
-    
+
     val myConfig = ConfigFactory.parseString(
       """cinnamon {
         |  chmetrics = {
         |    reporters += "console-reporter"
         |  }
+        |    akka.actors = {
+        |    default-by-class {
+        |      includes = "/user/*"
+        |      report-by = class
+        |    }
+        |  }
         |  }
         |  cinnamon.prometheus {
         |  exporters += http-server
         |}""".stripMargin)
-    
+
+    val config2 = ConfigFactory.parseString(
+      """cinnamon {
+        |    akka.actors = {
+        |    default-by-class {
+        |      includes = "/user/*"
+        |      report-by = class
+        |    }
+        |  }
+        |  }
+        |   cinnamon.prometheus {
+        |  exporters += http-server
+        |}""".stripMargin
+    )
+
     //val myConfig = ConfigFactory.parseString("""""".stripMargin)
     // load the normal config stack (system props, then application.conf, then reference.conf)
     val regularConfig = ConfigFactory.load
@@ -31,9 +49,15 @@ object ConfigInjection  {
     val complete = ConfigFactory.load(combined)
 
     // create ActorSystem with complete configuration
-    val system = ActorSystem("MySystem", ConfigFactory.load(complete))
+    //val systemWithConfig = ActorSystem("MySystem", ConfigFactory.load(complete))
+    val actorSystem = ActorSystem("system", ConfigFactory.load(config2))
 
-    val simpleActor = system.actorOf(Props[SimpleActor](), "simpleActor")
+    //val simpleActorWithConfig = systemWithConfig.actorOf(Props[SimpleActor](), "simpleActorWithConfig")
+    val simpleActor = actorSystem.actorOf(Props[SimpleActor](), "simpleActor")
+
+    //simpleActorWithConfig ! "hello"
+    simpleActor ! "hello"
+
   }
 
 }
