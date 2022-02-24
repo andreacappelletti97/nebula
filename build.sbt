@@ -50,7 +50,8 @@ lazy val nebula_scala3 = project
       "org.apache.commons" % "commons-lang3" % apacheCommonLangVersion,
       "org.yaml" % "snakeyaml" % snakeYamlVersion,
       "ch.qos.logback" % "logback-classic" % logBackVersion,
-      "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion
+      "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion,
+      "com.github.os72" % "protobuf-dynamic" % "1.0.1"
     )
   )
 
