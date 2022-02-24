@@ -14,7 +14,13 @@ object DynamicMessageGenerator:
         "required",
         "name",
         "string"
-      ))
+      ),
+        DynamicMessageContentSchema(
+          "required",
+          "surname",
+          "string"
+        )
+      )
     )
     generateMessage(dynamicMessageSchema)
 
@@ -39,6 +45,16 @@ object DynamicMessageGenerator:
     schemaBuilder.addMessageDefinition(msgDef.build())
     val schema = schemaBuilder.build()
     println(schema)
+
+    // Create dynamic message from schema
+    val msgBuilder = schema.newMessageBuilder("Person")
+    val msgDesc = msgBuilder.getDescriptorForType
+    val msgInstance =
+      msgBuilder.setField(msgDesc.findFieldByName("name"), "Andrea")
+        .setField(msgDesc.findFieldByName("surname"), "Hats")
+        .build
+
+    println(msgInstance)
 
 
 
