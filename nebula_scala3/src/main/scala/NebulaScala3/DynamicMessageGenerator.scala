@@ -25,13 +25,13 @@ object DynamicMessageGenerator:
     //Generate the dynamic message
     val msgDef = MessageDefinition.newBuilder(dynamicMessage.messageName)
     //Add arguments to the dynamicMessage
-    dynamicMessage.messageContent.foreach{
-      arg =>
+    dynamicMessage.messageContent.zipWithIndex.foreach{
+      case(content, index) =>
         msgDef.addField(
-          arg.label,
-          arg.argType,
-          arg.argName,
-          1
+          content.label,
+          content.argType,
+          content.argName,
+          index + 1
         )
     }
     //Generate the message fields
