@@ -31,11 +31,9 @@ object ConfigInjection  {
         |      includes = "/user/*"
         |      report-by = class
         |    }
-        |  }
-        |  }
-        |   cinnamon.prometheus {
-        |  exporters += http-server
-        |}""".stripMargin
+        | }
+        |}
+        """.stripMargin
     )
 
     //val myConfig = ConfigFactory.parseString("""""".stripMargin)
@@ -49,13 +47,13 @@ object ConfigInjection  {
     val complete = ConfigFactory.load(combined)
 
     // create ActorSystem with complete configuration
-    //val systemWithConfig = ActorSystem("MySystem", ConfigFactory.load(complete))
+    val systemWithConfig = ActorSystem("MySystem", ConfigFactory.load(myConfig))
     val actorSystem = ActorSystem("system", ConfigFactory.load(config2))
 
-    //val simpleActorWithConfig = systemWithConfig.actorOf(Props[SimpleActor](), "simpleActorWithConfig")
+    val simpleActorWithConfig = systemWithConfig.actorOf(Props[SimpleActor](), "simpleActorWithConfig")
     val simpleActor = actorSystem.actorOf(Props[SimpleActor](), "simpleActor")
 
-    //simpleActorWithConfig ! "hello"
+    simpleActorWithConfig ! "hello"
     simpleActor ! "hello"
 
   }
