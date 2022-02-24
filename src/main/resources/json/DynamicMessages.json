@@ -1,0 +1,17 @@
+[
+  {
+    "messageName" : "Authentication",
+    "messageContent" : [
+      {
+        "label" : "required",
+        "argName" : "email",
+        "argType" : "string"
+      },
+      {
+        "label" : "required",
+        "argName" : "password",
+        "argType" : "string"
+      }
+    ]
+  }
+]
