@@ -17,7 +17,7 @@
           },
           {
             "className" : "getReference",
-            "executionCode" : "Thread.sleep(2000); println(NebulaScala2.Compiler.ActorCodeCompiler.reference); NebulaScala2.Compiler.ActorCodeCompiler.reference ! \"hello\""
+            "executionCode" : "Thread.sleep(2000); println(NebulaScala2.Compiler.ActorCodeCompiler.reference); NebulaScala2.Compiler.ActorCodeCompiler.reference ! \"hey!\""
           }
         ]
       }

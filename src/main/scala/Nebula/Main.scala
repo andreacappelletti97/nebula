@@ -29,7 +29,9 @@ object Main:
     //Generate Actors from the JSON schema
     val actorsJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getActorSchemaFromJson(config.getString("nebula.actorsBuildJsonFile"))  else  JSONParser.getActorSchemaFromJson(config.getString("nebula.actorsJsonFile"))
     val messagesJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getMessagesSchemaFromJson(config.getString("nebula.messagesBuildJsonFile")) else JSONParser.getMessagesSchemaFromJson(config.getString("nebula.messagesJsonFile"))
-
+    val dynamicMessageJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getDynamicMessagesFromJson(config.getString("nebula.dynamicMessagesBuildJsonFile")) else JSONParser.getDynamicMessagesFromJson(config.getString("nebula.dynamicMessagesJsonFile"))
+    
+    /*
     toolbox.eval(
       toolbox.parse(
       """case class Film(title: String) extends NebulaScala3.Scala3Main.SomeTrait;
@@ -44,6 +46,7 @@ object Main:
     println(actorProps)
     
     ActorCodeCompiler.runExample(actorProps(0), toolbox)
+    */
 
     //println(s"xxx = ${Scala3Main.xxx}")
     //Run the code
