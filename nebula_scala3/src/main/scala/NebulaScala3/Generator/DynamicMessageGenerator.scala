@@ -1,7 +1,8 @@
-package NebulaScala3
+package NebulaScala3.Generator
 
 import NebulaScala3.Schema.{DynamicMessageContentSchema, DynamicMessageSchema}
 import com.github.os72.protobuf.dynamic.{DynamicSchema, MessageDefinition}
+import com.google.protobuf.DynamicMessage
 
 class DynamicMessageGenerator
 
@@ -22,12 +23,22 @@ object DynamicMessageGenerator:
         )
       )
     )
-    generateMessage(dynamicMessageSchema)
+    val list = generateDynamicMessages(Array(dynamicMessageSchema), 0, Seq.empty)
+    println(list)
 
+  def generateDynamicMessages(dynamicMessageList: Array[DynamicMessageSchema],
+                              iterator : Int,
+                              dynamicMessage : Seq[DynamicSchema]
+                             ) : Seq[DynamicSchema] =
+    if(iterator >= dynamicMessageList.length) dynamicMessage
+    else generateDynamicMessages(
+      dynamicMessageList, iterator + 1, dynamicMessage :+
+        generateMessage(dynamicMessageList(iterator))
+    )
 
-  def generateMessage(dynamicMessage : DynamicMessageSchema) =
+  private def generateMessage(dynamicMessage : DynamicMessageSchema) : DynamicSchema =
     val schemaBuilder = DynamicSchema.newBuilder
-    schemaBuilder.setName("PersonSchemaDynamic.proto")
+    //schemaBuilder.setName("PersonSchemaDynamic.proto")
     //Generate the dynamic message
     val msgDef = MessageDefinition.newBuilder(dynamicMessage.messageName)
     //Add arguments to the dynamicMessage
@@ -45,16 +56,19 @@ object DynamicMessageGenerator:
     schemaBuilder.addMessageDefinition(msgDef.build())
     val schema = schemaBuilder.build()
     println(schema)
+    schema
 
     // Create dynamic message from schema
-    val msgBuilder = schema.newMessageBuilder("Person")
+    //val msgBuilder = schema.newMessageBuilder("Person")
+    /*
     val msgDesc = msgBuilder.getDescriptorForType
     val msgInstance =
       msgBuilder.setField(msgDesc.findFieldByName("name"), "Andrea")
         .setField(msgDesc.findFieldByName("surname"), "Hats")
         .build
-
-    println(msgInstance)
+     */
+    //println(msgInstance)
+    //msgBuilder
 
 
 
