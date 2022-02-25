@@ -8,18 +8,27 @@ import com.google.protobuf.DynamicMessage
 class SimpleActor extends Actor {
   override def receive: Receive = {
     case dynamicMessage: DynamicMessage => {
-      println(dynamicMessage)
-      val title = dynamicMessage.getField(dynamicMessage.getDescriptorForType.findFieldByName("title"))
-      val year = dynamicMessage.getField(dynamicMessage.getDescriptorForType.findFieldByName("year"))
-      println("Film title is " + title)
-      println("The film year is " + year)
+      dynamicMessage.getDescriptorForType.getName match {
+        case "Film" => {
+          println(dynamicMessage)
+
+          val title = dynamicMessage.getField(dynamicMessage.getDescriptorForType.findFieldByName("title"))
+          val year = dynamicMessage.getField(dynamicMessage.getDescriptorForType.findFieldByName("year"))
+          println("Film title is " + title)
+          println("The film year is " + year)
+
+        }
+        case _  => println("Invalid month")  // the default, catch-all
+      }
     }
   }
 }
 
 class SimpleActorValues extends Actor {
+  val myMap = Set("title", "year")
   override def receive: Receive = {
     case dynamicMessage: DynamicMessage => {
+      dynamicMessage.getDescriptorForType.findFieldByName("title")
       println(dynamicMessage.getAllFields.values())
     }
   }
@@ -55,7 +64,16 @@ object ProtoTest:
     val simpleActorValues = system.actorOf(Props[SimpleActorValues](), "simpleActorValues")
 
     simpleActor ! dynamicFilmMessage
-    simpleActorValues ! dynamicFilmMessage
+    //simpleActorValues ! dynamicFilmMessage
+
+    println("NAME!!! " + dynamicFilmMessage.getDescriptorForType.getName)
+
+
+
+
+    //val myMap = dynamicFilmMessage.getAllFields
+    //println(myMap.keySet())
+
 
     system.terminate()
 
