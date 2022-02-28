@@ -11,7 +11,6 @@ class SimpleActor extends Actor {
       dynamicMessage.getDescriptorForType.getName match {
         case "Film" => {
           println(dynamicMessage)
-
           val title = dynamicMessage.getField(dynamicMessage.getDescriptorForType.findFieldByName("title"))
           val year = dynamicMessage.getField(dynamicMessage.getDescriptorForType.findFieldByName("year"))
           println("Film title is " + title)
