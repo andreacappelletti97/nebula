@@ -7,7 +7,7 @@ import NebulaScala3.Generator.{ActorCodeGenerator, DynamicMessageGenerator, Mess
 import NebulaScala3.Parser.{JSONParser, YAMLParser}
 import NebulaScala3.Scala3Main
 import com.typesafe.scalalogging.Logger
-import NebulaScala3.Scala3Main.dynamicMessagesBuilders
+import NebulaScala3.Scala3Main.{dynamicMessagesBuilders, dynamicMessages}
 
 class Main
 
@@ -31,6 +31,9 @@ object Main:
     val actorsJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getActorSchemaFromJson(config.getString("nebula.actorsBuildJsonFile"))  else  JSONParser.getActorSchemaFromJson(config.getString("nebula.actorsJsonFile"))
     val messagesJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getMessagesSchemaFromJson(config.getString("nebula.messagesBuildJsonFile")) else JSONParser.getMessagesSchemaFromJson(config.getString("nebula.messagesJsonFile"))
     val dynamicMessageJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getDynamicMessagesFromJson(config.getString("nebula.dynamicMessagesBuildJsonFile")) else JSONParser.getDynamicMessagesFromJson(config.getString("nebula.dynamicMessagesJsonFile"))
+
+    //Store dynamic messages
+    dynamicMessages = dynamicMessageJson
 
     dynamicMessagesBuilders = DynamicMessageGenerator.generateDynamicMessages(dynamicMessageJson, 0, Seq.empty)
     println(dynamicMessagesBuilders)
