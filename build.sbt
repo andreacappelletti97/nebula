@@ -30,7 +30,6 @@ lazy val root = project
       "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion,
       "com.thesamet.scalapb" %% "scalapb-runtime" % "0.11.8",
       "com.github.os72" % "protobuf-dynamic" % "1.0.1"
-
     )
   ).enablePlugins(Cinnamon) aggregate(nebula_scala2, nebula_scala3) dependsOn(nebula_scala2, nebula_scala3)
 

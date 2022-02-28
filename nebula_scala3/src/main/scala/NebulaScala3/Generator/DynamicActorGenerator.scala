@@ -29,6 +29,7 @@ object DynamicActorGenerator {
     //This function generates the dynamic Actor class signature
     private def generateActor(actor: ActorDynamicSchema): String = {
       s"""import akka.actor._
+          import com.google.protobuf.DynamicMessage
       class ${actor.actorName}${recursivelyGenerateArgs (actor.actorArgs, 0, "")} extends Actor {
       override def receive: Receive = {
       case dynamicMessage: DynamicMessage => {
@@ -47,7 +48,7 @@ object DynamicActorGenerator {
     if(iterator >= actorBehaviorList.size) actorBehavior
     else recursivelyGenerateActorBehavior(actorBehaviorList, iterator + 1, actorBehavior +
       s"""
-        |case ${actorBehaviorList(iterator).input} => {
+        |case "${actorBehaviorList(iterator).input}" => {
         |println(dynamicMessage.getDescriptorForType.getName)
         |}
         |""".stripMargin
