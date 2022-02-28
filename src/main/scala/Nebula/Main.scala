@@ -3,11 +3,11 @@ package Nebula
 import HelperUtils.ObtainConfigReference
 import NebulaScala2.Compiler.{ActorCodeCompiler, MessageCodeCompiler, ToolboxGenerator}
 import NebulaScala2.{Compiler, Scala2Main}
-import NebulaScala3.Generator.{ActorCodeGenerator, DynamicMessageGenerator, MessageCodeGenerator}
+import NebulaScala3.Generator.{ActorCodeGenerator, DynamicActorGenerator, DynamicMessageGenerator, MessageCodeGenerator}
 import NebulaScala3.Parser.{JSONParser, YAMLParser}
 import NebulaScala3.Scala3Main
 import com.typesafe.scalalogging.Logger
-import NebulaScala3.Scala3Main.{dynamicMessagesBuilders, dynamicMessages}
+import NebulaScala3.Scala3Main.{dynamicMessages, dynamicMessagesBuilders}
 
 class Main
 
@@ -27,16 +27,23 @@ object Main:
     if(config.getBoolean("nebula.enableKamon")) Scala2Main.initKamon()
     //Get the current Toolbox from the Scala2 APIs
     val toolbox = ToolboxGenerator.generateToolbox()
+
+    //TODO: add yaml configuration
     //Generate Actors from the JSON schema
     val actorsJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getActorSchemaFromJson(config.getString("nebula.actorsBuildJsonFile"))  else  JSONParser.getActorSchemaFromJson(config.getString("nebula.actorsJsonFile"))
     val messagesJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getMessagesSchemaFromJson(config.getString("nebula.messagesBuildJsonFile")) else JSONParser.getMessagesSchemaFromJson(config.getString("nebula.messagesJsonFile"))
-    val dynamicMessageJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getDynamicMessagesFromJson(config.getString("nebula.dynamicMessagesBuildJsonFile")) else JSONParser.getDynamicMessagesFromJson(config.getString("nebula.dynamicMessagesJsonFile"))
+    //Dynamic
+    val dynamicActorJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getDynamicActorsFromJson(config.getString("nebula.actorsDynamicJsonFile")) else JSONParser.getDynamicActorsFromJson(config.getString("nebula.actorsDynamicJsonFile"))
+    val dynamicMessageJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getDynamicMessagesFromJson(config.getString("nebula.messagesDynamicJsonFile")) else JSONParser.getDynamicMessagesFromJson(config.getString("nebula.messagesDynamicJsonFile"))
 
     //Store dynamic messages
     dynamicMessages = dynamicMessageJson
 
     dynamicMessagesBuilders = DynamicMessageGenerator.generateDynamicMessages(dynamicMessageJson, 0, Seq.empty)
-    println(dynamicMessagesBuilders)
+    //println(dynamicMessagesBuilders)
+
+    val dynamicActor = DynamicActorGenerator.generateActorCode(dynamicActorJson, 0, Seq.empty)
+    dynamicActor.foreach(actor => println(dynamicActor))
 
     /*
     toolbox.eval(
