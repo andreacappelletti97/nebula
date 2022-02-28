@@ -1,5 +1,6 @@
 package NebulaScala3
 
+import NebulaScala3.Schema.{DynamicMessageContentSchema, DynamicMessageSchema}
 import com.github.os72.protobuf.dynamic.DynamicSchema
 
 //In this object we declare all the global mutable variables
@@ -12,3 +13,6 @@ object Scala3Main:
 
   //This wrapper contains the dynamic protobuf builders to instantiate at run-time
   var dynamicMessagesBuilders : Seq[DynamicSchema] = _
+  
+  //This structure stores the dynamic messages from the DSL input, it keeps track of their changes
+  var dynamicMessages : Array[DynamicMessageSchema] = _
