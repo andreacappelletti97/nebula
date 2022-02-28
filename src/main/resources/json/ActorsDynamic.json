@@ -1,0 +1,13 @@
+[
+  {
+    "actorName" : "SimpleActor",
+    "actorArgs" : [],
+    "behavior" : [
+      {
+        "input" : "",
+        "output" : "",
+        "executionCode" : ""
+      }
+    ]
+  }
+]
