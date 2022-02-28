@@ -11,8 +11,10 @@ object Scala3Main:
   trait SomeTrait
   var theKeeper: SomeTrait = _
 
+
+
   //This wrapper contains the dynamic protobuf builders to instantiate at run-time
   var dynamicMessagesBuilders : Seq[DynamicSchema] = _
-  
+
   //This structure stores the dynamic messages from the DSL input, it keeps track of their changes
   var dynamicMessages : Array[DynamicMessageSchema] = _
