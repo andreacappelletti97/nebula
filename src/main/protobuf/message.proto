@@ -1,0 +1,8 @@
+syntax = "proto2";
+
+package Nebula;
+
+message ProtoMessage {
+  required string content = 1;
+
+}
