@@ -47,8 +47,8 @@ object Main:
     val dynamicActor = DynamicActorGenerator.generateActorCode(dynamicActorJson, 0, Seq.empty)
 
     dynamicActor.foreach(a => println(a))
-    //generatedActorsProps = DynamicActorCodeCompiler.compileActors(dynamicActor, toolbox, 0, Seq.empty)
-    //println(generatedActorsProps)
+    generatedActorsProps = DynamicActorCodeCompiler.compileActors(dynamicActor, toolbox, 0, Seq.empty)
+    println(generatedActorsProps)
 
     /*
     toolbox.eval(

@@ -32,10 +32,8 @@ object DynamicActorGenerator {
           import com.google.protobuf.DynamicMessage
       class ${actor.actorName}${recursivelyGenerateArgs (actor.actorArgs, 0, "")} extends Actor {
       override def receive: Receive = {
-      case dynamicMessage: DynamicMessage => {
-      dynamicMessage.getDescriptorForType.getName match {
-      ${recursivelyGenerateActorBehavior(actor.behavior, 0, "")}
-      }
+      case dynamicMessage => {
+      println("Got dynamic message")
       }
       }
       }

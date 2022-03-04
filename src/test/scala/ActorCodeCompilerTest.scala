@@ -1,5 +1,7 @@
+import Nebula.SimpleActor
 import NebulaScala2.Compiler.ToolboxGenerator
-import akka.actor.Props
+import akka.actor.{ActorSystem, Props}
+import com.github.os72.protobuf.dynamic.{DynamicSchema, MessageDefinition}
 import com.google.protobuf.DynamicMessage
 
 import collection.mutable.Stack
@@ -26,8 +28,7 @@ class ActorCodeCompilerTest extends AnyFlatSpec {
         |  return HelloActor.props()
         |""".stripMargin
     */
-
-
+    
     val actoreCode2 =
       """
         |import com.google.protobuf.DynamicMessage
@@ -96,7 +97,36 @@ class ActorCodeCompilerTest extends AnyFlatSpec {
         |""".stripMargin
 */
     val tree = toolbox.parse(actoreCode2)
-    toolbox.compile(tree)().asInstanceOf[Props]
+    val props = toolbox.compile(tree)().asInstanceOf[Props]
+
+    // Create dynamic schema
+    val schemaBuilder = DynamicSchema.newBuilder
+    schemaBuilder.setName("FilmSchemaDynamic.proto")
+
+    //Build a message definition
+    val msgDef = MessageDefinition.newBuilder("Film")
+      .addField("required", "string", "title", 1)
+      .addField("required", "int32", "year", 2)
+      .build()
+
+    //Add message definition to the schema
+    schemaBuilder.addMessageDefinition(msgDef)
+    val schema = schemaBuilder.build
+    //println(schema)
+
+    val msgBuilder = schema.newMessageBuilder("Film")
+    val msgDesc = msgBuilder.getDescriptorForType
+    val msg = msgBuilder
+      .setField(msgDesc.findFieldByName("title"), "Fight Club")
+      .setField(msgDesc.findFieldByName("year"), 1997)
+
+    val dynamicFilmMessage = msg.build()
+
+    val system = ActorSystem("system")
+    val simpleActor = system.actorOf(props, "simpleActor")
+    simpleActor ! dynamicFilmMessage
+
+
   }
   
 }
