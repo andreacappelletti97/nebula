@@ -30,27 +30,26 @@ class ActorCodeCompilerTest extends AnyFlatSpec {
 
     val actoreCode2 =
       """
+        |import com.google.protobuf.DynamicMessage
         |import akka.actor._
         |import com.github.os72.protobuf.dynamic.{DynamicSchema, MessageDefinition}
         |import com.google.protobuf.Descriptors.{Descriptor, FieldDescriptor}
-        |import com.google.protobuf.DynamicMessage
+        |import SomeExternalImport._
         |class SimpleActor extends Actor {
         |override def receive: Receive = {
-        | case test =>
-        |    if (test.isInstanceOf[String]) {
-        |        println("THERE WE GO!!!")
-        |      }
+        | case test => {
+        |   println("Calling an exernal function to process test")
+        |   ciao(test)
+        |    }
         |  }
         |}
         |object SimpleActor {
         |def props() : Props = Props(new SimpleActor())
-        |def ciao() : Unit = { val aaa: DynamicMessage = None }
         |}
         |
         |
         |return SimpleActor.props()
         |""".stripMargin
-
 
     /*
     val actorCode =
