@@ -1,6 +1,7 @@
 package Nebula
 
 import HelperUtils.ObtainConfigReference
+import Nebula.message.ProtoMessage
 import NebulaScala2.Compiler.{ActorCodeCompiler, DynamicActorCodeCompiler, MessageCodeCompiler, ToolboxGenerator}
 import NebulaScala2.{Compiler, Scala2Main}
 import NebulaScala3.Generator.{ActorCodeGenerator, DynamicActorGenerator, DynamicMessageGenerator, MessageCodeGenerator}
@@ -49,6 +50,9 @@ object Main:
     dynamicActor.foreach(a => println(a))
     generatedActorsProps = DynamicActorCodeCompiler.compileActors(dynamicActor, toolbox, 0, Seq.empty)
     println(generatedActorsProps)
+
+    val proto = ProtoMessage("hello")
+    println(proto.content)
 
     /*
     toolbox.eval(
