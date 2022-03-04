@@ -7,7 +7,13 @@ import com.google.protobuf.DynamicMessage
 
 class SimpleActor extends Actor {
   override def receive: Receive = {
-    case dynamicMessage: DynamicMessage => {
+    //TODO: decompose inside the actor message the dynamic Proto!
+
+    case dynamicMessage => {
+      if (dynamicMessage.isInstanceOf[DynamicMessage]) {
+        println("THERE WE GO!!!")
+      }
+  /*
       dynamicMessage.getDescriptorForType.getName match {
         case "Film" => {
           println(dynamicMessage)
@@ -15,13 +21,13 @@ class SimpleActor extends Actor {
           val year = dynamicMessage.getField(dynamicMessage.getDescriptorForType.findFieldByName("year"))
           println("Film title is " + title)
           println("The film year is " + year)
+*/
+    }
 
-        }
-        case _  => println("Invalid month")  // the default, catch-all
+        //case _  => println("Invalid month")  // the default, catch-all
       }
     }
-  }
-}
+
 
 class SimpleActorValues extends Actor {
   val myMap = Set("title", "year")
@@ -67,9 +73,7 @@ object ProtoTest:
 
     println("NAME!!! " + dynamicFilmMessage.getDescriptorForType.getName)
 
-
-
-
+    
     //val myMap = dynamicFilmMessage.getAllFields
     //println(myMap.keySet())
 

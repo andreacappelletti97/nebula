@@ -45,8 +45,10 @@ object Main:
     //println(dynamicMessagesBuilders)
 
     val dynamicActor = DynamicActorGenerator.generateActorCode(dynamicActorJson, 0, Seq.empty)
-    generatedActorsProps = DynamicActorCodeCompiler.compileActors(dynamicActor, toolbox, 0, Seq.empty)
-    println(generatedActorsProps)
+
+    dynamicActor.foreach(a => println(a))
+    //generatedActorsProps = DynamicActorCodeCompiler.compileActors(dynamicActor, toolbox, 0, Seq.empty)
+    //println(generatedActorsProps)
 
     /*
     toolbox.eval(
