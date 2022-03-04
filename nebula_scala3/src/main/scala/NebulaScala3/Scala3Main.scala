@@ -2,6 +2,7 @@ package NebulaScala3
 
 import NebulaScala3.Schema.{DynamicMessageContentSchema, DynamicMessageSchema}
 import com.github.os72.protobuf.dynamic.DynamicSchema
+import com.google.protobuf.DynamicMessage
 
 //In this object we declare all the global mutable variables
 object Scala3Main:
@@ -11,7 +12,10 @@ object Scala3Main:
   trait SomeTrait
   var theKeeper: SomeTrait = _
 
-
+  type Proto = DynamicMessage
+  
+  case class Authentication(email:String)
+  val obj = Authentication("test")
 
   //This wrapper contains the dynamic protobuf builders to instantiate at run-time
   var dynamicMessagesBuilders : Seq[DynamicSchema] = _
