@@ -29,10 +29,11 @@ object DynamicActorGenerator {
     //This function generates the dynamic Actor class signature
     private def generateActor(actor: ActorDynamicSchema): String = {
       s"""import akka.actor._
-          import com.google.protobuf.DynamicMessage
+          import Nebula.SomeExternalImport._
       class ${actor.actorName}${recursivelyGenerateArgs (actor.actorArgs, 0, "")} extends Actor {
       override def receive: Receive = {
       case dynamicMessage => {
+      SomeExternalImport.ciao(dynamicMessage)
       println("Got dynamic message")
       }
       }
