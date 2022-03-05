@@ -1,13 +1,13 @@
   [
   {
-    "caseClassName" : "Auth",
-    "caseClassArgs" : [
+    "messageName" : "Auth",
+    "messageArgs" : [
     ]
   },
 
   {
-    "caseClassName" : "Film",
-    "caseClassArgs" : [
+    "messageName" : "Film",
+    "messageArgs" : [
       {
         "argName" : "title",
         "argType" : "String"
@@ -16,8 +16,8 @@
   },
 
   {
-    "caseClassName" : "OldFilm",
-    "caseClassArgs" : [
+    "messageName" : "OldFilm",
+    "messageArgs" : [
       {
         "argName" : "title",
         "argType" : "String"
