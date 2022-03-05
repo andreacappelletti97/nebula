@@ -1,7 +1,6 @@
 package Nebula
 
 import HelperUtils.ObtainConfigReference
-import Nebula.message.ProtoMessage
 import NebulaScala2.Compiler.{ActorCodeCompiler, DynamicActorCodeCompiler, MessageCodeCompiler, ToolboxGenerator}
 import NebulaScala2.{Compiler, Scala2Main}
 import NebulaScala3.Generator.{ActorCodeGenerator, DynamicActorGenerator, DynamicMessageGenerator, MessageCodeGenerator}
@@ -10,6 +9,7 @@ import NebulaScala3.Scala3Main
 import com.typesafe.scalalogging.Logger
 import NebulaScala3.Scala3Main.{dynamicMessages, dynamicMessagesBuilders}
 import NebulaScala2.Scala2Main.generatedActorsProps
+import NebulaScala3.Scala3Main.proto
 
 class Main
 
@@ -52,11 +52,14 @@ object Main:
     generatedActorsProps = DynamicActorCodeCompiler.compileActors(dynamicActor, toolbox, 0, Seq.empty)
     println(generatedActorsProps)
 
-    val proto = ProtoMessage("ciao", Map("AL" -> "Alabama", "AK" -> "Alaska"))
+    println(proto)
+
+/*    val proto = ProtoMessage("ciao", Map("AL" -> "Alabama", "AK" -> "Alaska"))
     println(proto.content)
-    println(proto.args)
+    println(proto.args)*/
 
     /*
+
     toolbox.eval(
       toolbox.parse(
       """case class Film(title: String) extends NebulaScala3.Scala3Main.SomeTrait;
