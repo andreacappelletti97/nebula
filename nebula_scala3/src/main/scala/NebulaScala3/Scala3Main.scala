@@ -1,6 +1,7 @@
 package NebulaScala3
 
 import NebulaScala3.Schema.{DynamicMessageContentSchema, DynamicMessageSchema}
+import NebulaScala3.message.ProtoMessage
 import com.github.os72.protobuf.dynamic.DynamicSchema
 import com.google.protobuf.DynamicMessage
 
@@ -22,3 +23,6 @@ object Scala3Main:
 
   //This structure stores the dynamic messages from the DSL input, it keeps track of their changes
   var dynamicMessages : Array[DynamicMessageSchema] = _
+
+  var proto = ProtoMessage("test", Map("andrea" -> "cappelletti"))
+
