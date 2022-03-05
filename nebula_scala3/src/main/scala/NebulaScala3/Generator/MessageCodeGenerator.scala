@@ -1,14 +1,14 @@
 package NebulaScala3.Generator
 
-import NebulaScala3.Schema.{ArgumentSchema, CaseClassSchema}
+import NebulaScala3.Schema.{ArgumentSchema, MessageSchema}
 
 class MessageCodeGenerator
 
 object MessageCodeGenerator:
 
-  def generateCaseClass(caseClass : CaseClassSchema): String = {
-    if(caseClass.caseClassArgs.isEmpty) s"case object ${caseClass.caseClassName}"
-    else s"case class ${caseClass.caseClassName}${recursivelyGenerateArgs(caseClass.caseClassArgs, 0, "")}"
+  def generateCaseClass(caseClass : MessageSchema): String = {
+    if(caseClass.messageArgs.isEmpty) s"case object ${caseClass.messageName}"
+    else s"case class ${caseClass.messageName}${recursivelyGenerateArgs(caseClass.messageArgs, 0, "")}"
   }
 
   //This function recursively generates the Case Class arguments

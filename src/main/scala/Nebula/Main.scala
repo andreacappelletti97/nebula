@@ -45,14 +45,16 @@ object Main:
     dynamicMessagesBuilders = DynamicMessageGenerator.generateDynamicMessages(dynamicMessageJson, 0, Seq.empty)
     //println(dynamicMessagesBuilders)
 
+    //Generate Dynamic Actor Code
     val dynamicActor = DynamicActorGenerator.generateActorCode(dynamicActorJson, 0, Seq.empty)
 
-    dynamicActor.foreach(a => println(a))
+    //Store the generated actor props into a global state for orchestration
     generatedActorsProps = DynamicActorCodeCompiler.compileActors(dynamicActor, toolbox, 0, Seq.empty)
     println(generatedActorsProps)
 
-    val proto = ProtoMessage("hello")
+    val proto = ProtoMessage("ciao", Map("AL" -> "Alabama", "AK" -> "Alaska"))
     println(proto.content)
+    println(proto.args)
 
     /*
     toolbox.eval(

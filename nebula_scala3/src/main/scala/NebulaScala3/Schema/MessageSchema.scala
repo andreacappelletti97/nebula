@@ -5,4 +5,4 @@ package NebulaScala3.Schema
  * A case class is defined by a name and some arguments
  * Arguments are defined as @ArgumentSchema, that contains argName and argType
  ***/
-case class CaseClassSchema(caseClassName: String, caseClassArgs: Seq[ArgumentSchema])
+case class MessageSchema(messageName: String, messageArgs: Seq[ArgumentSchema])
