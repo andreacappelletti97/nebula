@@ -51,8 +51,13 @@ object Main:
     //Store the generated actor props into a global state for orchestration
     generatedActorsProps = DynamicActorCodeCompiler.compileActors(dynamicActor, toolbox, 0, Seq.empty)
     println(generatedActorsProps)
-    
-    ProtoMessageGenerator.runIt
+
+    val protoMessages = ProtoMessageGenerator.generateProtoMessages(
+      messagesJson,
+      0,
+      Seq.empty
+    )
+    println(protoMessages)
 
 /*    val proto = ProtoMessage("ciao", Map("AL" -> "Alabama", "AK" -> "Alaska"))
     println(proto.content)
