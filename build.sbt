@@ -47,7 +47,7 @@ lazy val nebula_scala3 = project
       "ch.qos.logback" % "logback-classic" % logBackVersion,
       "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion,
       "com.github.os72" % "protobuf-dynamic" % "1.0.1",
-      "com.thesamet.scalapb" %% "scalapb-runtime" % "0.11.8",
+      "com.thesamet.scalapb" %% "scalapb-runtime" % "0.11.8" % "protobuf",
     ),
     Compile / PB.targets := Seq(
       scalapb.gen() -> (Compile / sourceManaged).value / "scalapb"

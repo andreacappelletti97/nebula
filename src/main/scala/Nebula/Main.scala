@@ -7,9 +7,8 @@ import NebulaScala3.Generator.{ActorCodeGenerator, DynamicActorGenerator, Dynami
 import NebulaScala3.Parser.{JSONParser, YAMLParser}
 import NebulaScala3.Scala3Main
 import com.typesafe.scalalogging.Logger
-import NebulaScala3.Scala3Main.{dynamicMessages, dynamicMessagesBuilders}
 import NebulaScala2.Scala2Main.generatedActorsProps
-import NebulaScala3.Scala3Main.proto
+import NebulaScala3.Scala3Main.protoBufferList
 
 class Main
 
@@ -36,28 +35,35 @@ object Main:
     val messagesJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getMessagesSchemaFromJson(config.getString("nebula.messagesBuildJsonFile")) else JSONParser.getMessagesSchemaFromJson(config.getString("nebula.messagesJsonFile"))
     //Dynamic
     val dynamicActorJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getDynamicActorsFromJson(config.getString("nebula.actorsDynamicJsonFile")) else JSONParser.getDynamicActorsFromJson(config.getString("nebula.actorsDynamicJsonFile"))
-    val dynamicMessageJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getDynamicMessagesFromJson(config.getString("nebula.messagesDynamicJsonFile")) else JSONParser.getDynamicMessagesFromJson(config.getString("nebula.messagesDynamicJsonFile"))
+    //val dynamicMessageJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getDynamicMessagesFromJson(config.getString("nebula.messagesDynamicJsonFile")) else JSONParser.getDynamicMessagesFromJson(config.getString("nebula.messagesDynamicJsonFile"))
 
     //Store dynamic messages constructs to keep track of their arguments nature
-    dynamicMessages = dynamicMessageJson
-
+    //dynamicMessages = dynamicMessageJson
     //Store dynamic messages builders --> used by Nebula to orchestrate
-    dynamicMessagesBuilders = DynamicMessageGenerator.generateDynamicMessages(dynamicMessageJson, 0, Seq.empty)
+    //dynamicMessagesBuilders = DynamicMessageGenerator.generateDynamicMessages(dynamicMessageJson, 0, Seq.empty)
     //println(dynamicMessagesBuilders)
 
     //Generate Dynamic Actor Code
     val dynamicActor = DynamicActorGenerator.generateActorCode(dynamicActorJson, 0, Seq.empty)
-
     //Store the generated actor props into a global state for orchestration
-    generatedActorsProps = DynamicActorCodeCompiler.compileActors(dynamicActor, toolbox, 0, Seq.empty)
-    println(generatedActorsProps)
+    val generatedActors = DynamicActorCodeCompiler.compileActors(dynamicActor, toolbox, 0, Seq.empty)
+    generatedActors.foreach(actor =>
+      generatedActorsProps += "actorName" -> (actor)
+    )
 
+    logger.info("Actor Props have been generated!")
+
+    //Generate messages within the standard ProtoBuffer
     val protoMessages = ProtoMessageGenerator.generateProtoMessages(
       messagesJson,
       0,
       Seq.empty
     )
-    println(protoMessages)
+    protoMessages.foreach(message => protoBufferList +=  message.name -> message)
+
+    println(protoBufferList)
+    
+    logger.info("ProtoMessages have been generated!")
 
 /*    val proto = ProtoMessage("ciao", Map("AL" -> "Alabama", "AK" -> "Alaska"))
     println(proto.content)

@@ -7,8 +7,8 @@ import NebulaScala3.message.ProtoMessage
 class ProtoMessageGenerator
 
 object ProtoMessageGenerator {
-  
-  
+
+
   //This function test the protoMessageGenerator functionalities
     private def testProtoMessageGenerator : Unit = {
       println(generateProtoMessages(
@@ -32,7 +32,7 @@ object ProtoMessageGenerator {
     )
   }
 
-  
+
     private def generateMessage(message: MessageSchema): ProtoMessage = {
       var argMap : Map[String, String] = Map()
       message.messageArgs.foreach(arg

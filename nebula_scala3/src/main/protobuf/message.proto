@@ -1,8 +1,8 @@
-syntax = "proto2";
+syntax = "proto3";
 
 package NebulaScala3;
 
 message ProtoMessage {
-  required string content = 1;
+  string name = 1;
   map<string, string> args = 2;
 }

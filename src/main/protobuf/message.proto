@@ -1,8 +1,0 @@
-syntax = "proto2";
-
-package Nebula;
-
-message ProtoMessage {
-  required string content = 1;
-  map<string, string> args = 2;
-}
