@@ -62,8 +62,11 @@ object Main:
     protoMessages.foreach(message => protoBufferList +=  message.name -> message)
 
     println(protoBufferList)
-    
+
     logger.info("ProtoMessages have been generated!")
+    
+    val firstMessage = protoBufferList.get("Init")
+
 
 /*    val proto = ProtoMessage("ciao", Map("AL" -> "Alabama", "AK" -> "Alaska"))
     println(proto.content)
