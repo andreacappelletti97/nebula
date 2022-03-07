@@ -44,14 +44,22 @@ object Main:
     //println(dynamicMessagesBuilders)
 
     //Generate Dynamic Actor Code
-    val dynamicActor = DynamicActorGenerator.generateActorCode(dynamicActorJson, 0, Seq.empty)
+    //val dynamicActor = DynamicActorGenerator.generateActorCode(dynamicActorJson, 0, Seq.empty)
     //Store the generated actor props into a global state for orchestration
-    val generatedActors = DynamicActorCodeCompiler.compileActors(dynamicActor, toolbox, 0, Seq.empty)
+
+    val actorCode = ActorCodeGenerator.generateActorCode(actorsJson, 0, Seq.empty)
+
+    println(actorCode)
+    logger.info("Actors code have been generated...")
+
+    val generatedActors = ActorCodeCompiler.compileActors(actorCode, toolbox, 0, Seq.empty)
     generatedActors.foreach(actor =>
       generatedActorsProps += "actorName" -> (actor)
     )
 
-    logger.info("Actor Props have been generated!")
+    println(generatedActorsProps)
+
+    logger.info("Actor Props have been generated...")
 
     //Generate messages within the standard ProtoBuffer
     val protoMessages = ProtoMessageGenerator.generateProtoMessages(
@@ -63,9 +71,10 @@ object Main:
 
     println(protoBufferList)
 
-    logger.info("ProtoMessages have been generated!")
-    
+    logger.info("ProtoMessages have been generated...")
+
     val firstMessage = protoBufferList.get("Init")
+    println(firstMessage)
 
 
 /*    val proto = ProtoMessage("ciao", Map("AL" -> "Alabama", "AK" -> "Alaska"))

@@ -26,6 +26,7 @@ object ActorCodeGenerator:
   //This function generates the Actor class signature
   private def generateActor(actor: ActorSchema): String =
     s"""import akka.actor._
+        import NebulaScala3.message.ProtoMessage
     class ${actor.actorName}${recursivelyGenerateArgs(actor.actorArgs, 0, "")} extends Actor {
     ${recursivelyGenerateMethods(actor.methods, 0, "")}
     }
@@ -43,14 +44,18 @@ object ActorCodeGenerator:
     else
       recursivelyGenerateArgs(jsonList, iterator + 1, arguments ++ s" ${jsonList(iterator).argName} : ${jsonList(iterator).argType},")
 
+  //${generateCaseSchema(jsonList(iterator).caseList, 0, "")}
   //This function recursively generates the Actor methods
   private def recursivelyGenerateMethods(jsonList: Seq[MethodSchema], iterator: Int, methods: String): String =
     if (iterator >= jsonList.size) methods
     else if (jsonList(iterator).methodName == "receive")
       recursivelyGenerateMethods(jsonList, iterator + 1, methods ++
         s"""override def receive: Receive = {
-           |${generateCaseSchema(jsonList(iterator).caseList, 0, "")}
-           |}""".stripMargin)
+           |case protoMessage : ProtoMessage => {
+           |println("hello there!")
+           |}
+           |}
+           |""".stripMargin)
     else recursivelyGenerateMethods(jsonList, iterator + 1, methods)
 
   //This function recursively generates the case inside the method receive of the Actor
