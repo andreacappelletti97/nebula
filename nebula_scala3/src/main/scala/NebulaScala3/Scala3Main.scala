@@ -12,17 +12,13 @@ object Scala3Main:
   //Message definition
   trait SomeTrait
   var theKeeper: SomeTrait = _
-
-  type Proto = DynamicMessage
   
-  case class Authentication(email:String)
-  val obj = Authentication("test")
-
   //This wrapper contains the dynamic protobuf builders to instantiate at run-time
-  var dynamicMessagesBuilders : Seq[DynamicSchema] = _
+  //var dynamicMessagesBuilders : Seq[DynamicSchema] = _
 
   //This structure stores the dynamic messages from the DSL input, it keeps track of their changes
-  var dynamicMessages : Array[DynamicMessageSchema] = _
+  //var dynamicMessages : Array[DynamicMessageSchema] = _
 
-  var proto = ProtoMessage("test", Map("andrea" -> "cappelletti"))
+  var protoBufferList : Map[String, ProtoMessage] = Map()
+
 
