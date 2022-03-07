@@ -44,7 +44,6 @@ object ActorCodeGenerator:
     else
       recursivelyGenerateArgs(jsonList, iterator + 1, arguments ++ s" ${jsonList(iterator).argName} : ${jsonList(iterator).argType},")
 
-  //${generateCaseSchema(jsonList(iterator).caseList, 0, "")}
   //This function recursively generates the Actor methods
   private def recursivelyGenerateMethods(jsonList: Seq[MethodSchema], iterator: Int, methods: String): String =
     if (iterator >= jsonList.size) methods
@@ -52,7 +51,9 @@ object ActorCodeGenerator:
       recursivelyGenerateMethods(jsonList, iterator + 1, methods ++
         s"""override def receive: Receive = {
            |case protoMessage : ProtoMessage => {
-           |println("hello there!")
+           |protoMessage.name match {
+           |${generateCaseSchema(jsonList(iterator).caseList, 0, "")}
+           |}
            |}
            |}
            |""".stripMargin)
