@@ -1,7 +1,7 @@
 package Nebula
 
 import HelperUtils.ObtainConfigReference
-import NebulaScala2.Compiler.{ActorCodeCompiler, DynamicActorCodeCompiler, MessageCodeCompiler, ToolboxGenerator}
+import NebulaScala2.Compiler.{ActorCodeCompiler, DynamicActorCodeCompiler, MessageCodeCompiler, MessageSender, ToolboxGenerator}
 import NebulaScala2.{Compiler, Scala2Main}
 import NebulaScala3.Generator.{ActorCodeGenerator, DynamicActorGenerator, DynamicMessageGenerator, MessageCodeGenerator, ProtoMessageGenerator}
 import NebulaScala3.Parser.{JSONParser, YAMLParser}
@@ -9,6 +9,7 @@ import NebulaScala3.Scala3Main
 import com.typesafe.scalalogging.Logger
 import NebulaScala2.Scala2Main.generatedActorsProps
 import NebulaScala3.Scala3Main.protoBufferList
+
 
 class Main
 
@@ -73,8 +74,11 @@ object Main:
 
     logger.info("ProtoMessages have been generated...")
 
-    val firstMessage = protoBufferList.get("Init")
+    val firstMessage = protoBufferList.get("init")
     println(firstMessage)
+
+    MessageSender.sendMessage(generatedActorsProps("actorName"), protoBufferList("init"))
+
 
 
 /*    val proto = ProtoMessage("ciao", Map("AL" -> "Alabama", "AK" -> "Alaska"))

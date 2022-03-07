@@ -1,12 +1,12 @@
   [
   {
-    "messageName" : "Init",
+    "messageName" : "init",
     "messageArgs" : [
     ]
   },
 
   {
-    "messageName" : "Authentication",
+    "messageName" : "authentication",
     "messageArgs" : [
       {
         "argName" : "email",
