@@ -22,4 +22,3 @@ object Scala3Main:
   //Generate messages from DSL
   var protoBufferList : Map[String, ProtoMessage] = Map()
 
-
