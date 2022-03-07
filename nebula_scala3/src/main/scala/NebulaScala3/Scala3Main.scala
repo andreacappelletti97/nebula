@@ -18,7 +18,7 @@ object Scala3Main:
 
   //This structure stores the dynamic messages from the DSL input, it keeps track of their changes
   //var dynamicMessages : Array[DynamicMessageSchema] = _
-
+  
   //Generate messages from DSL
   var protoBufferList : Map[String, ProtoMessage] = Map()
 
