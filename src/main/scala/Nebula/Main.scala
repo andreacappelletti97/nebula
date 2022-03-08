@@ -1,7 +1,7 @@
 package Nebula
 
 import HelperUtils.ObtainConfigReference
-import NebulaScala2.Compiler.{ActorCodeCompiler, DynamicActorCodeCompiler, MessageCodeCompiler, MessageSender, ToolboxGenerator}
+import NebulaScala2.Compiler.{ActorCodeCompiler, DynamicActorCodeCompiler, MessageCodeCompiler, ToolboxGenerator}
 import NebulaScala2.{Compiler, Scala2Main}
 import NebulaScala3.Generator.{ActorCodeGenerator, DynamicActorGenerator, DynamicMessageGenerator, MessageCodeGenerator, ProtoMessageGenerator}
 import NebulaScala3.Parser.{JSONParser, YAMLParser}
