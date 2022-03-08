@@ -1,6 +1,6 @@
 package NebulaScala2
 
-import akka.actor.Props
+import akka.actor.{ActorRef, ActorSystem, Props}
 import kamon.Kamon
 
 object Scala2Main  {
@@ -8,6 +8,11 @@ object Scala2Main  {
   
   //Props of the generated Actors
   var generatedActorsProps : Map[String, Props] = Map()
+
+  //Global state to store actorSystems
+  var generatedActorSystems : Map[String, ActorSystem] = Map()
+
+  var generatedActorsRef : Map[String, ActorRef] = Map()
   
   //This function start the Kamon monitoring framework
   def initKamon() : Unit = {
