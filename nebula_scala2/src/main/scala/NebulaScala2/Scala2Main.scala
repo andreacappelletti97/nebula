@@ -1,6 +1,5 @@
 package NebulaScala2
 
-import NebulaScala3.message.ProtoMessage
 import akka.actor.Props
 import kamon.Kamon
 
