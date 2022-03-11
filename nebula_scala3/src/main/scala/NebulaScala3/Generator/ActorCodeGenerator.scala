@@ -51,6 +51,7 @@ object ActorCodeGenerator:
       recursivelyGenerateMethods(jsonList, iterator + 1, methods ++
         s"""override def receive: Receive = {
            |case protoMessage : ProtoMessage => {
+           |println("I have received protobuf with name " + protoMessage.name)
            |protoMessage.name match {
            |${generateCaseSchema(jsonList(iterator).caseList, 0, "")}
            |}
@@ -65,7 +66,7 @@ object ActorCodeGenerator:
     else generateCaseSchema(caseList, iterator + 1,
       schema ++
         s"""
-           |case ${caseList(iterator).className} => ${caseList(iterator).executionCode}""".stripMargin
+           |case "${caseList(iterator).className}" => ${caseList(iterator).executionCode}""".stripMargin
     )
 
   //This function recursively generates the Actor Props and companion object

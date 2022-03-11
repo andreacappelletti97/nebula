@@ -75,9 +75,14 @@ object Main:
     logger.info("ProtoMessages have been generated...")
 
     val firstMessage = protoBufferList.get("init")
-    println(firstMessage)
+    println("first message is: " + firstMessage)
+    println("second message is: " + protoBufferList.get("authentication"))
 
-    MessageSender.sendMessage(generatedActorsProps("actorName"), protoBufferList("init"))
+    MessageSender.sendMessage(generatedActorsProps("actorName"), protoBufferList("authentication"))
+    //MessageSender.sendMessage(generatedActorsProps("actorName"), protoBufferList("init"))
+
+    Thread.sleep(3000)
+    println("X is now ... " + NebulaScala3.Scala3Main.xxx)
 
 
 
