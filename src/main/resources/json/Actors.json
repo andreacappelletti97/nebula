@@ -12,8 +12,8 @@
           "executionCode" : "NebulaScala3.Scala3Main.xxx = 10;  println(\"Changing X...\")"
         },
           {
-            "className" : "auth",
-            "executionCode" : "println(\"None received!\")"
+            "className" : "authentication",
+            "executionCode" : "println(\"Authentication has been received!!!\")"
           },
           {
             "className" : "getReference",
