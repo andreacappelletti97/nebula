@@ -13,7 +13,7 @@
         },
           {
             "className" : "authentication",
-            "executionCode" : "println(\"Authentication has been received!!!\")"
+            "executionCode" : "println(\"Authentication has been received!!!\"); println(protoMessage.args)"
           },
           {
             "className" : "getReference",
