@@ -57,7 +57,7 @@ lazy val nebula_scala3 = project
 //Scala 2 Submodule
 val scalaReflectVersion = "2.13.8"
 val scalaCompilerVersion = "2.13.8"
-val akkaActorVersion = "2.6.18"
+val akkaVersion = "2.6.18"
 val kamonBundleVersion = "2.4.7"
 val kamonApmReporterVersion = "2.4.7"
 val kamonPrometheusVersion = "2.4.7"
@@ -84,7 +84,10 @@ lazy val nebula_scala2 = project
       Cinnamon.library.cinnamonAkkaHttp,
       // Use Akka gRPC instrumentation
       Cinnamon.library.cinnamonAkkaGrpc,
-      "com.typesafe.akka" %% "akka-actor" % akkaActorVersion,
+      "com.typesafe.akka" %% "akka-actor" % akkaVersion,
+      "com.typesafe.akka" %% "akka-cluster" % akkaVersion,
+      "com.typesafe.akka" %% "akka-cluster-sharding" % akkaVersion,
+      "com.typesafe.akka" %% "akka-cluster-tools" % akkaVersion,
       "org.scala-lang" % "scala-reflect" % scalaReflectVersion,
       "org.scala-lang" % "scala-compiler" % scalaCompilerVersion,
       "io.kamon" %% "kamon-bundle" % kamonBundleVersion,
