@@ -31,7 +31,7 @@ class ClusterOrchestrator extends Actor with ActorLogging {
     cluster.unsubscribe(self)
   }
 
-  override def receive: Receive = handleClusterEvents
+  override def receive: Receive = handleClusterEvents.orElse(handleWorkerRegistration)
 
   def handleClusterEvents: Receive = {
     case MemberUp(member) if(member.hasRole("worker")) =>
@@ -58,6 +58,8 @@ class ClusterOrchestrator extends Actor with ActorLogging {
   }
 
   def handleWorkerRegistration : Receive = {
-    case pair : (Address, ActorRef) => workers = workers + pair
+    case pair : (Address, ActorRef) =>
+      log.info(s"Registering worker: $pair")
+      workers = workers + pair
   }
 }
