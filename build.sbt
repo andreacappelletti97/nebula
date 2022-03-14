@@ -85,7 +85,9 @@ lazy val nebula_scala2 = project
       // Use Akka gRPC instrumentation
       Cinnamon.library.cinnamonAkkaGrpc,
       "com.typesafe.akka" %% "akka-actor" % akkaVersion,
+      //Akka cluster
       "com.typesafe.akka" %% "akka-cluster" % akkaVersion,
+      //Akka cluster sharding
       "com.typesafe.akka" %% "akka-cluster-sharding" % akkaVersion,
       "com.typesafe.akka" %% "akka-cluster-tools" % akkaVersion,
       "org.scala-lang" % "scala-reflect" % scalaReflectVersion,
