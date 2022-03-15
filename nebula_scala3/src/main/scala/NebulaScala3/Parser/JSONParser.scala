@@ -1,6 +1,6 @@
 package NebulaScala3.Parser
 
-import NebulaScala3.Schema.{ActorDynamicSchema, ActorSchema, ActorSystemSchema, MessageSchema, DynamicMessageSchema}
+import NebulaScala3.Schema.{ActorDynamicSchema, ActorSchema, ActorSystemSchema, DynamicMessageSchema, MessageSchema, OrchestratorSchema}
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import org.apache.commons.lang3.StringEscapeUtils
@@ -10,6 +10,16 @@ import java.io.FileInputStream
 object JSONParser {
   private val mapper = new ObjectMapper().registerModule(DefaultScalaModule)
 
+
+  def getOrchestratorFromJson(fileName : String) : Array[OrchestratorSchema] = {
+    val inputStream = new FileInputStream(fileName)
+    try {
+      mapper.readValue(inputStream, classOf[Array[OrchestratorSchema]])
+    } finally {
+      inputStream.close()
+    }
+  }
+  
   /**
    * Loads a schema from a JSON file.
    */

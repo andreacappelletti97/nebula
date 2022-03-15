@@ -56,7 +56,7 @@ object Main:
 
     val generatedActors = ActorCodeCompiler.compileActors(actorCode, toolbox, 0, Seq.empty)
     generatedActors.foreach(actor =>
-      generatedActorsProps += "actorName" -> (actor)
+      generatedActorsProps += "actorName" -> actor
     )
 
     println(generatedActorsProps)
