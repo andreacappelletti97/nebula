@@ -1,0 +1,10 @@
+[
+  {
+    "name" : "FirstActor",
+    "transitions" : ["SecondActor"]
+  },
+  {
+    "name" : "SecondActor",
+    "transitions" : []
+  }
+]
