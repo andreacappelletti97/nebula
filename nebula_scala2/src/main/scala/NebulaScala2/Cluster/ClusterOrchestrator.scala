@@ -1,3 +1,4 @@
+/*
 package NebulaScala2.Cluster
 
 import akka.actor.{Actor, ActorLogging, ActorRef, Address}
@@ -63,3 +64,5 @@ class ClusterOrchestrator extends Actor with ActorLogging {
       workers = workers + pair
   }
 }
+
+ */
