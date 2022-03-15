@@ -85,6 +85,9 @@ object Main:
     Thread.sleep(3000)
     println("X is now ... " + NebulaScala3.Scala3Main.xxx)
 
+    val orchestratorJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getOrchestratorFromJson(config.getString("nebula.orchestratorBuildJsonFile"))  else  JSONParser.getOrchestratorFromJson(config.getString("nebula.orchestratorJsonFile"))
+    println("Orchestrator JSON is")
+    orchestratorJson.foreach(o => println(o))
 
 
 /*    val proto = ProtoMessage("ciao", Map("AL" -> "Alabama", "AK" -> "Alaska"))
