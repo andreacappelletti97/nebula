@@ -1,9 +1,31 @@
 [
   {
-    "actorName": "HelloActor",
-    "actorArgs": [
-    ],
+    "actorName": "FirstActor",
+    "actorArgs": [],
     "methods": [
+      {
+        "methodName": "receive",
+        "methodReturnType" : "Receive",
+        "caseList" : [{
+          "className" : "init",
+          "executionCode" : "NebulaScala3.Scala3Main.xxx = 10;  println(\"Changing X...\")"
+        },
+          {
+            "className" : "authentication",
+            "executionCode" : "println(\"Authentication has been received!!!\"); println(protoMessage.args)"
+          },
+          {
+            "className" : "getReference",
+            "executionCode" : "Thread.sleep(2000); println(NebulaScala2.Compiler.ActorCodeCompiler.reference); NebulaScala2.Compiler.ActorCodeCompiler.reference ! \"hey!\""
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "actorName" : "SecondActor",
+    "actorArgs": [],
+    "methods" : [
       {
         "methodName": "receive",
         "methodReturnType" : "Receive",
