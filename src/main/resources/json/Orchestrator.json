@@ -1,7 +1,8 @@
 [
   {
     "name" : "FirstActor",
-    "transitions" : ["SecondActor"]
+    "transitions" : ["SecondActor"],
+    "initMessages" : ["authentication"]
   },
   {
     "name" : "SecondActor",
