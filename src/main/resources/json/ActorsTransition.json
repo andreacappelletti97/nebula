@@ -1,0 +1,53 @@
+[
+  {
+    "actorName": "FirstActor",
+    "actorArgs": [],
+    "methods": [
+      {
+        "methodName": "receive",
+        "methodReturnType": "Receive",
+        "caseList": [
+          {
+            "className": "authentication",
+            "executionCode": "",
+            "transitions" : ["SecondActor", "ThirdActor"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "actorName": "SecondActor",
+    "actorArgs": [],
+    "methods": [
+      {
+        "methodName": "receive",
+        "methodReturnType": "Receive",
+        "caseList": [
+          {
+            "className": "authentication",
+            "executionCode": "println(\"I have received a new message!\")"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "actorName": "ThirdActor",
+    "actorArgs": [],
+    "methods": [
+      {
+        "methodName": "receive",
+        "methodReturnType": "Receive",
+        "caseList": [
+          {
+            "className": "authentication",
+            "executionCode": "println(\"I have received a new message!\")"
+          }
+        ]
+      }
+    ]
+  }
+]
+
+
