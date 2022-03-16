@@ -25,6 +25,11 @@ object ActorCodeCompiler {
     }
   }
 
+  def compileSingleActor(actorCode : String, toolbox:  ToolBox[scala.reflect.runtime.universe.type]) : Props = {
+    val tree = toolbox.parse(actorCode)
+    toolbox.compile(tree)().asInstanceOf[Props]
+  }
+
 
   var reference : ActorRef = _
 
