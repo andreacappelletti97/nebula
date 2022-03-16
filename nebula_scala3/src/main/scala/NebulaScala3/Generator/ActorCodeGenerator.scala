@@ -26,7 +26,7 @@ object ActorCodeGenerator:
   //This function generates the Actor class signature
   private def generateActor(actor: ActorSchema): String =
     s"""import NebulaScala3.message.ProtoMessage
-        import akka.actor.{Actor, ActorLogging}
+        import akka.actor._
     class ${actor.actorName}${recursivelyGenerateArgs(actor.actorArgs, 0, "")} extends Actor with ActorLogging {
     ${recursivelyGenerateMethods(actor.methods, 0, "")}
     }

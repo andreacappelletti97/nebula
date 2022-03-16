@@ -54,16 +54,19 @@ object Main:
     println(actorCode)
     logger.info("Actors code have been generated...")
 
-    /*
     val generatedActors = ActorCodeCompiler.compileActors(actorCode, toolbox, 0, Seq.empty)
-    generatedActors.foreach(actor =>
-      generatedActorsProps += "actorName" -> actor
-    )
+    logger.info("Actors code have been compiled into Props objects...")
+
+    generatedActors.zipWithIndex.foreach{
+      case (actor, index) =>
+        generatedActorsProps += actorsJson(index).actorName -> actor
+    }
 
     println(generatedActorsProps)
 
     logger.info("Actor Props have been generated...")
 
+    /*
     //Generate messages within the standard ProtoBuffer
     val protoMessages = ProtoMessageGenerator.generateProtoMessages(
       messagesJson,
@@ -88,9 +91,10 @@ object Main:
 
     println("Orchestrator JSON is")
     orchestratorJson.foreach(o => println(o))
+    */
 
-
-/*    val proto = ProtoMessage("ciao", Map("AL" -> "Alabama", "AK" -> "Alaska"))
+    /*
+    val proto = ProtoMessage("ciao", Map("AL" -> "Alabama", "AK" -> "Alaska"))
     println(proto.content)
     println(proto.args)*/
 
@@ -117,8 +121,6 @@ object Main:
     //Thread.sleep(3000)
     //println(s"xxx = ${Scala3Main.xxx}")
 
-
-*/
 
 
 
