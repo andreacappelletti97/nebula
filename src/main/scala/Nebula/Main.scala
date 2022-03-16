@@ -34,9 +34,9 @@ object Main:
     //Generate Actors from the JSON schema
     val actorsJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getActorSchemaFromJson(config.getString("nebula.actorsBuildJsonFile"))  else  JSONParser.getActorSchemaFromJson(config.getString("nebula.actorsJsonFile"))
     val messagesJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getMessagesSchemaFromJson(config.getString("nebula.messagesBuildJsonFile")) else JSONParser.getMessagesSchemaFromJson(config.getString("nebula.messagesJsonFile"))
-
+    val orchestratorJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getOrchestratorFromJson(config.getString("nebula.orchestratorBuildJsonFile"))  else  JSONParser.getOrchestratorFromJson(config.getString("nebula.orchestratorJsonFile"))
     //Dynamic
-    val dynamicActorJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getDynamicActorsFromJson(config.getString("nebula.actorsDynamicJsonFile")) else JSONParser.getDynamicActorsFromJson(config.getString("nebula.actorsDynamicJsonFile"))
+    //val dynamicActorJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getDynamicActorsFromJson(config.getString("nebula.actorsDynamicJsonFile")) else JSONParser.getDynamicActorsFromJson(config.getString("nebula.actorsDynamicJsonFile"))
     //val dynamicMessageJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getDynamicMessagesFromJson(config.getString("nebula.messagesDynamicJsonFile")) else JSONParser.getDynamicMessagesFromJson(config.getString("nebula.messagesDynamicJsonFile"))
 
     //Store dynamic messages constructs to keep track of their arguments nature
@@ -54,6 +54,7 @@ object Main:
     println(actorCode)
     logger.info("Actors code have been generated...")
 
+    /*
     val generatedActors = ActorCodeCompiler.compileActors(actorCode, toolbox, 0, Seq.empty)
     generatedActors.foreach(actor =>
       generatedActorsProps += "actorName" -> actor
@@ -85,7 +86,6 @@ object Main:
     Thread.sleep(3000)
     println("X is now ... " + NebulaScala3.Scala3Main.xxx)
 
-    val orchestratorJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getOrchestratorFromJson(config.getString("nebula.orchestratorBuildJsonFile"))  else  JSONParser.getOrchestratorFromJson(config.getString("nebula.orchestratorJsonFile"))
     println("Orchestrator JSON is")
     orchestratorJson.foreach(o => println(o))
 
@@ -118,7 +118,7 @@ object Main:
     //println(s"xxx = ${Scala3Main.xxx}")
 
 
-
+*/
 
 
 
