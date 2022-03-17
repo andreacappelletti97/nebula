@@ -51,7 +51,7 @@ object Main:
 
     val actorCode = ActorCodeGenerator.generateActorCode(actorsJson, 0, Seq.empty)
     logger.info("Actors code have been generated...")
-    logger.info(actorCode)
+    println(actorCode)
 
     val generatedActors = ActorCodeCompiler.compileActors(actorCode, toolbox, 0, Seq.empty)
     logger.info("Actors code have been compiled into Props objects...")
@@ -62,7 +62,7 @@ object Main:
     }
 
     logger.info("Actor Props have been generated...")
-    logger.info(generatedActorsProps)
+    println(generatedActorsProps)
 
     //Generate messages within the standard ProtoBuffer
     val protoMessages = ProtoMessageGenerator.generateProtoMessages(
@@ -72,7 +72,7 @@ object Main:
     )
     protoMessages.foreach(message => protoBufferList +=  message.name.toLowerCase -> message)
     logger.info("ProtoMessages have been generated...")
-    logger.info(protoBufferList)
+    println(protoBufferList)
 
 
 
