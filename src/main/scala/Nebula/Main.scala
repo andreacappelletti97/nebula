@@ -50,35 +50,33 @@ object Main:
     //Store the generated actor props into a global state for orchestration
 
     val actorCode = ActorCodeGenerator.generateActorCode(actorsJson, 0, Seq.empty)
-
-    println(actorCode)
     logger.info("Actors code have been generated...")
+    logger.info(actorCode)
 
     val generatedActors = ActorCodeCompiler.compileActors(actorCode, toolbox, 0, Seq.empty)
     logger.info("Actors code have been compiled into Props objects...")
 
     generatedActors.zipWithIndex.foreach{
       case (actor, index) =>
-        generatedActorsProps += actorsJson(index).actorName -> actor
+        generatedActorsProps += actorsJson(index).actorName.toLowerCase -> actor
     }
 
-    println(generatedActorsProps)
-
     logger.info("Actor Props have been generated...")
+    logger.info(generatedActorsProps)
 
-    /*
     //Generate messages within the standard ProtoBuffer
     val protoMessages = ProtoMessageGenerator.generateProtoMessages(
       messagesJson,
       0,
       Seq.empty
     )
-    protoMessages.foreach(message => protoBufferList +=  message.name -> message)
-
-    println(protoBufferList)
-
+    protoMessages.foreach(message => protoBufferList +=  message.name.toLowerCase -> message)
     logger.info("ProtoMessages have been generated...")
+    logger.info(protoBufferList)
 
+
+
+    /*
     val firstMessage = protoBufferList.get("init")
     println("first message is: " + firstMessage)
     println("second message is: " + protoBufferList.get("authentication"))

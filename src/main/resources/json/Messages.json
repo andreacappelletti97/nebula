@@ -1,11 +1,10 @@
   [
   {
-    "messageName" : "init",
-    "messageArgs" : [
-    ]
+    "messageName" : "Init",
+    "messageArgs" : []
   },
   {
-    "messageName" : "authentication",
+    "messageName" : "Authentication",
     "messageArgs" : [
       {
         "argName" : "email",
