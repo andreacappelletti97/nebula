@@ -36,7 +36,7 @@ object ProtoMessageGenerator {
       message.messageArgs.foreach(arg
       => argMap += (arg.argName -> arg.argType)
       )
-      return ProtoMessage(message.messageName,argMap)
+      ProtoMessage(message.messageName.toLowerCase,argMap)
     }
 }
 
