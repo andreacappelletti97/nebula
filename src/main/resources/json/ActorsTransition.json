@@ -8,8 +8,8 @@
         "methodReturnType": "Receive",
         "caseList": [
           {
-            "className": "authentication",
-            "executionCode": "",
+            "className": "Authentication",
+            "executionCode": "println(\"I have received a new message!\")",
             "transitions" : ["SecondActor", "ThirdActor"]
           }
         ]

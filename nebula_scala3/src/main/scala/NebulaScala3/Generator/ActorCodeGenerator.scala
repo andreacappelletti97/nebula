@@ -66,7 +66,7 @@ object ActorCodeGenerator:
     else generateCaseSchema(caseList, iterator + 1,
       schema ++
         s"""
-           |case "${caseList(iterator).className}" => {${caseList(iterator).executionCode}}""".stripMargin
+           |case "${caseList(iterator).className.toLowerCase}" => {${caseList(iterator).executionCode}}""".stripMargin
     )
 
   //This function recursively generates the Actor Props and companion object

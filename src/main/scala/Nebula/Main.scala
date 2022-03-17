@@ -74,7 +74,13 @@ object Main:
     logger.info("ProtoMessages have been generated...")
     println(protoBufferList)
 
-
+    orchestratorJson.foreach{actor =>
+    val actorProps = generatedActorsProps.getOrElse(actor.name.toLowerCase, return)
+    actor.initMessages.foreach { initMessage =>
+      val message = protoBufferList.getOrElse(initMessage.toLowerCase, return)
+      MessageSender.sendMessage(actorProps, message)
+    }
+    }
 
     /*
     val firstMessage = protoBufferList.get("init")
