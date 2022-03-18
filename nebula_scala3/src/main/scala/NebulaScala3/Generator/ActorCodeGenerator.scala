@@ -66,7 +66,10 @@ object ActorCodeGenerator:
     else generateCaseSchema(caseList, iterator + 1,
       schema ++
         s"""
-           |case "${caseList(iterator).className.toLowerCase}" => {${caseList(iterator).executionCode}}""".stripMargin
+           |case "${caseList(iterator).className.toLowerCase}" => {
+           |val result = ${caseList(iterator).executionCode}
+           |${generateForwardingActors(caseList(iterator).transitions, 0, "")}
+           |}""".stripMargin
     )
 
   //This function recursively generates the Actor Props and companion object
@@ -81,5 +84,10 @@ object ActorCodeGenerator:
   private def generateReturnStatement(actorName: String) =
     s"""
        |return $actorName.props()""".stripMargin
+
+  private def generateForwardingActors(transitionsList: Seq[String], iterator: 0, transitions: "") = ???
+
+
+
 
 
