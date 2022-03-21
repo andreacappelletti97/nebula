@@ -2,5 +2,11 @@
   {
     "name" : "FirstActor",
     "initMessages" : ["Authentication"]
+  },
+  {
+    "name" : "SecondActor"
+  },
+  {
+    "name" : "ThirdActor"
   }
 ]

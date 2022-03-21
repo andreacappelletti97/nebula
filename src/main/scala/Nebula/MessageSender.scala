@@ -7,6 +7,7 @@ class MessageSender
 
 object MessageSender {
   def sendMessage(actor : ActorRef, message: ProtoMessage): Unit = {
+    println("SEND MESSAGE!!!")
     actor ! message
   }
 }
