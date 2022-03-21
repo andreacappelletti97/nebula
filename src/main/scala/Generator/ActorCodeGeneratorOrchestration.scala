@@ -28,9 +28,11 @@ object ActorCodeGeneratorOrchestration{
   //This function generates the Actor class signature
   private def generateActor(actor: ActorSchema): String =
     s"""import NebulaScala3.message.ProtoMessage
+        import NebulaScala2.Scala2Main.generatedActorsRef
         import akka.actor._
     class ${actor.actorName}${recursivelyGenerateArgs(actor.actorArgs, 0, "")} extends Actor with ActorLogging {
     ${recursivelyGenerateMethods(actor.methods, 0, "")}
+    ${getActorReferences()}
     }
     ${generateProps(actor.actorName)}
     ${generateReturnStatement(actor.actorName)}""".stripMargin
@@ -62,6 +64,25 @@ object ActorCodeGeneratorOrchestration{
            |""".stripMargin)
     else recursivelyGenerateMethods(jsonList, iterator + 1, methods)
 
+  private def getActorReferences(): String = {
+    """
+      |def getActorRef(transitions : Seq[String], iterator: Int, actorRefList: Seq[ActorRef]) : Seq[ActorRef] = {
+      |    if (iterator >= transitions.size) actorRefList
+      |    else {
+      |      println("REFERENCE " + transitions(iterator).toLowerCase)
+      |      generatedActorsRef.get(transitions(iterator).toLowerCase) match {
+      |        case Some(actorRef) =>
+      |          println("REFERENCE " + actorRef)
+      |          getActorRef(transitions, iterator + 1, actorRefList :+ actorRef)
+      |        case None =>
+      |          println("NONE ")
+      |          getActorRef(transitions, iterator + 1, actorRefList)
+      |      }
+      |    }
+      | }
+      |""".stripMargin
+  }
+
   //This function recursively generates the case inside the method receive of the Actor
   private def generateCaseSchema(caseList: Seq[CaseSchema], iterator: Int, schema: String): String =
     if (iterator >= caseList.size) schema
@@ -87,15 +108,25 @@ object ActorCodeGeneratorOrchestration{
     s"""
        |return $actorName.props()""".stripMargin
 
-  private def generateForwardingActors(transitionsList: Seq[String]) = {
+  private def generateForwardingActors(transitionsList: Seq[String]) : String = {
     if (transitionsList!= null) {
-      val actorRefList = Scala2Main.getActorRef(transitionsList, 0, Seq.empty)
-      println("got refsss")
-      println("")
-      println("")
-      println(actorRefList)
-
-    }
-    else { Seq.empty}
+      s"""
+        |val actorReferences : Seq[ActorRef] =  getActorRef(
+        |Seq(${generateTransitionsList(transitionsList)}), 0, Seq.empty
+        |)
+        |""".stripMargin
+    } else ""
   }
+
+  private def generateTransitionsList(transitionsList: Seq[String]) : String = {
+    var transitionString : String = ""
+    transitionsList.foreach(transition => {
+      if(transitionString == "") transitionString ++ transition.toLowerCase
+      else transitionString ++ s", ${transition.toLowerCase}"
+
+    })
+    transitionString
+  }
+
+
 }

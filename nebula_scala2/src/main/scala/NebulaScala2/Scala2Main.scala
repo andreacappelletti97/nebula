@@ -17,9 +17,14 @@ object Scala2Main  {
   def getActorRef(transitions : Seq[String], iterator: Int, actorRefList: Seq[ActorRef]) : Seq[ActorRef] = {
     if (iterator >= transitions.size) actorRefList
     else {
-      generatedActorsRef.get(transitions(iterator)) match {
-        case Some(actorRef) => getActorRef(transitions, iterator + 1, actorRefList :+ actorRef)
-        case None => getActorRef(transitions, iterator + 1, actorRefList)
+      println("REFERENCE " + transitions(iterator).toLowerCase)
+      generatedActorsRef.get(transitions(iterator).toLowerCase) match {
+        case Some(actorRef) =>
+          println("REFERENCE " + actorRef)
+          getActorRef(transitions, iterator + 1, actorRefList :+ actorRef)
+        case None =>
+          println("NONE ")
+          getActorRef(transitions, iterator + 1, actorRefList)
       }
     }
      }
