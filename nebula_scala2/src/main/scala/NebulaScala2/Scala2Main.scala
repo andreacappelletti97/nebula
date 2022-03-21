@@ -12,7 +12,7 @@ object Scala2Main  {
   //Global state to store actorSystems
   var generatedActorSystems : Map[String, ActorSystem] = Map()
 
-  var generatedActorsRef : Map[String, ActorRef] = Map()
+  var generatedActorsRef = scala.collection.mutable.Map[String, ActorRef]()
 
   def getActorRef(transitions : Seq[String], iterator: Int, actorRefList: Seq[ActorRef]) : Seq[ActorRef] = {
     if (iterator >= transitions.size) actorRefList
