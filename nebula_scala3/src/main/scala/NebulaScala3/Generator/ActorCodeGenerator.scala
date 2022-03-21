@@ -2,6 +2,7 @@ package NebulaScala3.Generator
 
 import NebulaScala3.Schema.{ActorSchema, ArgumentSchema, CaseSchema, MethodSchema}
 import com.typesafe.scalalogging.Logger
+
 class ActorCodeGenerator
 
 object ActorCodeGenerator:
@@ -67,8 +68,8 @@ object ActorCodeGenerator:
       schema ++
         s"""
            |case "${caseList(iterator).className.toLowerCase}" => {
-           |val result = ${caseList(iterator).executionCode}
-           |${generateForwardingActors(caseList(iterator).transitions, 0, "")}
+           |val result : ProtoMessage = ${caseList(iterator).executionCode}
+           |${generateForwardingActors(caseList(iterator).transitions)}
            |}""".stripMargin
     )
 
@@ -85,7 +86,9 @@ object ActorCodeGenerator:
     s"""
        |return $actorName.props()""".stripMargin
 
-  private def generateForwardingActors(transitionsList: Seq[String], iterator: 0, transitions: "") = ???
+  private def generateForwardingActors(transitionsList: Seq[String]) = {
+
+  }
 
 
 
