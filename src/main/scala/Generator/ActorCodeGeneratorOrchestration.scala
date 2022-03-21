@@ -109,6 +109,7 @@ object ActorCodeGeneratorOrchestration{
        |return $actorName.props()""".stripMargin
 
   private def generateForwardingActors(transitionsList: Seq[String]) : String = {
+    println("TRANSITIONS LIST IS " +transitionsList)
       s"""
         |val actorReferences : Seq[ActorRef] =  getActorRef(
         |Seq(${generateTransitionsList(transitionsList)}), 0, Seq.empty
@@ -120,10 +121,12 @@ object ActorCodeGeneratorOrchestration{
   private def generateTransitionsList(transitionsList: Seq[String]) : String = {
     var transitionString : String = ""
     transitionsList.foreach(transition => {
-      if(transitionString == "") transitionString ++ transition.toLowerCase
-      else transitionString ++ s", ${transition.toLowerCase}"
+      if(transitionString == "") return transitionString.concat(s"\"${transition.toLowerCase}\"")
+      else return transitionString.concat(s", \"${transition.toLowerCase}\"")
+      println("UPDATE THE STRING " + transitionString)
 
     })
+    println("RETURNING THE STRING " + transitionString)
     transitionString
   }
 

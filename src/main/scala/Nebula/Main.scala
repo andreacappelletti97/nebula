@@ -10,6 +10,8 @@ import NebulaScala3.Scala3Main
 import com.typesafe.scalalogging.Logger
 import NebulaScala2.Scala2Main.generatedActorsProps
 import NebulaScala3.Scala3Main.protoBufferList
+import NebulaScala2.Scala2Main.generatedActorsRef
+import akka.actor.{ActorRef, ActorSystem}
 
 
 class Main
@@ -76,14 +78,22 @@ object Main:
     logger.info("ProtoMessages have been generated...")
     println(protoBufferList)
 
+    val actorSystem : ActorSystem = ActorSystemFactory.initActorSystem("system")
 
     orchestratorJson.foreach{actor =>
     val actorProps = generatedActorsProps.getOrElse(actor.name.toLowerCase, return)
+    val actorRef: ActorRef = ActorFactory.initActor(actorSystem, actorProps)
+    generatedActorsRef = generatedActorsRef += (actor.name -> actorRef)
+    }
+
+    orchestratorJson.foreach{actor =>
     actor.initMessages.foreach { initMessage =>
-    val message = protoBufferList.getOrElse(initMessage.toLowerCase, return)
-    MessageSender.sendMessage(actorProps, message)
+      val message = protoBufferList.getOrElse(initMessage.toLowerCase, return)
+      val actorRef = generatedActorsRef.getOrElse(actor.name.toLowerCase, return)
+      MessageSender.sendMessage(actorRef, message)
     }
     }
+
 
     /*
     val firstMessage = protoBufferList.get("init")

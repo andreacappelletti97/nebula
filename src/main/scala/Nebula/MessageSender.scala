@@ -1,14 +1,12 @@
 package Nebula
 
 import NebulaScala3.message.ProtoMessage
-import akka.actor.{ActorSystem, Props}
+import akka.actor.{ActorSystem, Props, ActorRef}
 
 class MessageSender
 
 object MessageSender {
-  def sendMessage(actor : Props, message: ProtoMessage): Unit = {
-    val actorSystem = ActorSystem("system")
-    val myActor = actorSystem.actorOf(actor)
-    myActor ! message
+  def sendMessage(actor : ActorRef, message: ProtoMessage): Unit = {
+    actor ! message
   }
 }

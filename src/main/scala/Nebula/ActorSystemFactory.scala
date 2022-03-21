@@ -8,9 +8,10 @@ class ActorSystemFactory
 
 object ActorSystemFactory {
   //This function is used from the Orchestrator to init actorSystems and store them
-  def initActorSystem(name : String): Unit = {
+  def initActorSystem(name : String): ActorSystem = {
     val actorSystem = ActorSystem(name)
     generatedActorSystems += name -> actorSystem
+    actorSystem
   }
 
   //This function start the Akka Cluster Sharding Nebula scenario
