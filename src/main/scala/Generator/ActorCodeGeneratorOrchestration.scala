@@ -109,14 +109,13 @@ object ActorCodeGeneratorOrchestration{
        |return $actorName.props()""".stripMargin
 
   private def generateForwardingActors(transitionsList: Seq[String]) : String = {
-    if (transitionsList!= null) {
       s"""
         |val actorReferences : Seq[ActorRef] =  getActorRef(
         |Seq(${generateTransitionsList(transitionsList)}), 0, Seq.empty
         |)
+        |println(actorReferences)
         |""".stripMargin
-    } else ""
-  }
+    }
 
   private def generateTransitionsList(transitionsList: Seq[String]) : String = {
     var transitionString : String = ""
