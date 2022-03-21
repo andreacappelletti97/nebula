@@ -83,16 +83,19 @@ object Main:
     orchestratorJson.foreach{actor =>
     val actorProps = generatedActorsProps.getOrElse(actor.name.toLowerCase, return)
     val actorRef: ActorRef = ActorFactory.initActor(actorSystem, actorProps)
-    generatedActorsRef = generatedActorsRef += (actor.name -> actorRef)
+    generatedActorsRef = generatedActorsRef += (actor.name.toLowerCase -> actorRef)
     }
+    println("ENDED ACTOR GENERATION")
+    println(generatedActorsRef)
+    println("ENDED ACTOR GENERATION")
+    println("SENDING MESSAGES NOW...")
+    val message = protoBufferList.getOrElse("authentication", return)
+    println(message)
+    val actorRef = generatedActorsRef.getOrElse("firstactor", return)
+    println(actorRef)
+    MessageSender.sendMessage(actorRef, message)
 
-    orchestratorJson.foreach{actor =>
-    actor.initMessages.foreach { initMessage =>
-      val message = protoBufferList.getOrElse(initMessage.toLowerCase, return)
-      val actorRef = generatedActorsRef.getOrElse(actor.name.toLowerCase, return)
-      MessageSender.sendMessage(actorRef, message)
-    }
-    }
+
 
 
     /*
