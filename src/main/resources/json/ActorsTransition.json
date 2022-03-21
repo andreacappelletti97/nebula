@@ -9,7 +9,7 @@
         "caseList": [
           {
             "className": "Authentication",
-            "executionCode": "println(\"I have received a new message!\")",
+            "executionCode": "protoMessage",
             "transitions" : ["SecondActor", "ThirdActor"]
           }
         ]
@@ -26,7 +26,8 @@
         "caseList": [
           {
             "className": "authentication",
-            "executionCode": "println(\"I have received a new message!\")"
+            "executionCode": "protoMessage",
+            "transitions" : []
           }
         ]
       }
@@ -42,7 +43,8 @@
         "caseList": [
           {
             "className": "authentication",
-            "executionCode": "println(\"I have received a new message!\")"
+            "executionCode": "protoMessage",
+            "transitions" : []
           }
         ]
       }

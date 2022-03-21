@@ -65,26 +65,25 @@ object Main:
     logger.info("Actor Props have been generated...")
     println(generatedActorsProps)
 
-/*
-//Generate messages within the standard ProtoBuffer
-val protoMessages = ProtoMessageGenerator.generateProtoMessages(
-messagesJson,
+
+    //Generate messages within the standard ProtoBuffer
+    val protoMessages = ProtoMessageGenerator.generateProtoMessages(
+      messagesJson,
 0,
-Seq.empty
-)
-protoMessages.foreach(message => protoBufferList +=  message.name.toLowerCase -> message)
-logger.info("ProtoMessages have been generated...")
-println(protoBufferList)
+      Seq.empty
+    )
+    protoMessages.foreach(message => protoBufferList +=  message.name.toLowerCase -> message)
+    logger.info("ProtoMessages have been generated...")
+    println(protoBufferList)
 
 
-orchestratorJson.foreach{actor =>
-val actorProps = generatedActorsProps.getOrElse(actor.name.toLowerCase, return)
-actor.initMessages.foreach { initMessage =>
-val message = protoBufferList.getOrElse(initMessage.toLowerCase, return)
-MessageSender.sendMessage(actorProps, message)
-}
-}
-*/
+    orchestratorJson.foreach{actor =>
+    val actorProps = generatedActorsProps.getOrElse(actor.name.toLowerCase, return)
+    actor.initMessages.foreach { initMessage =>
+    val message = protoBufferList.getOrElse(initMessage.toLowerCase, return)
+    MessageSender.sendMessage(actorProps, message)
+    }
+    }
 
     /*
     val firstMessage = protoBufferList.get("init")
