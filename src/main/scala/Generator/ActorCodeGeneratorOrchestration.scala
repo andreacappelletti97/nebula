@@ -114,7 +114,7 @@ object ActorCodeGeneratorOrchestration{
         |val actorReferences : Seq[ActorRef] =  getActorRef(
         |Seq(${generateTransitionsList(transitionsList)}), 0, Seq.empty
         |)
-        |println(actorReferences)
+        |actorReferences.foreach(actor => actor ! result)
         |""".stripMargin
     }
 
