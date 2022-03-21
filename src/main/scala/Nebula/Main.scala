@@ -1,5 +1,6 @@
 package Nebula
 
+import Generator.ActorCodeGeneratorOrchestration
 import HelperUtils.ObtainConfigReference
 import NebulaScala2.Compiler.{ActorCodeCompiler, DynamicActorCodeCompiler, MessageCodeCompiler, ToolboxGenerator}
 import NebulaScala2.{Compiler, Scala2Main}
@@ -49,7 +50,7 @@ object Main:
     //val dynamicActor = DynamicActorGenerator.generateActorCode(dynamicActorJson, 0, Seq.empty)
     //Store the generated actor props into a global state for orchestration
 
-    val actorCode = ActorCodeGenerator.generateActorCode(actorsJson, 0, Seq.empty)
+    val actorCode = ActorCodeGeneratorOrchestration.generateActorCode(actorsJson, 0, Seq.empty)
     logger.info("Actors code have been generated...")
     println(actorCode)
 
