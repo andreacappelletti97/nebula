@@ -1,12 +1,17 @@
 [
   {
     "name" : "FirstActor",
-    "initMessages" : ["Authentication"]
+    "initMessages" : ["Authentication"],
+    "numOfInstance" : 1
   },
   {
-    "name" : "SecondActor"
+    "name" : "SecondActor",
+    "initMessages" : [],
+    "numOfInstance" : 1
   },
   {
-    "name" : "ThirdActor"
+    "name" : "ThirdActor",
+    "initMessages" : [],
+    "numOfInstance" : 1
   }
 ]

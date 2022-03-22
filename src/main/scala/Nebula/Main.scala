@@ -11,7 +11,7 @@ import com.typesafe.scalalogging.Logger
 import NebulaScala2.Scala2Main.generatedActorsProps
 import NebulaScala3.Scala3Main.protoBufferList
 import NebulaScala2.Scala2Main.generatedActorsRef
-import akka.actor.{ActorRef, ActorSystem}
+import akka.actor.{ActorRef, ActorSystem, actorRef2Scala}
 
 
 class Main
@@ -67,7 +67,6 @@ object Main:
     logger.info("Actor Props have been generated...")
     println(generatedActorsProps)
 
-
     //Generate messages within the standard ProtoBuffer
     val protoMessages = ProtoMessageGenerator.generateProtoMessages(
       messagesJson,
@@ -82,20 +81,31 @@ object Main:
 
     orchestratorJson.foreach{actor =>
     val actorProps = generatedActorsProps.getOrElse(actor.name.toLowerCase, return)
-    val actorRef: ActorRef = ActorFactory.initActor(actorSystem, actorProps)
-    generatedActorsRef = generatedActorsRef += (actor.name.toLowerCase -> actorRef)
+    val actorRef: ActorRef = ActorFactory.initActor(actorSystem, actorProps, actor.name)
+      generatedActorsRef = generatedActorsRef += (actor.name.toLowerCase -> actorRef)
     }
-    println("ENDED ACTOR GENERATION")
+    logger.info("End of ActorRef init ...")
     println(generatedActorsRef)
-    println("ENDED ACTOR GENERATION")
-    println("SENDING MESSAGES NOW...")
+    logger.info("Sending init messages...")
+
+    orchestratorJson.foreach { orchestration =>
+    val actor = generatedActorsRef.getOrElse(orchestration.name.toLowerCase, return)
+    orchestration.initMessages.foreach { message =>
+      val protoMessage = protoBufferList.getOrElse(message.toLowerCase, return)
+      actor ! protoMessage
+    }
+    }
+
+    /*
+
+
     val message = protoBufferList.getOrElse("authentication", return)
     println(message)
     val actorRef = generatedActorsRef.getOrElse("firstactor", return)
     println(actorRef)
     MessageSender.sendMessage(actorRef, message)
 
-
+    */
 
 
     /*

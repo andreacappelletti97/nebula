@@ -30,6 +30,7 @@ object ActorCodeGeneratorOrchestration{
     s"""import NebulaScala3.message.ProtoMessage
         import NebulaScala2.Scala2Main.generatedActorsRef
         import akka.actor._
+        import scala.collection.parallel.CollectionConverters._
     class ${actor.actorName}${recursivelyGenerateArgs(actor.actorArgs, 0, "")} extends Actor with ActorLogging {
     ${recursivelyGenerateMethods(actor.methods, 0, "")}
     ${getActorReferences()}
@@ -109,25 +110,27 @@ object ActorCodeGeneratorOrchestration{
        |return $actorName.props()""".stripMargin
 
   private def generateForwardingActors(transitionsList: Seq[String]) : String = {
-    println("TRANSITIONS LIST IS " +transitionsList)
       s"""
         |val actorReferences : Seq[ActorRef] =  getActorRef(
-        |Seq(${generateTransitionsList(transitionsList)}), 0, Seq.empty
+        |Seq(${generateTransitionsList(transitionsList, 0, "")}), 0, Seq.empty
         |)
-        |actorReferences.foreach(actor => actor ! result)
+        |actorReferences.par.foreach(actor => actor ! result)
         |""".stripMargin
     }
 
-  private def generateTransitionsList(transitionsList: Seq[String]) : String = {
-    var transitionString : String = ""
-    transitionsList.foreach(transition => {
-      if(transitionString == "") return transitionString.concat(s"\"${transition.toLowerCase}\"")
-      else return transitionString.concat(s", \"${transition.toLowerCase}\"")
-      println("UPDATE THE STRING " + transitionString)
-
-    })
-    println("RETURNING THE STRING " + transitionString)
-    transitionString
+  private def generateTransitionsList(transitionsList: Seq[String], iterator : Int, transitionsString: String) : String = {
+    if(iterator >= transitionsList.size) transitionsString
+    else {
+      if(transitionsString == "") {
+        generateTransitionsList(
+          transitionsList, iterator + 1, transitionsString ++ s"\"${transitionsList(iterator).toLowerCase}\""
+        )
+      } else {
+        generateTransitionsList(
+          transitionsList, iterator + 1, transitionsString ++ s", \"${transitionsList(iterator).toLowerCase}\""
+        )
+      }
+    }
   }
 
 
