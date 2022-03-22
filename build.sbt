@@ -61,6 +61,7 @@ val akkaVersion = "2.6.18"
 val kamonBundleVersion = "2.4.7"
 val kamonApmReporterVersion = "2.4.7"
 val kamonPrometheusVersion = "2.4.7"
+val scalaParallelCollectionVersion =  "1.0.4"
 
 lazy val nebula_scala2 = project
   .in(file("nebula_scala2"))
@@ -94,7 +95,8 @@ lazy val nebula_scala2 = project
       "org.scala-lang" % "scala-compiler" % scalaCompilerVersion,
       "io.kamon" %% "kamon-bundle" % kamonBundleVersion,
       "io.kamon" %% "kamon-apm-reporter" % kamonApmReporterVersion,
-      "io.kamon" %% "kamon-prometheus" % kamonPrometheusVersion
+      "io.kamon" %% "kamon-prometheus" % kamonPrometheusVersion,
+      "org.scala-lang.modules" %% "scala-parallel-collections" % scalaParallelCollectionVersion
     )
   ) dependsOn nebula_scala3
 
