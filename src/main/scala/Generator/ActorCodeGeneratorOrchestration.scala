@@ -74,13 +74,10 @@ object ActorCodeGeneratorOrchestration{
       |def getActorRef(transitions : Seq[String], iterator: Int, actorRefList: Seq[ActorRef]) : Seq[ActorRef] = {
       |    if (iterator >= transitions.size) actorRefList
       |    else {
-      |      println("REFERENCE " + transitions(iterator).toLowerCase)
       |      generatedActorsRef.get(transitions(iterator).toLowerCase) match {
       |        case Some(actorRef) =>
-      |          println("REFERENCE " + actorRef)
       |          getActorRef(transitions, iterator + 1, actorRefList :+ actorRef)
       |        case None =>
-      |          println("NONE ")
       |          getActorRef(transitions, iterator + 1, actorRefList)
       |      }
       |    }
