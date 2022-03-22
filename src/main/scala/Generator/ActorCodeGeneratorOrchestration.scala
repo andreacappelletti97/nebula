@@ -18,6 +18,7 @@ object ActorCodeGeneratorOrchestration{
       )
     }
 
+  //This function generates the code of a single Actor
   private def generateSingleActorCode(actorSchema: ActorSchema): String =
     logger.info("[actorCodeGenerator]: Generating the actor code ...")
     val actorCode = generateActor(actorSchema)
@@ -65,6 +66,9 @@ object ActorCodeGeneratorOrchestration{
            |""".stripMargin)
     else recursivelyGenerateMethods(jsonList, iterator + 1, methods)
 
+  /***This function generates a function called getActorRef inside the Actor
+      it is used to retrieve the actorReferences for transitions to the next state
+   ***/
   private def getActorReferences(): String = {
     """
       |def getActorRef(transitions : Seq[String], iterator: Int, actorRefList: Seq[ActorRef]) : Seq[ActorRef] = {
@@ -109,6 +113,7 @@ object ActorCodeGeneratorOrchestration{
     s"""
        |return $actorName.props()""".stripMargin
 
+  //This function generates a list of references and sends the result of the executionCode of the actor to all the transitions
   private def generateForwardingActors(transitionsList: Seq[String]) : String = {
       s"""
         |val actorReferences : Seq[ActorRef] =  getActorRef(
@@ -118,6 +123,7 @@ object ActorCodeGeneratorOrchestration{
         |""".stripMargin
     }
 
+  //This function generates a list of transitions to retrieve the ActorReferences associated
   private def generateTransitionsList(transitionsList: Seq[String], iterator : Int, transitionsString: String) : String = {
     if(iterator >= transitionsList.size) transitionsString
     else {

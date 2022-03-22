@@ -15,7 +15,7 @@ class ActorCodeCompiler
 
 object ActorCodeCompiler {
 
-  //This funciton compile the Scala string code and returns the Actors props as a Seq
+  //This function compile the Scala string code and returns the Actors props as a Seq compiled in the same Toolbox
   def compileActors(actorCodeList : Seq[String] ,toolbox:  ToolBox[scala.reflect.runtime.universe.type], iterator: Int, compiledActorsList : Seq[Props]) : Seq[Props] = {
     if(iterator >= actorCodeList.size) compiledActorsList
     else {
@@ -24,7 +24,7 @@ object ActorCodeCompiler {
       compileActors(actorCodeList, toolbox, iterator + 1, compiledActorsList :+ actorProps)
     }
   }
-
+  //This function compiles the code of a single actor
   def compileSingleActor(actorCode : String, toolbox:  ToolBox[scala.reflect.runtime.universe.type]) : Props = {
     val tree = toolbox.parse(actorCode)
     toolbox.compile(tree)().asInstanceOf[Props]
@@ -33,6 +33,7 @@ object ActorCodeCompiler {
 
   var reference : ActorRef = _
 
+  //This function is an example on how to run a ActorCode reference
   def runExample(actorProps : Props, toolbox:  ToolBox[scala.reflect.runtime.universe.type]): Unit ={
     //Define ActorSystem
     val actorSystem = ActorSystem("system")
@@ -45,7 +46,7 @@ object ActorCodeCompiler {
     //actorSystem.terminate()
   }
 
-
+  //Attach cinnamon monitoring metrics via the API to the ActorSystem
   private def createActorSystemMetrics(actorSystem: ActorSystem) : Unit = {
     val sysCounter: Counter = CinnamonMetrics(actorSystem).createCounter("sysCounter")
     val sysGaugeDouble: GaugeDouble = CinnamonMetrics(actorSystem).createGaugeDouble("sysGaugeDouble")
@@ -56,6 +57,7 @@ object ActorCodeCompiler {
     val sysRecorder: Recorder = CinnamonMetrics(actorSystem).createRecorder("sysRecorder")
   }
 
+  //Attach cinnamon monitoring metrics via the API to the Actor
   private def createActorMetrics(actor : Actor) : Unit = {
     val counter: Counter = CinnamonMetrics(actor.context).createCounter("counter")
     val gaugeDouble: GaugeDouble = CinnamonMetrics(actor.context).createGaugeDouble("gaugeDouble")
