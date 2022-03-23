@@ -11,6 +11,7 @@ object ConfigCodeGenerator:
   private def generateConfig(configSchema : CinnamonMonitoringSchema) : String =
     s"""cinnamon {
       |${consoleReporter(configSchema.consoleReporter)}
+      |${akkaActors()}
       |}
       |${prometheusHttp(configSchema.prometheusHttpServer)}
       |""".stripMargin
@@ -26,6 +27,12 @@ object ConfigCodeGenerator:
     if(enabled) """chmetrics = {
                   |    reporters += "console-reporter"
                   |  }""".stripMargin
+
+  private def akkaActors() =
+    """akka.actors{
+      |
+      |}
+      |""".stripMargin
 
 
     

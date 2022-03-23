@@ -1,0 +1,17 @@
+{
+  "consoleReporter" : false,
+  "prometheusHttpServer" : true,
+  "actors" : [
+    {
+      "path" : "Nebula.FirstActor",
+      "reporter" : "class",
+      "thresholds" :{
+        "mailbox-size" : 1000,
+        "stash-size" : 50,
+        "mailbox-time" : "3s",
+        "processing-time" : "500ms",
+        "message-type" : true
+      }
+    }
+  ]
+}
