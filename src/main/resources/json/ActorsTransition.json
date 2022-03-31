@@ -27,7 +27,7 @@
           {
             "className": "authentication",
             "executionCode": "protoMessage",
-            "transitions" : []
+            "transitions" : ["FirstActor"]
           }
         ]
       }
