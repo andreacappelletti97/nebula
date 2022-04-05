@@ -12,7 +12,7 @@ import NebulaScala2.Scala2Main.generatedActorsProps
 import NebulaScala3.Scala3Main.protoBufferList
 import NebulaScala2.Scala2Main.generatedActorsRef
 import akka.actor.{ActorRef, ActorSystem, actorRef2Scala}
-
+import scala.io.StdIn.readLine
 
 class Main
 
@@ -24,6 +24,18 @@ object Main:
   }
   //Logger init
   val logger = Logger("Main")
+
+
+  def readInputValues(): Unit =
+    println("Welcome to Nebula! ")
+    println("Please enter the path to the Actor JSON input file: ")
+    val actorJson = readLine()
+    println("Please enter the path to the Actor System JSON input file: ")
+    val actorSystemJson = readLine()
+    println("Please enter the path to the Monitoring JSON input file: ")
+    val monitoringJson = readLine()
+    println("Please enter the path to the Proto Message JSON input file: ")
+    val protoMessageJson = readLine()
 
   //Main method of the framework
   @main def nebulaMain: Unit =
