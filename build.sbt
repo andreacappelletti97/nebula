@@ -62,6 +62,7 @@ val kamonBundleVersion = "2.4.7"
 val kamonApmReporterVersion = "2.4.7"
 val kamonPrometheusVersion = "2.4.7"
 val scalaParallelCollectionVersion =  "1.0.4"
+val cassandraVersion = "1.0.5"
 
 lazy val nebula_scala2 = project
   .in(file("nebula_scala2"))
@@ -96,7 +97,10 @@ lazy val nebula_scala2 = project
       "io.kamon" %% "kamon-bundle" % kamonBundleVersion,
       "io.kamon" %% "kamon-apm-reporter" % kamonApmReporterVersion,
       "io.kamon" %% "kamon-prometheus" % kamonPrometheusVersion,
-      "org.scala-lang.modules" %% "scala-parallel-collections" % scalaParallelCollectionVersion
+      "org.scala-lang.modules" %% "scala-parallel-collections" % scalaParallelCollectionVersion,
+      // Cassandra
+      "com.typesafe.akka" %% "akka-persistence-cassandra" % cassandraVersion,
+      "com.typesafe.akka" %% "akka-persistence-cassandra-launcher" % cassandraVersion % Test,
     )
   ) dependsOn nebula_scala3
 
