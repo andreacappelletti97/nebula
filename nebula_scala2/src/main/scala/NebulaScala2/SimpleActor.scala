@@ -7,8 +7,8 @@ class SimpleActor extends Actor {
     case "hello" => println("Hello!")
     case _ =>
       println("I have received something!")
-      Thread.sleep(2000)
-      sender() ! "getReference"
+    //Thread.sleep(2000)
+    //sender() ! "getReference"
   }
 }
 
