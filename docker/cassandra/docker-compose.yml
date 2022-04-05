@@ -4,7 +4,7 @@ services:
     image: cassandra:3
     container_name: cassandra
     ports:
-      - "7000:7000"
+      - "7001:7001"
       - "9042:9042"
     environment:
       - "CASSANDRA_CLUSTER_NAME=OUR_DOCKERIZED_CASSANDRA_SINGLE_NODE_CLUSTER"

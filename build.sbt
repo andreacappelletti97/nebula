@@ -57,7 +57,7 @@ lazy val nebula_scala3 = project
 //Scala 2 Submodule
 val scalaReflectVersion = "2.13.8"
 val scalaCompilerVersion = "2.13.8"
-val akkaVersion = "2.6.18"
+val akkaVersion = "2.6.19"
 val kamonBundleVersion = "2.4.7"
 val kamonApmReporterVersion = "2.4.7"
 val kamonPrometheusVersion = "2.4.7"
@@ -92,6 +92,9 @@ lazy val nebula_scala2 = project
       //Akka cluster sharding
       "com.typesafe.akka" %% "akka-cluster-sharding" % akkaVersion,
       "com.typesafe.akka" %% "akka-cluster-tools" % akkaVersion,
+      //Akka persistence
+      "com.typesafe.akka" %% "akka-persistence" % akkaVersion,
+      "com.typesafe.akka" %% "akka-persistence-query" % akkaVersion,
       "org.scala-lang" % "scala-reflect" % scalaReflectVersion,
       "org.scala-lang" % "scala-compiler" % scalaCompilerVersion,
       "io.kamon" %% "kamon-bundle" % kamonBundleVersion,
