@@ -8,7 +8,7 @@ object Cassandra {
 
   def runCassandra() = {
     val cassandraActorSystem = ActorSystem("cassandraSystem", ConfigFactory.load().getConfig("cassandraDemo"))
-    val persistentActor = cassandraActorSystem.actorOf(Props[SimpleActor], "simpleActor")
+    val persistentActor = cassandraActorSystem.actorOf(Props[SimplePersistentActor], "simpleActor")
 
     for (i <- 1 to 10) {
       persistentActor ! s"I love Akka [$i]"
