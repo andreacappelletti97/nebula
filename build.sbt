@@ -2,6 +2,9 @@
 run / cinnamon := true
 test / cinnamon := true
 
+//Setting to capture CTRL+C
+run / fork := true
+
 //Here we define all the common dependencies among all the different projects and modules
 val scalaTestVersion = "3.2.11"
 
@@ -25,7 +28,8 @@ lazy val root = project
       "ch.qos.logback" % "logback-classic" % logBackVersion,
       "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion,
       //"com.thesamet.scalapb" %% "scalapb-runtime" % "0.11.8" % "protobuf",
-      "com.github.os72" % "protobuf-dynamic" % "1.0.1"
+      "com.github.os72" % "protobuf-dynamic" % "1.0.1",
+      "org.scala-lang" % "scala-swing" % "2.11.0-M7"
     )
   ).enablePlugins(Cinnamon) aggregate(nebula_scala2, nebula_scala3) dependsOn(nebula_scala2, nebula_scala3)
 
