@@ -11,6 +11,7 @@ import com.typesafe.scalalogging.Logger
 import NebulaScala2.Scala2Main.generatedActorsProps
 import NebulaScala3.Scala3Main.protoBufferList
 import NebulaScala2.Scala2Main.generatedActorsRef
+import NebulaScala2.Scala2Main.generatedActorSystems
 import akka.actor.{ActorRef, ActorSystem, actorRef2Scala}
 import scala.io.StdIn.readLine
 
@@ -37,8 +38,15 @@ object Main:
     println("Please enter the path to the Proto Message JSON input file: ")
     val protoMessageJson = readLine()
 
+  def stopNebula(): Unit =
+    generatedActorSystems.foreach {
+      case (name, actorSystem) =>
+        actorSystem.terminate()
+        logger.info(s"ActorSystem $name has been terminated...")
+    }
+
   //Main method of the framework
-  @main def nebulaMain: Unit =
+  def nebulaMain(): Unit =
     logger.info(Scala2Main.scala2Message)
     logger.info(Scala3Main.scala3Message)
     //Init Kamon monitoring instrumentation
@@ -95,6 +103,7 @@ object Main:
     println(protoBufferList)
 
     val actorSystem: ActorSystem = ActorSystemFactory.initActorSystem("system")
+    generatedActorSystems += "system" -> actorSystem
 
     //Start Nebula orchestration --> init actors from actorProps stored
     orchestratorJson.foreach { actor =>
@@ -114,6 +123,7 @@ object Main:
         actor ! protoMessage
       }
     }
+
 
 /*
 
