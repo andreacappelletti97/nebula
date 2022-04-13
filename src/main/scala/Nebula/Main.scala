@@ -46,7 +46,7 @@ object Main:
     }
 
   //Main method of the framework
-  def nebulaMain(): Unit =
+  def startNebula(): Unit =
     logger.info(Scala2Main.scala2Message)
     logger.info(Scala3Main.scala3Message)
     //Init Kamon monitoring instrumentation
