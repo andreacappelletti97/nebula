@@ -46,7 +46,7 @@ object Main:
     }
 
   //Main method of the framework
-  def startNebula(): Unit =
+  def startNebula(actorJsonPath: String, messagesJsonPath: String, orchestratorPath: String): Unit =
     logger.info(Scala2Main.scala2Message)
     logger.info(Scala3Main.scala3Message)
     //Init Kamon monitoring instrumentation
@@ -55,11 +55,15 @@ object Main:
     val toolbox = ToolboxGenerator.generateToolbox()
 
     //TODO: add yaml configuration
+    val actorsJson = JSONParser.getActorSchemaFromJson(actorJsonPath)
+    val messagesJson = JSONParser.getMessagesSchemaFromJson(messagesJsonPath)
+    val orchestratorJson = JSONParser.getOrchestratorFromJson(orchestratorPath)
+
     //Generate Actors from the JSON schema
-    val actorsJson = if (config.getBoolean("nebula.buildArtifact")) JSONParser.getActorSchemaFromJson(config.getString("nebula.actorsBuildJsonFile")) else JSONParser.getActorSchemaFromJson(config.getString("nebula.actorsJsonFile"))
-    val messagesJson = if (config.getBoolean("nebula.buildArtifact")) JSONParser.getMessagesSchemaFromJson(config.getString("nebula.messagesBuildJsonFile")) else JSONParser.getMessagesSchemaFromJson(config.getString("nebula.messagesJsonFile"))
-    val orchestratorJson = if (config.getBoolean("nebula.buildArtifact")) JSONParser.getOrchestratorFromJson(config.getString("nebula.orchestratorBuildJsonFile")) else JSONParser.getOrchestratorFromJson(config.getString("nebula.orchestratorJsonFile"))
-    //Dynamic
+    //    val actorsJson = if (config.getBoolean("nebula.buildArtifact")) JSONParser.getActorSchemaFromJson(config.getString("nebula.actorsBuildJsonFile")) else JSONParser.getActorSchemaFromJson(config.getString("nebula.actorsJsonFile"))
+    //    val messagesJson = if (config.getBoolean("nebula.buildArtifact")) JSONParser.getMessagesSchemaFromJson(config.getString("nebula.messagesBuildJsonFile")) else JSONParser.getMessagesSchemaFromJson(config.getString("nebula.messagesJsonFile"))
+    //    val orchestratorJson = if (config.getBoolean("nebula.buildArtifact")) JSONParser.getOrchestratorFromJson(config.getString("nebula.orchestratorBuildJsonFile")) else JSONParser.getOrchestratorFromJson(config.getString("nebula.orchestratorJsonFile"))
+    //    //Dynamic
     //val dynamicActorJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getDynamicActorsFromJson(config.getString("nebula.actorsDynamicJsonFile")) else JSONParser.getDynamicActorsFromJson(config.getString("nebula.actorsDynamicJsonFile"))
     //val dynamicMessageJson = if(config.getBoolean("nebula.buildArtifact")) JSONParser.getDynamicMessagesFromJson(config.getString("nebula.messagesDynamicJsonFile")) else JSONParser.getDynamicMessagesFromJson(config.getString("nebula.messagesDynamicJsonFile"))
 
