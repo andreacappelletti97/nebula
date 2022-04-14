@@ -1,6 +1,7 @@
 package GUI
 
-import scala.swing._
+import java.io.File
+import scala.swing.*
 
 object MainActivity:
 
@@ -8,6 +9,7 @@ object MainActivity:
   var actorJsonPath = ""
   var messagesJsonPath = ""
   var orchestratorJsonPath = ""
+  var systemRunning = false
 
   @main def runIt = {
     new Frame {
@@ -21,7 +23,7 @@ object MainActivity:
           reactions += {
             case event.ButtonClicked(_) =>
               println("Actors Selected")
-              val fileChooser = new FileChooser()
+              val fileChooser = new FileChooser(new File("/Users/andreacappelletti/nebula_config/"))
               fileChooser.fileSelectionMode = FileChooser.SelectionMode.FilesOnly
               fileChooser.showOpenDialog(this)
               val file = fileChooser.selectedFile
@@ -36,7 +38,7 @@ object MainActivity:
           reactions += {
             case event.ButtonClicked(_) =>
               println("Messages Selected")
-              val fileChooser = new FileChooser()
+              val fileChooser = new FileChooser(new File("/Users/andreacappelletti/nebula_config/"))
               fileChooser.fileSelectionMode = FileChooser.SelectionMode.FilesOnly
               fileChooser.showOpenDialog(this)
               val file = fileChooser.selectedFile
@@ -51,7 +53,7 @@ object MainActivity:
           reactions += {
             case event.ButtonClicked(_) =>
               println("Orchestrator Selected")
-              val fileChooser = new FileChooser()
+              val fileChooser = new FileChooser(new File("/Users/andreacappelletti/nebula_config/"))
               fileChooser.fileSelectionMode = FileChooser.SelectionMode.FilesOnly
               fileChooser.showOpenDialog(this)
               val file = fileChooser.selectedFile
@@ -67,6 +69,13 @@ object MainActivity:
             case event.ButtonClicked(_) =>
               if (!actorJsonPath.isEmpty && !messagesJsonPath.isEmpty && !orchestratorJsonPath.isEmpty) {
                 Nebula.Main.startNebula(actorJsonPath, messagesJsonPath, orchestratorJsonPath)
+                if (!systemRunning) {
+                  systemRunning = true
+                  startNebulaButton.text = "Reconfigure Nebula"
+                } else {
+                  Nebula.Main.stopNebula()
+                  Nebula.Main.startNebula(actorJsonPath, messagesJsonPath, orchestratorJsonPath)
+                }
                 println("Nebula started")
               }
               else {
@@ -79,7 +88,8 @@ object MainActivity:
           reactions += {
             case event.ButtonClicked(_) =>
               Nebula.Main.stopNebula()
-
+              systemRunning = false
+              startNebulaButton.text = "Start Nebula"
           }
         }
 
