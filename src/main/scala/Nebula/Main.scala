@@ -82,6 +82,8 @@ object Main:
     logger.info("Actors code have been generated...")
     println(actorCode)
 
+    Thread.sleep(3000)
+
     //Generate ActorProps
     val generatedActors = ActorCodeCompiler.compileActors(actorCode, toolbox, 0, Seq.empty)
     logger.info("Actors code have been compiled into Props objects...")
@@ -105,6 +107,7 @@ object Main:
     protoMessages.foreach(message => protoBufferList += message.name.toLowerCase -> message)
     logger.info("ProtoMessages have been generated...")
     println(protoBufferList)
+    Thread.sleep(3000)
 
     val actorSystem: ActorSystem = ActorSystemFactory.initActorSystem("system")
     generatedActorSystems += "system" -> actorSystem
@@ -117,6 +120,7 @@ object Main:
     }
     logger.info("End of ActorRef init ...")
     println(generatedActorsRef)
+    Thread.sleep(3000)
     logger.info("Sending init messages...")
 
     //Send init messages --> send init messages to the Actor instantiated
