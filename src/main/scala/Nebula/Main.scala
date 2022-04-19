@@ -4,7 +4,7 @@ import Generator.ActorCodeGeneratorOrchestration
 import HelperUtils.ObtainConfigReference
 import NebulaScala2.Compiler.{ActorCodeCompiler, DynamicActorCodeCompiler, MessageCodeCompiler, ToolboxGenerator}
 import NebulaScala2.{Compiler, Scala2Main}
-import NebulaScala3.Generator.{ActorCodeGenerator, DynamicActorGenerator, DynamicMessageGenerator, MessageCodeGenerator, ProtoMessageGenerator}
+import NebulaScala3.Generator.{ActorCodeGenerator, ProtoMessageGenerator}
 import NebulaScala3.Parser.{JSONParser, YAMLParser}
 import NebulaScala3.Scala3Main
 import com.typesafe.scalalogging.Logger
@@ -12,7 +12,7 @@ import NebulaScala2.Scala2Main.generatedActorsProps
 import NebulaScala3.Scala3Main.protoBufferList
 import NebulaScala2.Scala2Main.generatedActorsRef
 import NebulaScala2.Scala2Main.generatedActorSystems
-import akka.actor.{ActorRef, ActorSystem, actorRef2Scala}
+import akka.actor.{ActorRef, ActorSystem}
 import com.typesafe.config.Config
 
 import scala.io.StdIn.readLine
