@@ -1,13 +1,10 @@
 ---
-- caseClassName: Auth
-  caseClassArgs: []
-- caseClassName: Film
-  caseClassArgs:
-    - argName: title
+- messageName: Init
+  messageArgs: [ ]
+- messageName: Authentication
+  messageArgs:
+    - argName: email
       argType: String
-- caseClassName: OldFilm
-  caseClassArgs:
-    - argName: title
+    - argName: password
       argType: String
-    - argName: age
-      argType: Int
+

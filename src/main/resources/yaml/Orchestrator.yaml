@@ -1,0 +1,12 @@
+---
+- name: FirstActor
+  initMessages:
+    - Authentication
+  numOfInstance: 1
+- name: SecondActor
+  initMessages: [ ]
+  numOfInstance: 1
+- name: ThirdActor
+  initMessages: [ ]
+  numOfInstance: 1
+
