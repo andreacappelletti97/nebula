@@ -1,0 +1,13 @@
+---
+consoleReporter: false
+prometheusHttpServer: true
+messageType: true
+actors:
+  - path: Nebula.FirstActor
+    reporter: class
+    thresholds:
+      mailboxSize: 1000
+      stashSize: 50
+      mailboxTime: 3s
+      processingTime: 500ms
+

@@ -1,11 +1,32 @@
 ---
-- actorName: HelloActor
-  actorArgs: []
+- actorName: FirstActor
+  actorArgs: [ ]
   methods:
     - methodName: receive
       methodReturnType: Receive
       caseList:
-        - className: '"changeX"'
-          executionCode: NebulaScala3.Scala3Main.xxx = 10;  println("Changing X...")
-        - className: None
-          executionCode: println("None received!")
+        - className: Authentication
+          executionCode: protoMessage
+          transitions:
+            - SecondActor
+            - ThirdActor
+- actorName: SecondActor
+  actorArgs: [ ]
+  methods:
+    - methodName: receive
+      methodReturnType: Receive
+      caseList:
+        - className: authentication
+          executionCode: protoMessage
+          transitions:
+            - FirstActor
+- actorName: ThirdActor
+  actorArgs: [ ]
+  methods:
+    - methodName: receive
+      methodReturnType: Receive
+      caseList:
+        - className: authentication
+          executionCode: protoMessage
+          transitions: [ ]
+
