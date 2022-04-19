@@ -5,41 +5,51 @@
     "methods": [
       {
         "methodName": "receive",
-        "methodReturnType" : "Receive",
-        "caseList" : [{
-          "className" : "init",
-          "executionCode" : "NebulaScala3.Scala3Main.xxx = 10;  println(\"Changing X...\")"
-        },
+        "methodReturnType": "Receive",
+        "caseList": [
           {
-            "className" : "authentication",
-            "executionCode" : "println(\"Authentication has been received!!!\"); println(protoMessage.args)"
-          },
-          {
-            "className" : "getReference",
-            "executionCode" : "Thread.sleep(2000); println(NebulaScala2.Compiler.ActorCodeCompiler.reference); NebulaScala2.Compiler.ActorCodeCompiler.reference ! \"hey!\""
+            "className": "Authentication",
+            "executionCode": "protoMessage",
+            "transitions": [
+              "SecondActor",
+              "ThirdActor"
+            ]
           }
         ]
       }
     ]
   },
   {
-    "actorName" : "SecondActor",
+    "actorName": "SecondActor",
     "actorArgs": [],
-    "methods" : [
+    "methods": [
       {
         "methodName": "receive",
-        "methodReturnType" : "Receive",
-        "caseList" : [{
-          "className" : "init",
-          "executionCode" : "NebulaScala3.Scala3Main.xxx = 10;  println(\"Changing X...\")"
-        },
+        "methodReturnType": "Receive",
+        "caseList": [
           {
-            "className" : "authentication",
-            "executionCode" : "println(\"Authentication has been received!!!\"); println(protoMessage.args)"
-          },
+            "className": "authentication",
+            "executionCode": "protoMessage",
+            "transitions": [
+              "FirstActor"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "actorName": "ThirdActor",
+    "actorArgs": [],
+    "methods": [
+      {
+        "methodName": "receive",
+        "methodReturnType": "Receive",
+        "caseList": [
           {
-            "className" : "getReference",
-            "executionCode" : "Thread.sleep(2000); println(NebulaScala2.Compiler.ActorCodeCompiler.reference); NebulaScala2.Compiler.ActorCodeCompiler.reference ! \"hey!\""
+            "className": "authentication",
+            "executionCode": "protoMessage",
+            "transitions": []
           }
         ]
       }
