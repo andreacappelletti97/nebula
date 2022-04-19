@@ -1,6 +1,6 @@
 package NebulaScala3.Parser
 
-import NebulaScala3.Schema.{ActorDynamicSchema, ActorSchema, ActorSystemSchema, DynamicMessageSchema, MessageSchema, OrchestratorSchema}
+import NebulaScala3.Schema.{ActorSchema, DynamicMessageSchema, MessageSchema, OrchestratorSchema}
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import org.apache.commons.lang3.StringEscapeUtils
@@ -35,18 +35,6 @@ object JSONParser {
   /**
    * Loads a schema from a JSON file.
    */
-  def getDynamicActorsFromJson(fileName : String) : Array[ActorDynamicSchema] = {
-    val inputStream = new FileInputStream(fileName)
-    try {
-      mapper.readValue(inputStream, classOf[Array[ActorDynamicSchema]])
-    } finally {
-      inputStream.close()
-    }
-  }
-  
-  /**
-   * Loads a schema from a JSON file.
-   */
   def getActorSchemaFromJson(fileName: String): Array[ActorSchema] = {
     val inputStream = new FileInputStream(fileName)
     try {
@@ -56,17 +44,6 @@ object JSONParser {
     }
   }
 
-  /**
-   * Loads a schema from a JSON file.
-   */
-  def getActorSystemFromJson(fileName: String): Array[ActorSystemSchema] = {
-    val inputStream = new FileInputStream(fileName)
-    try {
-      mapper.readValue(inputStream, classOf[Array[ActorSystemSchema]])
-    } finally {
-      inputStream.close()
-    }
-  }
 
   /**
    * Loads a schema from a JSON file.
