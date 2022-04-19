@@ -1,25 +1,11 @@
 package NebulaScala3
 
-import NebulaScala3.Schema.{DynamicMessageContentSchema, DynamicMessageSchema}
 import NebulaScala3.message.ProtoMessage
-import com.github.os72.protobuf.dynamic.DynamicSchema
-import com.google.protobuf.DynamicMessage
 
-//In this object we declare all the global mutable variables
 object Scala3Main:
+  // Init message for integration sync
   val scala3Message = "Hello from Nebula Scala 3! :)"
-  var xxx: Int = _
-  //Message definition
-  trait SomeTrait
-  var theKeeper: SomeTrait = _
-  
-  //This wrapper contains the dynamic protobuf builders to instantiate at run-time
-  //var dynamicMessagesBuilders : Seq[DynamicSchema] = _
-
-  //This structure stores the dynamic messages from the DSL input, it keeps track of their changes
-  //var dynamicMessages : Array[DynamicMessageSchema] = _
-  
-  //Generate messages from DSL
+  //Mutable var to store generate messages from Messages.json 
   var protoBufferList : Map[String, ProtoMessage] = Map()
 
 

@@ -13,30 +13,20 @@ import NebulaScala3.Scala3Main.protoBufferList
 import NebulaScala2.Scala2Main.generatedActorsRef
 import NebulaScala2.Scala2Main.generatedActorSystems
 import akka.actor.{ActorRef, ActorSystem, actorRef2Scala}
+import com.typesafe.config.Config
+
 import scala.io.StdIn.readLine
 
 class Main
 
 object Main:
   //Init the config file to get static params
-  val config = ObtainConfigReference("nebula") match {
+  val config: Config = ObtainConfigReference("nebula") match {
     case Some(value) => value
     case None => throw new RuntimeException("Cannot obtain a reference to the config data.")
   }
   //Logger init
-  val logger = Logger("Main")
-
-
-  def readInputValues(): Unit =
-    println("Welcome to Nebula! ")
-    println("Please enter the path to the Actor JSON input file: ")
-    val actorJson = readLine()
-    println("Please enter the path to the Actor System JSON input file: ")
-    val actorSystemJson = readLine()
-    println("Please enter the path to the Monitoring JSON input file: ")
-    val monitoringJson = readLine()
-    println("Please enter the path to the Proto Message JSON input file: ")
-    val protoMessageJson = readLine()
+  val logger: Logger = Logger("Main")
 
   def stopNebula(): Unit =
     generatedActorSystems.foreach {
