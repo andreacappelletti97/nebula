@@ -5,7 +5,7 @@ import com.typesafe.config.Config
 import com.typesafe.config.ConfigFactory
 
 object ConfigInjection  {
-  def runConfigInject() = {
+  def runConfigInject(): Unit = {
     // make a Config with just your special setting// make a Config with just your special setting
 
     val myConfig = ConfigFactory.parseString(
@@ -37,7 +37,7 @@ object ConfigInjection  {
     )
 
     //val myConfig = ConfigFactory.parseString("""""".stripMargin)
-    // load the normal config stack (system props, then application.conf, then reference.conf)
+    // load the normal config stack (system props, then cassandra.conf, then reference.conf)
     val regularConfig = ConfigFactory.load
 
     // override regular stack with myConfig
@@ -49,12 +49,6 @@ object ConfigInjection  {
     // create ActorSystem with complete configuration
     val systemWithConfig = ActorSystem("MySystem", ConfigFactory.load(myConfig))
     val actorSystem = ActorSystem("system", ConfigFactory.load(config2))
-
-    val simpleActorWithConfig = systemWithConfig.actorOf(Props[SimpleActor](), "simpleActorWithConfig")
-    val simpleActor = actorSystem.actorOf(Props[SimpleActor](), "simpleActor")
-
-    simpleActorWithConfig ! "hello"
-    simpleActor ! "hello"
 
   }
 
