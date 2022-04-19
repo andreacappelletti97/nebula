@@ -2,9 +2,6 @@
 run / cinnamon := true
 test / cinnamon := true
 
-//Setting to capture CTRL+C
-run / fork := true
-
 //Here we define all the common dependencies among all the different projects and modules
 val scalaTestVersion = "3.2.11"
 
@@ -14,8 +11,9 @@ lazy val commonDependencies = Seq(
 
 //Scala 3 Orchestrator Project
 val scala3Version = "3.1.1"
-val logBackVersion = "1.2.10"
+val logBackVersion = "1.2.11"
 val scalaLoggingVersion = "3.9.4"
+val scalaSwingVersion = "3.0.0"
 
 lazy val root = project
   .in(file("."))
@@ -27,9 +25,7 @@ lazy val root = project
       "com.novocode" % "junit-interface" % "0.11" % "test",
       "ch.qos.logback" % "logback-classic" % logBackVersion,
       "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion,
-      //"com.thesamet.scalapb" %% "scalapb-runtime" % "0.11.8" % "protobuf",
-      "com.github.os72" % "protobuf-dynamic" % "1.0.1",
-      "org.scala-lang.modules" %% "scala-swing" % "3.0.0"
+      "org.scala-lang.modules" %% "scala-swing" % scalaSwingVersion
     )
   ).enablePlugins(Cinnamon) aggregate(nebula_scala2, nebula_scala3) dependsOn(nebula_scala2, nebula_scala3)
 
@@ -37,6 +33,7 @@ lazy val root = project
 val jacksonModuleVersion = "2.13.1"
 val apacheCommonLangVersion = "3.12.0"
 val snakeYamlVersion = "1.30"
+val scalapbVersion = "0.11.8"
 
 lazy val nebula_scala3 = project
   .in(file("nebula_scala3"))
@@ -50,8 +47,7 @@ lazy val nebula_scala3 = project
       "org.yaml" % "snakeyaml" % snakeYamlVersion,
       "ch.qos.logback" % "logback-classic" % logBackVersion,
       "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion,
-      "com.github.os72" % "protobuf-dynamic" % "1.0.1",
-      "com.thesamet.scalapb" %% "scalapb-runtime" % "0.11.8" % "protobuf",
+      "com.thesamet.scalapb" %% "scalapb-runtime" % scalapbVersion % "protobuf",
     ),
     Compile / PB.targets := Seq(
       scalapb.gen() -> (Compile / sourceManaged).value / "scalapb"
@@ -62,10 +58,10 @@ lazy val nebula_scala3 = project
 val scalaReflectVersion = "2.13.8"
 val scalaCompilerVersion = "2.13.8"
 val akkaVersion = "2.6.19"
-val kamonBundleVersion = "2.4.7"
+val kamonBundleVersion = "2.5.1"
 val kamonApmReporterVersion = "2.4.7"
-val kamonPrometheusVersion = "2.4.7"
-val scalaParallelCollectionVersion =  "1.0.4"
+val kamonPrometheusVersion = "2.5.1"
+val scalaParallelCollectionVersion = "1.0.4"
 val cassandraVersion = "1.0.5"
 
 lazy val nebula_scala2 = project
@@ -99,11 +95,14 @@ lazy val nebula_scala2 = project
       //Akka persistence
       "com.typesafe.akka" %% "akka-persistence" % akkaVersion,
       "com.typesafe.akka" %% "akka-persistence-query" % akkaVersion,
+      // Scala Reflection and Compiler
       "org.scala-lang" % "scala-reflect" % scalaReflectVersion,
       "org.scala-lang" % "scala-compiler" % scalaCompilerVersion,
+      //Kamon Instrumentation
       "io.kamon" %% "kamon-bundle" % kamonBundleVersion,
       "io.kamon" %% "kamon-apm-reporter" % kamonApmReporterVersion,
       "io.kamon" %% "kamon-prometheus" % kamonPrometheusVersion,
+      //Scala Parallel Collections
       "org.scala-lang.modules" %% "scala-parallel-collections" % scalaParallelCollectionVersion,
       // Cassandra
       "com.typesafe.akka" %% "akka-persistence-cassandra" % cassandraVersion,
