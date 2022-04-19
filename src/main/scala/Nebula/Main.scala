@@ -4,7 +4,7 @@ import Generator.ActorCodeGeneratorOrchestration
 import HelperUtils.ObtainConfigReference
 import NebulaScala2.Compiler.{ActorCodeCompiler, MessageCodeCompiler, ToolboxGenerator}
 import NebulaScala2.{Compiler, Scala2Main}
-import NebulaScala3.Generator.{ActorCodeGenerator, ProtoMessageGenerator}
+import NebulaScala3.Generator.{ProtoMessageGenerator}
 import NebulaScala3.Parser.{JSONParser, YAMLParser}
 import NebulaScala3.Scala3Main
 import com.typesafe.scalalogging.Logger
