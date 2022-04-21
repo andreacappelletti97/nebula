@@ -97,7 +97,7 @@ object ActorCodeGeneratorOrchestration {
       schema ++
         s"""
            |case "${caseList(iterator).className.toLowerCase}" => {
-           |val result = ${caseList(iterator).executionCode}
+           |${caseList(iterator).executionCode}
            |${generateForwardingActors(caseList(iterator).transitions)}
            |}""".stripMargin
     )
@@ -105,15 +105,18 @@ object ActorCodeGeneratorOrchestration {
   // Generate Scala execution code or execute an external jar
   private def generateExecutionCode(executionCode: Any): String =
     executionCode match {
-      case str: String => executionCode.asInstanceOf[String]
+      case str: String => s"""val result = $executionCode"""
       case jar: ExternalJarSchema => generateExternalJarCode(jar)
     }
 
+  // Generate Scala execution code for external jar inside the Actor
   private def generateExternalJarCode(jar: ExternalJarSchema): String =
-    """
-      |val result = ${jar.executionCode}
-      |${generateForwardingActors(jar.transitions)}
-      |""".stripMargin
+    s"""
+       |val child = new URLClassLoader(Array(new URL("file:///${jar.url}")), this.getClass.getClassLoader)
+       |val classToLoad = Class.forName("${jar.className}", true, child)
+       |val method = classToLoad.getDeclaredMethod("${jar.methodName}", classOf[String])
+       |val result = method.invoke(classToLoad.getDeclaredConstructor().newInstance()")
+       |""".stripMargin
 
   //This function recursively generates the Actor Props and companion object
   private def generateProps(actorName: String): String =
