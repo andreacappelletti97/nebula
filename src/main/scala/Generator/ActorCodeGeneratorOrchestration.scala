@@ -1,17 +1,19 @@
 package Generator
 
 import NebulaScala2.Scala2Main
-import NebulaScala3.Schema.{ActorSchema, ArgumentSchema, CaseSchema, MethodSchema}
+import NebulaScala3.Schema.{ActorSchema, ArgumentSchema, CaseSchema, ExternalJarSchema, MethodSchema}
 import com.typesafe.scalalogging.Logger
+
+import scala.annotation.tailrec
 
 class ActorCodeGeneratorOrchestration
 
-object ActorCodeGeneratorOrchestration{
+object ActorCodeGeneratorOrchestration {
   //Logger init
   val logger = Logger("ActorCodeGenerator")
 
-  def generateActorCode(actorSchemaList : Array[ActorSchema],iterator : Int, actorCodeList : Seq[String]) : Seq[String] =
-    if(iterator >= actorSchemaList.length) actorCodeList
+  def generateActorCode(actorSchemaList: Array[ActorSchema], iterator: Int, actorCodeList: Seq[String]): Seq[String] =
+    if (iterator >= actorSchemaList.length) actorCodeList
     else {
       generateActorCode(
         actorSchemaList, iterator + 1, actorCodeList :+ generateSingleActorCode(actorSchemaList(iterator))
@@ -40,6 +42,7 @@ object ActorCodeGeneratorOrchestration{
     ${generateReturnStatement(actor.actorName)}""".stripMargin
 
   //This function recursively generates the Actor arguments
+  @tailrec
   private def recursivelyGenerateArgs(jsonList: Seq[ArgumentSchema], iterator: Int, arguments: String): String =
     if (iterator >= jsonList.size) arguments
     else if(jsonList.size == 1) recursivelyGenerateArgs(jsonList, iterator + 1, arguments ++ s"(${jsonList(iterator).argName} : ${jsonList(iterator).argType})")
@@ -51,6 +54,7 @@ object ActorCodeGeneratorOrchestration{
       recursivelyGenerateArgs(jsonList, iterator + 1, arguments ++ s" ${jsonList(iterator).argName} : ${jsonList(iterator).argType},")
 
   //This function recursively generates the Actor methods
+  @tailrec
   private def recursivelyGenerateMethods(jsonList: Seq[MethodSchema], iterator: Int, methods: String): String =
     if (iterator >= jsonList.size) methods
     else if (jsonList(iterator).methodName == "receive")
@@ -66,10 +70,10 @@ object ActorCodeGeneratorOrchestration{
            |""".stripMargin)
     else recursivelyGenerateMethods(jsonList, iterator + 1, methods)
 
-  /***This function generates a function called getActorRef inside the Actor
-      it is used to retrieve the actorReferences for transitions to the next state
-   ***/
-  private def getActorReferences(): String = {
+  /** *This function generates a function called getActorRef inside the Actor
+   * it is used to retrieve the actorReferences for transitions to the next state
+   * * */
+  private def getActorReferences: String = {
     """
       |def getActorRef(transitions : Seq[String], iterator: Int, actorRefList: Seq[ActorRef]) : Seq[ActorRef] = {
       |    if (iterator >= transitions.size) actorRefList
@@ -86,6 +90,7 @@ object ActorCodeGeneratorOrchestration{
   }
 
   //This function recursively generates the case inside the method receive of the Actor
+  @tailrec
   private def generateCaseSchema(caseList: Seq[CaseSchema], iterator: Int, schema: String): String =
     if (iterator >= caseList.size) schema
     else generateCaseSchema(caseList, iterator + 1,
@@ -96,6 +101,19 @@ object ActorCodeGeneratorOrchestration{
            |${generateForwardingActors(caseList(iterator).transitions)}
            |}""".stripMargin
     )
+
+  // Generate Scala execution code or execute an external jar
+  private def generateExecutionCode(executionCode: Any): String =
+    executionCode match {
+      case str: String => executionCode.asInstanceOf[String]
+      case jar: ExternalJarSchema => generateExternalJarCode(jar)
+    }
+
+  private def generateExternalJarCode(jar: ExternalJarSchema): String =
+    """
+      |val result = ${jar.executionCode}
+      |${generateForwardingActors(jar.transitions)}
+      |""".stripMargin
 
   //This function recursively generates the Actor Props and companion object
   private def generateProps(actorName: String): String =
@@ -121,6 +139,7 @@ object ActorCodeGeneratorOrchestration{
     }
 
   //This function generates a list of transitions to retrieve the ActorReferences associated
+  @tailrec
   private def generateTransitionsList(transitionsList: Seq[String], iterator : Int, transitionsString: String) : String = {
     if(iterator >= transitionsList.size) transitionsString
     else {
