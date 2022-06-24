@@ -34,6 +34,7 @@ val jacksonModuleVersion = "2.13.1"
 val apacheCommonLangVersion = "3.12.0"
 val snakeYamlVersion = "1.30"
 val scalapbVersion = "0.11.8"
+val gsonVersion = "2.9.0"
 
 lazy val nebula_scala3 = project
   .in(file("nebula_scala3"))
@@ -48,6 +49,7 @@ lazy val nebula_scala3 = project
       "ch.qos.logback" % "logback-classic" % logBackVersion,
       "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion,
       "com.thesamet.scalapb" %% "scalapb-runtime" % scalapbVersion % "protobuf",
+      "com.google.code.gson" % "gson" % gsonVersion
     ),
     Compile / PB.targets := Seq(
       scalapb.gen() -> (Compile / sourceManaged).value / "scalapb"
@@ -95,6 +97,8 @@ lazy val nebula_scala2 = project
       //Akka persistence
       "com.typesafe.akka" %% "akka-persistence" % akkaVersion,
       "com.typesafe.akka" %% "akka-persistence-query" % akkaVersion,
+      "io.aeron" % "aeron-driver" % "1.37.0",
+      "io.aeron" % "aeron-client" % "1.37.0",
       //Akka stream
       "com.typesafe.akka" %% "akka-stream" % akkaVersion,
       "com.typesafe.akka" %% "akka-stream-testkit" % akkaVersion % Test,
