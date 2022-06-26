@@ -9,6 +9,8 @@ object MainActivity:
   var actorJsonPath = ""
   var messagesJsonPath = ""
   var orchestratorJsonPath = ""
+  var monitoringJsonPath = ""
+  var clusteringJsonPath = ""
   var systemRunning = false
 
   @main def runIt = {
@@ -16,7 +18,7 @@ object MainActivity:
       title = "Nebula"
 
 
-      val gridPanel: GridPanel = new GridPanel(5, 2) {
+      val gridPanel: GridPanel = new GridPanel(7, 2) {
         contents += new Label("Actors:")
 
         val actorButton: Button = new Button("Select actors") {
@@ -64,10 +66,40 @@ object MainActivity:
           }
         }
 
+        val monitoringButton: Button = new Button("Select monitoring options") {
+          reactions += {
+            case event.ButtonClicked(_) =>
+              println("Monitoring options selected")
+              val fileChooser = new FileChooser(new File("/Users/andreacappelletti/nebula_config/"))
+              fileChooser.fileSelectionMode = FileChooser.SelectionMode.FilesOnly
+              fileChooser.showOpenDialog(this)
+              val file = fileChooser.selectedFile
+              val path = file.getAbsolutePath
+              monitoringButton.text = path
+              monitoringJsonPath = path
+              println(path)
+          }
+        }
+
+        val clusteringButton: Button = new Button("Select clustering options") {
+          reactions += {
+            case event.ButtonClicked(_) =>
+              println("Clustering options selected")
+              val fileChooser = new FileChooser(new File("/Users/andreacappelletti/nebula_config/"))
+              fileChooser.fileSelectionMode = FileChooser.SelectionMode.FilesOnly
+              fileChooser.showOpenDialog(this)
+              val file = fileChooser.selectedFile
+              val path = file.getAbsolutePath
+              clusteringButton.text = path
+              clusteringJsonPath = path
+              println(path)
+          }
+        }
+
         val startNebulaButton: Button = new Button("Start Nebula") {
           reactions += {
             case event.ButtonClicked(_) =>
-              if (!actorJsonPath.isEmpty && !messagesJsonPath.isEmpty && !orchestratorJsonPath.isEmpty) {
+              if (actorJsonPath.nonEmpty && messagesJsonPath.nonEmpty && orchestratorJsonPath.nonEmpty) {
                 Nebula.Main.startNebula(actorJsonPath, messagesJsonPath, orchestratorJsonPath)
                 if (!systemRunning) {
                   systemRunning = true
@@ -98,13 +130,17 @@ object MainActivity:
         contents += messageButton
         contents += new Label("Orchestrator:")
         contents += orchestratorButton
+        contents += new Label("Monitoring:")
+        contents += monitoringButton
+        contents += new Label("Clustering:")
+        contents += clusteringButton
         contents += new Label("Start:")
         contents += startNebulaButton
         contents += new Label("Stop:")
         contents += stopNebulaButton
       }
       contents = gridPanel
-      size = new Dimension(700, 500)
+      size = new Dimension(700, 800)
       //pack()
       centerOnScreen()
       open()
