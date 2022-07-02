@@ -4,5 +4,6 @@ package NebulaScala3;
 
 message ProtoMessage {
   string name = 1;
-  map<string, string> args = 2;
+  map<string, string> argTypes = 2;
+  map<string, string> argValues = 3;
 }

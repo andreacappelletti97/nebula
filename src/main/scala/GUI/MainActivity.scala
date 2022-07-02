@@ -100,13 +100,13 @@ object MainActivity:
           reactions += {
             case event.ButtonClicked(_) =>
               if (actorJsonPath.nonEmpty && messagesJsonPath.nonEmpty && orchestratorJsonPath.nonEmpty) {
-                Nebula.Main.startNebula(actorJsonPath, messagesJsonPath, orchestratorJsonPath)
+                Nebula.Main.startNebula(actorJsonPath, messagesJsonPath, orchestratorJsonPath, clusteringJsonPath)
                 if (!systemRunning) {
                   systemRunning = true
                   startNebulaButton.text = "Reconfigure Nebula"
                 } else {
                   Nebula.Main.stopNebula()
-                  Nebula.Main.startNebula(actorJsonPath, messagesJsonPath, orchestratorJsonPath)
+                  Nebula.Main.startNebula(actorJsonPath, messagesJsonPath, orchestratorJsonPath, clusteringJsonPath)
                 }
                 println("Nebula started")
               }

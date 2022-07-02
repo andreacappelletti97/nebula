@@ -88,6 +88,8 @@ lazy val nebula_scala2 = project
       Cinnamon.library.cinnamonAkkaHttp,
       // Use Akka gRPC instrumentation
       Cinnamon.library.cinnamonAkkaGrpc,
+      // Cinnamon.library.cinnamonAkkaCluster,
+      // Cinnamon.library.cinnamonAkkaClusterSPI,
       "com.typesafe.akka" %% "akka-actor" % akkaVersion,
       //Akka cluster
       "com.typesafe.akka" %% "akka-cluster" % akkaVersion,

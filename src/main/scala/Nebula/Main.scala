@@ -4,7 +4,7 @@ import Generator.ActorCodeGeneratorOrchestration
 import HelperUtils.ObtainConfigReference
 import NebulaScala2.Compiler.{ActorCodeCompiler, MessageCodeCompiler, ToolboxGenerator}
 import NebulaScala2.{Compiler, Scala2Main}
-import NebulaScala3.Generator.{ProtoMessageGenerator}
+import NebulaScala3.Generator.{ConfigCodeGenerator, ProtoMessageGenerator}
 import NebulaScala3.Parser.{JSONParser, YAMLParser}
 import NebulaScala3.Scala3Main
 import com.typesafe.scalalogging.Logger
@@ -36,7 +36,7 @@ object Main:
     }
 
   //Main method of the framework
-  def startNebula(actorJsonPath: String, messagesJsonPath: String, orchestratorPath: String): Unit =
+  def startNebula(actorJsonPath: String, messagesJsonPath: String, orchestratorPath: String, clusterShardingConfigPath: String): Unit =
     logger.info(Scala2Main.scala2Message)
     logger.info(Scala3Main.scala3Message)
 
@@ -50,7 +50,12 @@ object Main:
     val actorsJson = JSONParser.getActorSchemaFromJson(actorJsonPath)
     val messagesJson = JSONParser.getMessagesSchemaFromJson(messagesJsonPath)
     val orchestratorJson = JSONParser.getOrchestratorFromJson(orchestratorPath)
+    val clusterShardingJson = JSONParser.getClusterShardingSchemaFromJson(clusterShardingConfigPath)
 
+
+    val clusterConfigCode = ConfigCodeGenerator.generateClusterConfigCode(clusterShardingJson)
+
+    Thread.sleep(100000)
     //Generate ActorCode as String
     val actorCode = ActorCodeGeneratorOrchestration.generateActorCode(actorsJson, 0, Seq.empty)
 
