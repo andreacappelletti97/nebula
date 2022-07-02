@@ -1,6 +1,6 @@
 package NebulaScala3.Parser
 
-import NebulaScala3.Schema.{ActorSchema, MessageSchema, OrchestratorSchema}
+import NebulaScala3.Schema.{ActorSchema, ClusterSchema, MessageSchema, OrchestratorSchema}
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import org.apache.commons.lang3.StringEscapeUtils
@@ -27,6 +27,16 @@ object JSONParser {
     val inputStream = new FileInputStream(fileName)
     try {
       mapper.readValue(inputStream, classOf[Array[ActorSchema]])
+    } finally {
+      inputStream.close()
+    }
+  }
+
+
+  def getClusterShardingSchemaFromJson(fileName: String): ClusterSchema = {
+    val inputStream = new FileInputStream(fileName)
+    try {
+      mapper.readValue(inputStream, classOf[ClusterSchema])
     } finally {
       inputStream.close()
     }
