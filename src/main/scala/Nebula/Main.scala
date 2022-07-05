@@ -25,10 +25,10 @@ class Main
 
 object Main:
   //Init the config file to get static params
-  val config: Config = ObtainConfigReference("nebula") match {
-    case Some(value) => value
-    case None => throw new RuntimeException("Cannot obtain a reference to the config data.")
-  }
+//  val config: Config = ObtainConfigReference("nebula") match {
+//    case Some(value) => value
+//    case None => throw new RuntimeException("Cannot obtain a reference to the config data.")
+//  }
   //Logger init
   val logger: Logger = Logger("Main")
 
@@ -42,12 +42,16 @@ object Main:
 
 
   //Main method of the framework
-  def startNebula(actorJsonPath: String, messagesJsonPath: String, orchestratorPath: String, clusterShardingConfigPath: String): Unit =
+  def startNebula(actorJsonPath: String,
+                  messagesJsonPath: String,
+                  orchestratorPath: String,
+                  clusterShardingConfigPath: String,
+                  monitoringJsonPath: String): Unit =
     logger.info(Scala2Main.scala2Message)
     logger.info(Scala3Main.scala3Message)
 
     //Init Kamon monitoring instrumentation
-    if (config.getBoolean("nebula.enableKamon")) Scala2Main.initKamon()
+    //if (config.getBoolean("nebula.enableKamon")) Scala2Main.initKamon()
 
     //Get the current Toolbox from the Scala2 APIs
     val toolbox = ToolboxGenerator.generateToolbox()
@@ -58,8 +62,13 @@ object Main:
     val orchestratorJson = JSONParser.getOrchestratorFromJson(orchestratorPath)
     val clusterShardingJson = JSONParser.getClusterShardingSchemaFromJson(clusterShardingConfigPath)
     val clusterConfigCode = ConfigCodeGenerator.generateClusterConfigCode(clusterShardingJson)
+    val monitoringJson = JSONParser.getMonitoringFromJson(monitoringJsonPath)
+    val monitoringConfigCode = ConfigCodeGenerator.generateMonitoringConfig(monitoringJson)
 
-    Thread.sleep(3000)
+    println(monitoringConfigCode)
+
+
+    Thread.sleep(30000)
     //Generate ActorCode as String
     val actorCode = ActorCodeGeneratorOrchestration.generateActorCode(actorsJson, 0, Seq.empty)
 
