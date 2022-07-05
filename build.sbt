@@ -122,6 +122,7 @@ lazy val nebula_scala2 = project
 //SBT assembly properties
 val jarName = "nebula.jar"
 assembly/assemblyJarName := jarName
+assembly/mainClass := Some("GUI.runIt")
 
 //Merging strategies
 ThisBuild / assemblyMergeStrategy := {
