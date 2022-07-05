@@ -26,7 +26,8 @@ lazy val root = project
       "ch.qos.logback" % "logback-classic" % logBackVersion,
       "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion,
       "org.scala-lang.modules" %% "scala-swing" % scalaSwingVersion
-    )
+    ),
+    assembly/mainClass := Some("GUI.runIt")
   ).enablePlugins(Cinnamon) aggregate(nebula_scala2, nebula_scala3) dependsOn(nebula_scala2, nebula_scala3)
 
 //Scala 3 Submodule
@@ -122,7 +123,7 @@ lazy val nebula_scala2 = project
 //SBT assembly properties
 val jarName = "nebula.jar"
 assembly/assemblyJarName := jarName
-assembly/mainClass := Some("GUI.runIt")
+
 
 //Merging strategies
 ThisBuild / assemblyMergeStrategy := {
