@@ -65,9 +65,6 @@ object Main:
     val monitoringJson = JSONParser.getMonitoringFromJson(monitoringJsonPath)
     val monitoringConfigCode = ConfigCodeGenerator.generateMonitoringConfig(monitoringJson)
 
-    println(monitoringConfigCode)
-
-
     Thread.sleep(3000)
     //Generate ActorCode as String
     val actorCode = ActorCodeGeneratorOrchestration.generateActorCode(actorsJson, 0, Seq.empty)
@@ -106,12 +103,17 @@ object Main:
 
     var combinedConfig = ""
     if(monitoringConfigCode.nonEmpty && clusterConfigCode.nonEmpty){
+      logger.info("Generating configuration for monitoring and clustering...")
       combinedConfig = clusterConfigCode.concat(monitoringConfigCode)
     } else if(monitoringConfigCode.isEmpty && clusterConfigCode.nonEmpty){
+      logger.info("Generating configuration for clustering...")
       combinedConfig = clusterConfigCode
     } else if(monitoringConfigCode.nonEmpty && clusterConfigCode.isEmpty){
+      logger.info("Generating configuration for monitoring...")
       combinedConfig = monitoringConfigCode
     }
+    logger.info(combinedConfig)
+    Thread.sleep(3000)
 
     val actorSystem: ActorSystem = ActorSystemFactory.initActorSystem("system", combinedConfig)
 

@@ -69,6 +69,7 @@ object ConfigCodeGenerator:
           s""""${actorMonitoringOptions(iterator).path}" {
              |${if (messageType) "message-type = on" else ""}
              |report-by = ${actorMonitoringOptions(iterator).reporter}
+             |${generateThresholds(actorMonitoringOptions(iterator))}
              |}
              |""".
             stripMargin,
@@ -76,6 +77,41 @@ object ConfigCodeGenerator:
       )
     }
   }
+
+  private def generateThresholds(actorMonitoringOptions: CinnamonActorMonitoringSchema): String = {
+    var config = ""
+      if(actorMonitoringOptions.thresholds.mailboxTime.nonEmpty){
+        config = config.concat(s"""
+          |mailbox-time = ${actorMonitoringOptions.thresholds.mailboxTime}
+          |""".stripMargin)
+      }
+    if(actorMonitoringOptions.thresholds.processingTime.nonEmpty){
+      config = config.concat(s"""
+                       |processing-time = ${actorMonitoringOptions.thresholds.processingTime}
+                       |""".stripMargin)
+    }
+    if(actorMonitoringOptions.thresholds.mailboxSize > 0){
+      val mailboxSize = s"""
+                       |mailbox-size = ${actorMonitoringOptions.thresholds.mailboxSize}
+                       |""".stripMargin
+      config = config.concat(mailboxSize)
+    }
+    if(actorMonitoringOptions.thresholds.stashSize > 0){
+      val stashSize :String = s"""
+                                 |stash-size = ${actorMonitoringOptions.thresholds.stashSize}
+                                 |""".stripMargin
+      config = config.concat(stashSize)
+    }
+    if (config.nonEmpty){
+      config =
+        s"""
+          |thresholds {
+          |$config
+          |}
+          |""".stripMargin
+    }
+    config
+    }
 
   private def includeDefaultMetrics(): String =
     """akka.dispatchers = {
@@ -121,17 +157,7 @@ object ConfigCodeGenerator:
       |    }
       |  }""".stripMargin
 
-//  private def generateThresholds(thresholds: ThresholdMonitoringSchema): String = {
-//    if(thresholds.stashSize == 0)
-//     s"""
-//      |thresholds {
-//      |${if(thresholds.mailboxSize != 0) s"mailbox-size = ${thresholds.mailboxSize}"}
-//      |${if (thresholds.mailboxTime != 0) s"mailbox-time = ${thresholds.mailboxTime}s"}
-//      |${if (thresholds.stashSize != 0) s"stash-size = ${thresholds.stashSize}"}
-//      |${if (thresholds.processingTime != 0) s"processing-time = ${thresholds.processingTime}"}
-//      |}
-//      |""".stripMargin
-//  }
+
 
 
 
