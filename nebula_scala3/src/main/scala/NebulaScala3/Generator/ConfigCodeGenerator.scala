@@ -32,7 +32,9 @@ object ConfigCodeGenerator:
 
   
   def generateMonitoringConfig(configSchema : CinnamonMonitoringSchema) : String =
-    s"""cinnamon {
+    s"""
+      |cinnamon.application = "Nebula"
+      |cinnamon {
       |${consoleReporter(configSchema.consoleReporter)}
       |akka.actors {
       |${generateAkkaActorsMonitoringConfig(configSchema.actors, 0, Seq.empty, configSchema.messageType).mkString(",")}
