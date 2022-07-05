@@ -17,6 +17,7 @@ import NebulaScala2.Scala2Main.generatedActorSystems
 import NebulaScala3.message.ProtoMessage
 import akka.actor.{ActorRef, ActorSystem}
 import com.typesafe.config.Config
+import GUI.MainActivity.systemRunning
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
 import scala.io.StdIn.readLine
@@ -138,7 +139,7 @@ object Main:
     }
 
     def sendMessage(actorRef: ActorRef, message: ProtoMessage, timeInterval: Int, numOfMessages: Int): Future[Unit] = Future {
-      if(numOfMessages > 0) {
+      if(numOfMessages > 0 && systemRunning) {
         logger.info("Sending a message...")
         actorRef ! message
         Thread.sleep(1000*timeInterval.toLong)
