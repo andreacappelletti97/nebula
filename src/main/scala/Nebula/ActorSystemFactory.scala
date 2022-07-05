@@ -16,7 +16,7 @@ object ActorSystemFactory {
     } else {
       val config = ConfigFactory.parseString(
         configString
-      ).withFallback(
+      ).resolve().withFallback(
         ConfigFactory.load(
           "application.conf"
         )
