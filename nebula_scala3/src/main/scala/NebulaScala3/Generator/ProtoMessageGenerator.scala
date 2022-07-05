@@ -19,11 +19,13 @@ object ProtoMessageGenerator {
   }
   
   private def generateMessage(message: MessageSchema): ProtoMessage = {
-      var argMap : Map[String, String] = Map()
-      message.messageArgs.foreach(arg
-      => argMap += (arg.argName -> arg.argType)
-      )
-      ProtoMessage(message.messageName.toLowerCase,argMap)
+      var argTypeMap : Map[String, String] = Map()
+      var argValuesMap: Map[String, String] = Map()
+      message.messageArgs.foreach{arg
+      => argTypeMap += (arg.argName -> arg.argType)
+        argValuesMap += (arg.argName -> arg.argValue)
+      }  
+      ProtoMessage(message.messageName.toLowerCase, argTypeMap, argValuesMap)
     }
 }
 
