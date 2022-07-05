@@ -56,7 +56,6 @@ object Main:
     //Get the current Toolbox from the Scala2 APIs
     val toolbox = ToolboxGenerator.generateToolbox()
 
-    //TODO: add yaml configuration
     val actorsJson = JSONParser.getActorSchemaFromJson(actorJsonPath)
     val messagesJson = JSONParser.getMessagesSchemaFromJson(messagesJsonPath)
     val orchestratorJson = JSONParser.getOrchestratorFromJson(orchestratorPath)
@@ -68,7 +67,7 @@ object Main:
     println(monitoringConfigCode)
 
 
-    Thread.sleep(30000)
+    Thread.sleep(3000)
     //Generate ActorCode as String
     val actorCode = ActorCodeGeneratorOrchestration.generateActorCode(actorsJson, 0, Seq.empty)
 
@@ -104,8 +103,16 @@ object Main:
     println(protoBufferList)
     Thread.sleep(3000)
 
-    val actorSystem: ActorSystem = ActorSystemFactory.initActorSystem("system")
-    generatedActorSystems += "system" -> actorSystem
+    var combinedConfig = ""
+    if(monitoringConfigCode.nonEmpty && clusterConfigCode.nonEmpty){
+      combinedConfig = clusterConfigCode.concat(monitoringConfigCode)
+    } else if(monitoringConfigCode.isEmpty && clusterConfigCode.nonEmpty){
+      combinedConfig = clusterConfigCode
+    } else if(monitoringConfigCode.nonEmpty && clusterConfigCode.isEmpty){
+      combinedConfig = monitoringConfigCode
+    }
+
+    val actorSystem: ActorSystem = ActorSystemFactory.initActorSystem("system", combinedConfig)
 
     //Start Nebula orchestration --> init actors from actorProps stored
     orchestratorJson.foreach { actor =>
