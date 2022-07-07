@@ -2,7 +2,8 @@ package Nebula
 
 import Generator.ActorCodeGeneratorOrchestration
 import HelperUtils.ObtainConfigReference
-import scala.concurrent._
+
+import scala.concurrent.*
 import ExecutionContext.Implicits.global
 import NebulaScala2.Compiler.{ActorCodeCompiler, MessageCodeCompiler, ToolboxGenerator}
 import NebulaScala2.{Compiler, Scala2Main}
@@ -17,7 +18,7 @@ import NebulaScala2.Scala2Main.generatedActorSystems
 import NebulaScala3.message.ProtoMessage
 import akka.actor.{ActorRef, ActorSystem}
 import com.typesafe.config.Config
-import GUI.MainActivity.systemRunning
+import GUI.MainActivity.{clusteringJsonPath, systemRunning}
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
 import scala.io.StdIn.readLine
@@ -60,10 +61,17 @@ object Main:
     val actorsJson = JSONParser.getActorSchemaFromJson(actorJsonPath)
     val messagesJson = JSONParser.getMessagesSchemaFromJson(messagesJsonPath)
     val orchestratorJson = JSONParser.getOrchestratorFromJson(orchestratorPath)
-    val clusterShardingJson = JSONParser.getClusterShardingSchemaFromJson(clusterShardingConfigPath)
-    val clusterConfigCode = ConfigCodeGenerator.generateClusterConfigCode(clusterShardingJson)
-    val monitoringJson = JSONParser.getMonitoringFromJson(monitoringJsonPath)
-    val monitoringConfigCode = ConfigCodeGenerator.generateMonitoringConfig(monitoringJson)
+    var clusterConfigCode = ""
+    var monitoringConfigCode = ""
+    if(clusteringJsonPath.nonEmpty) {
+      val clusterShardingJson = JSONParser.getClusterShardingSchemaFromJson(clusterShardingConfigPath)
+      clusterConfigCode = ConfigCodeGenerator.generateClusterConfigCode(clusterShardingJson)
+    }
+    if(monitoringJsonPath.nonEmpty) {
+      val monitoringJson = JSONParser.getMonitoringFromJson(monitoringJsonPath)
+      monitoringConfigCode = ConfigCodeGenerator.generateMonitoringConfig(monitoringJson)
+    }
+
 
     Thread.sleep(3000)
     //Generate ActorCode as String
@@ -119,9 +127,21 @@ object Main:
 
     //Start Nebula orchestration --> init actors from actorProps stored
     orchestratorJson.foreach { actor =>
-      val actorProps = generatedActorsProps.getOrElse(actor.name.toLowerCase, return)
-      val actorRef: ActorRef = ActorFactory.initActor(actorSystem, actorProps, actor.name)
-      generatedActorsRef = generatedActorsRef += (actor.name.toLowerCase -> actorRef)
+      initActor(actor.numOfInstances, actor.name, 0)
+    }
+
+    def initActor(numOfInstances: Int, actorName: String, iterator: Int): Unit = {
+      if(iterator < numOfInstances){
+        val actorProps = generatedActorsProps.getOrElse(actorName.toLowerCase, return)
+        val actorRef: ActorRef = ActorFactory.initActor(actorSystem, actorProps, actorName + "_" +iterator)
+        generatedActorsRef = generatedActorsRef.updated(
+          actorName.toLowerCase,
+          generatedActorsRef.getOrElse(
+            actorName.toLowerCase,
+            Seq.empty[ActorRef]
+          ) :+ actorRef)
+        initActor(numOfInstances, actorName, iterator + 1)
+      }
     }
 
     logger.info("End of ActorRef init ...")
@@ -136,16 +156,20 @@ object Main:
         case (message, index) =>
         val protoMessage = protoBufferList.getOrElse(message.toLowerCase, return)
         sendMessage(actor, protoMessage, orchestration.timeInterval(index), orchestration.numOfMessages(index))
-        actor ! protoMessage
       }
     }
 
-    def sendMessage(actorRef: ActorRef, message: ProtoMessage, timeInterval: Int, numOfMessages: Int): Future[Unit] = Future {
+    def sendMessage(actorRefs: Seq[ActorRef], message: ProtoMessage, timeInterval: Int, numOfMessages: Int): Future[Unit] = Future {
       if(numOfMessages > 0 && systemRunning) {
         logger.info("Sending a message...")
-        actorRef ! message
-        Thread.sleep(1000*timeInterval.toLong)
-        sendMessage(actorRef, message, timeInterval, numOfMessages - 1)
+        actorRefs.foreach { actor =>
+          actor ! message
+          if(timeInterval > 0 ) {
+            Thread.sleep(1000 * timeInterval.toLong)
+            sendMessage(actorRefs, message, timeInterval, numOfMessages - 1)
+          }
+        }
+
       }
     }
 

@@ -16,11 +16,7 @@ object ActorSystemFactory {
     } else {
       val config = ConfigFactory.parseString(
         configString
-      ).resolve().withFallback(
-        ConfigFactory.load(
-          "application.conf"
-        )
-      )
+      ).resolve()
       val actorSystem = ActorSystem(name, config)
       generatedActorSystems += name -> actorSystem
       actorSystem

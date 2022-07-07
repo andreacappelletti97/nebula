@@ -81,15 +81,16 @@ object ActorCodeGeneratorOrchestration {
   private def getActorReferences: String = {
     """
       |def getActorRef(transitions : Seq[String], iterator: Int, actorRefList: Seq[ActorRef]) : Seq[ActorRef] = {
-      |    if (iterator >= transitions.size) actorRefList
-      |    else {
-      |      generatedActorsRef.get(transitions(iterator).toLowerCase) match {
+      |    var actorRefList: Seq[ActorRef] = Seq()
+      |    var iterator = 0
+      |    while(iterator < transitions.size){
+      |          generatedActorsRef.get(transitions(iterator).toLowerCase) match {
       |        case Some(actorRef) =>
-      |          getActorRef(transitions, iterator + 1, actorRefList :+ actorRef)
-      |        case None =>
-      |          getActorRef(transitions, iterator + 1, actorRefList)
+      |           actorRefList = actorRefList ++ actorRef
       |      }
+      |      iterator = iterator + 1
       |    }
+      |    actorRefList
       | }
       |""".stripMargin
   }

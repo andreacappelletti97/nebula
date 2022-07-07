@@ -8,7 +8,7 @@ object ActorRefBridge {
     if (iterator >= transitions.size) actorRefList
     else {
       generatedActorsRef.get(transitions(iterator)) match {
-        case Some(actorRef) => getActorRef(transitions, iterator + 1, actorRefList :+ actorRef)
+        case Some(actorRef) => getActorRef(transitions, iterator + 1, actorRefList ++ actorRef)
         case None => getActorRef(transitions, iterator + 1, actorRefList)
       }
     }
