@@ -12,7 +12,7 @@ object Scala2Main  {
   //Global state to store actorSystems
   var generatedActorSystems : Map[String, ActorSystem] = Map()
 
-  var generatedActorsRef = scala.collection.mutable.Map[String, ActorRef]()
+  var generatedActorsRef = scala.collection.mutable.Map[String, Seq[ActorRef]]()
 
   def getActorRef(transitions : Seq[String], iterator: Int, actorRefList: Seq[ActorRef]) : Seq[ActorRef] = {
     if (iterator >= transitions.size) actorRefList
@@ -21,7 +21,7 @@ object Scala2Main  {
       generatedActorsRef.get(transitions(iterator).toLowerCase) match {
         case Some(actorRef) =>
           println("REFERENCE " + actorRef)
-          getActorRef(transitions, iterator + 1, actorRefList :+ actorRef)
+          getActorRef(transitions, iterator + 1, actorRefList ++ actorRef)
         case None =>
           println("NONE ")
           getActorRef(transitions, iterator + 1, actorRefList)
