@@ -106,7 +106,10 @@ object MainActivity:
                   startNebulaButton.text = "Reconfigure Nebula"
                 } else {
                   Nebula.Main.stopNebula()
+                  systemRunning = false
+                  Thread.sleep(3000)
                   Nebula.Main.startNebula(actorJsonPath, messagesJsonPath, orchestratorJsonPath, clusteringJsonPath, monitoringJsonPath)
+                  systemRunning = true
                 }
                 println("Nebula started")
               }
