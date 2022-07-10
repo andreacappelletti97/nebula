@@ -117,9 +117,10 @@ object ActorCodeGeneratorOrchestration {
         val jar = executionCode.endpointSchema
       s"""|val child = new URLClassLoader(Array(new URL("file:///${jar.url}")), this.getClass.getClassLoader)
           |val classToLoad = Class.forName("${jar.className}", true, child)
-          |val param = ${jar.param}
+          |val param: ${jar.param.argType} = ${jar.param.argValue}
           |val method = classToLoad.getDeclaredMethod("${jar.methodName}", classOf[${jar.methodType}])
           |val result = method.invoke(classToLoad.getDeclaredConstructor().newInstance(), param)
+          |log.info("Endpoint returned: " + result)
           |""".stripMargin
     }
 

@@ -5,5 +5,5 @@ import java.util
 case class ExternalEndpointSchema(url: String,
                                   className: String,
                                   methodName: String,
-                                  param: util.HashMap[String, Object],
+                                  param: ArgumentSchema,
                                   methodType: Any)
