@@ -1,7 +1,7 @@
 package Generator
 
 import NebulaScala2.Scala2Main
-import NebulaScala3.Schema.{ActorSchema, ArgumentSchema, CaseSchema, ExternalJarSchema, MethodSchema}
+import NebulaScala3.Schema.{ActorSchema, ArgumentSchema, CaseSchema, ExternalEndpointSchema, ExternalJarSchema, MethodSchema}
 import com.typesafe.scalalogging.Logger
 
 import scala.annotation.tailrec
@@ -36,7 +36,7 @@ object ActorCodeGeneratorOrchestration {
         import java.net.URL
         import java.util
         import java.util.HashMap
-        import java.net.URLClassLoader
+        import Jars.LoadExternalJar.child
         import java.net.URLClassLoader
         import scala.collection.parallel.CollectionConverters._
     class ${actor.actorName}${recursivelyGenerateArgs(actor.actorArgs, 0, "")} extends Actor with ActorLogging {
@@ -103,34 +103,24 @@ object ActorCodeGeneratorOrchestration {
       schema ++
         s"""
            |case "${caseList(iterator).className.toLowerCase}" => {
-           |${generateExecutionCode(caseList(iterator).executionCode)}
+           |${generateExecutionCode(caseList(iterator))}
            |${generateForwardingActors(caseList(iterator).transitions)}
            |}""".stripMargin
     )
 
   // Generate Scala execution code or execute an external jar
-  private def generateExecutionCode(executionCode: Any): String =
-    executionCode match {
-      case str: String => s"""val result = $executionCode"""
-      case jar: Map[String, String] =>
-        val url: String = jar.get("url") match {
-          case None => "" //Or handle the lack of a value another way: throw an error, etc.
-          case Some(s: String) => s //return the string to set your value
-        }
-        val className: String = jar.get("className") match {
-          case None => "" //Or handle the lack of a value another way: throw an error, etc.
-          case Some(s: String) => s //return the string to set your value
-        }
-        val methodName: String = jar.get("methodName") match {
-          case None => "" //Or handle the lack of a value another way: throw an error, etc.
-          case Some(s: String) => s //return the string to set your value
-        }
-        s"""
-           |val child = new URLClassLoader(Array(new URL("file:///${url}")), this.getClass.getClassLoader)
-           |val classToLoad = Class.forName("${className}", true, child)
-           |val method = classToLoad.getDeclaredMethod("${methodName}", classOf[String])
-           |val result = method.invoke(classToLoad.getDeclaredConstructor().newInstance())
-           |""".stripMargin
+  private def generateExecutionCode(executionCode: CaseSchema): String =
+      if(executionCode.executionCode != null) {
+        s"""${executionCode.executionCode}"""
+      }
+      else{
+        val jar = executionCode.endpointSchema
+      s"""|val child = new URLClassLoader(Array(new URL("file:///${jar.url}")), this.getClass.getClassLoader)
+          |val classToLoad = Class.forName("${jar.className}", true, child)
+          |val param = ${jar.param}
+          |val method = classToLoad.getDeclaredMethod("${jar.methodName}", classOf[${jar.methodType}])
+          |val result = method.invoke(classToLoad.getDeclaredConstructor().newInstance(), param)
+          |""".stripMargin
     }
 
   // Generate Scala execution code for external jar inside the Actor

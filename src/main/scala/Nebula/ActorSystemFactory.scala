@@ -8,7 +8,7 @@ class ActorSystemFactory
 
 object ActorSystemFactory {
   //This function is used from the Orchestrator to init actorSystems and store them
-  def initActorSystem(name : String, configString: String): ActorSystem = {
+  def initActorSystem(name : String, configString: String, cluster: Boolean): ActorSystem = {
     if (configString.isEmpty) {
       val actorSystem = ActorSystem(name)
       generatedActorSystems += name -> actorSystem
