@@ -123,7 +123,7 @@ object Main:
     logger.info(combinedConfig)
     Thread.sleep(3000)
 
-    val actorSystem: ActorSystem = ActorSystemFactory.initActorSystem("system", combinedConfig)
+    val actorSystem: ActorSystem = ActorSystemFactory.initActorSystem("system", combinedConfig, clusteringJsonPath.nonEmpty)
 
     //Start Nebula orchestration --> init actors from actorProps stored
     orchestratorJson.foreach { actor =>
