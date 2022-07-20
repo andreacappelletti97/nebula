@@ -4,5 +4,6 @@ case class ClusterSchema(
                                 transport : String,
                                 hostname: String,
                                 port: Int,
-                                seedNodes: Seq[String]
+                                seedNodes: Seq[String],
+                                initPorts: List[Int]
                                 )

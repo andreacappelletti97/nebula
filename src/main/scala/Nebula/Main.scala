@@ -40,9 +40,6 @@ object Main:
         actorSystem.terminate()
         logger.info(s"ActorSystem $name has been terminated...")
     }
-    
-
-
 
   //Main method of the framework
   def startNebula(actorJsonPath: String,
@@ -124,7 +121,7 @@ object Main:
     logger.info(combinedConfig)
     Thread.sleep(3000)
 
-    val actorSystem: ActorSystem = ActorSystemFactory.initActorSystem("system", combinedConfig, clusteringJsonPath.nonEmpty)
+    val actorSystem: ActorSystem = ActorSystemFactory.initActorSystem("system", combinedConfig, clusteringJsonPath.nonEmpty, clusteringJsonPath)
 
     //Start Nebula orchestration --> init actors from actorProps stored
     orchestratorJson.foreach { actor =>
@@ -153,21 +150,27 @@ object Main:
     //Send init messages --> send init messages to the Actor instantiated
     orchestratorJson.foreach { orchestration =>
       val actor = generatedActorsRef.getOrElse(orchestration.name.toLowerCase, return)
-      orchestration.initMessages.zipWithIndex.foreach {
-        case (message, index) =>
-        val protoMessage = protoBufferList.getOrElse(message.toLowerCase, return)
-        sendMessage(actor, protoMessage, orchestration.timeInterval(index), orchestration.numOfMessages(index))
+      if(orchestration.initMessages!=null) {
+        orchestration.initMessages.zipWithIndex.foreach {
+          case (message, index) =>
+            val protoMessage = protoBufferList.getOrElse(message.toLowerCase, return)
+            sendMessage(actor, protoMessage, orchestration.timeInterval(index), orchestration.slackTimeInterval(index), orchestration.numOfMessages(index), true)
+        }
       }
     }
 
-    def sendMessage(actorRefs: Seq[ActorRef], message: ProtoMessage, timeInterval: Int, numOfMessages: Int): Future[Unit] = Future {
+    def sendMessage(actorRefs: Seq[ActorRef], message: ProtoMessage, timeInterval: Int, slackTimeInterval:Int, numOfMessages: Int, initBoolean: Boolean): Future[Unit] = Future {
       if(numOfMessages > 0 && systemRunning) {
         logger.info("Sending a message...")
         actorRefs.foreach { actor =>
+          if(slackTimeInterval > 0 && initBoolean) {
+            Thread.sleep(slackTimeInterval.toLong*1000)
+          }
           actor ! message
           if(timeInterval > 0 ) {
+            println(generatedActorsRef)
             Thread.sleep(1000 * timeInterval.toLong)
-            sendMessage(actorRefs, message, timeInterval, numOfMessages - 1)
+            sendMessage(actorRefs, message, timeInterval, slackTimeInterval, numOfMessages - 1, false)
           }
         }
 

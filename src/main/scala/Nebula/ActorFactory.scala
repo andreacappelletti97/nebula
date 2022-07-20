@@ -2,6 +2,7 @@ package Nebula
 
 import akka.actor.{ActorSystem, Props, ActorRef}
 import NebulaScala2.Scala2Main.generatedActorsRef
+import NebulaScala2.Compiler.ActorCodeCompiler.createActorMetrics
 
 class ActorFactory
 

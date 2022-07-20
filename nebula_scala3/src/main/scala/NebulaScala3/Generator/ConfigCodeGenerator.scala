@@ -7,6 +7,10 @@ import scala.annotation.tailrec
 class ConfigCodeGenerator
 
 object ConfigCodeGenerator:
+  
+  def getPorts(schema: ClusterSchema): List[Int] = {
+    schema.initPorts
+  }
 
   def generateClusterConfigCode(clusterConfigSchema : ClusterSchema): String =
       s"""

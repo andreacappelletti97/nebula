@@ -3,6 +3,7 @@ package NebulaScala2.Compiler
 import scala.tools.reflect.ToolBox
 import akka.actor.{Actor, ActorRef, ActorSystem, Props}
 import com.lightbend.cinnamon.akka.CinnamonMetrics
+import com.lightbend.cinnamon.event.Event
 import com.lightbend.cinnamon.metric.Counter
 import com.lightbend.cinnamon.metric.Recorder
 import com.lightbend.cinnamon.metric.GaugeDouble
@@ -32,6 +33,7 @@ object ActorCodeCompiler {
     toolbox.compile(tree)().asInstanceOf[Props]
   }
 
+
   //Attach cinnamon monitoring metrics via the API to the ActorSystem
   private def createActorSystemMetrics(actorSystem: ActorSystem) : Unit = {
     val sysCounter: Counter = CinnamonMetrics(actorSystem).createCounter("sysCounter")
@@ -44,14 +46,19 @@ object ActorCodeCompiler {
   }
 
   //Attach cinnamon monitoring metrics via the API to the Actor
-  private def createActorMetrics(actor : Actor) : Unit = {
+  def createActorMetrics(actor : Actor) : Unit = {
     val counter: Counter = CinnamonMetrics(actor.context).createCounter("counter")
     val gaugeDouble: GaugeDouble = CinnamonMetrics(actor.context).createGaugeDouble("gaugeDouble")
     val gaugeLong: GaugeLong = CinnamonMetrics(actor.context).createGaugeLong("gaugeLong")
     //val providingGaugeDouble: ProvidingGaugeDouble = CinnamonMetrics(actor.context).createProvidingGaugeDouble("providingGaugeDouble", doubleValueProvider)
     //val providingGaugeLong: ProvidingGaugeLong = CinnamonMetrics(actor.context).createProvidingGaugeLong("providingGaugeLong", longValueProvider)
     val rate: Rate = CinnamonMetrics(actor.context).createRate("rate")
-    val recorder: Recorder = CinnamonMetrics(actor.context).createRecorder("recorder")
+    val mailBoxSize: Counter = CinnamonMetrics(actor.context).createCounter("mailBoxSize")
+    val stashSize: Counter = CinnamonMetrics(actor.context).createCounter("stashSize")
+    val processingTime: Recorder = CinnamonMetrics(actor.context).createRecorder("processingTime")
+    val mailboxTime: Recorder = CinnamonMetrics(actor.context).createRecorder("mailboxTime")
+
+
   }
 
 }
