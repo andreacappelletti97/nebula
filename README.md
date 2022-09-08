@@ -1,5 +1,5 @@
 # Nebula
-Nebula, automates the development effort to produce actor-based applications by burying the complexity of the specifics of the Akka libraries in the underlying framework that exposes high-level declarative constructs for configuration.
+Nebula automates the development effort to produce actor-based applications by burying the complexity of the specifics of the Akka libraries in the underlying framework that exposes high-level declarative constructs for configuration.
 More in detail, it allows the business analysts to describe the high-level design of the system using a general declarative language such as Yaml or JSON. Specific business logic algorithms can be implemented using low-level code by developers or they can be deployed as separate packaged services.
 Nebula translates the description of the system created by business analysts and automatically generates the application code at run-time based on the Akka framework that is created using the actor model. Moreover, Nebula integrates an external monitoring mechanism to enable stakeholders to detect performance problems with the deployed code. The generated code is deployed on the fly using the Scala Reflection module based on the distributed actor model implemented in the Akka framework.
 
